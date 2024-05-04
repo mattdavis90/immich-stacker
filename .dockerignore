@@ -1,0 +1,10 @@
+.dockerignore
+.env
+.git
+.github
+.gitignore
+Dockerfile
+LICENSE
+README.md
+immich-stacker
+update_openapi.sh
