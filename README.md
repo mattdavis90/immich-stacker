@@ -18,8 +18,8 @@ files with the same filename other than the extension and stacks them, with the 
 becoming the parent image.
 
 ```bash
-IMMITCH_MATCH=\.(JPG|RW2)$
-IMMITCH_PARENT=\.JPG$
+IMMICH_MATCH=\.(JPG|RW2)$
+IMMICH_PARENT=\.JPG$
 ```
 
 ### Burst Mode
@@ -28,8 +28,8 @@ Modern smart phones provide a burst option. Below is a config for detecting burs
 photos and stacking them with the cover image becoming the parent.
 
 ```bash
-IMMITCH_MATCH=BURST[0-9]{3}(_COVER)?\.jpg$
-IMMITCH_PARENT=_COVER\.jpg$
+IMMICH_MATCH=BURST[0-9]{3}(_COVER)?\.jpg$
+IMMICH_PARENT=_COVER\.jpg$
 ```
 
 ## Deployment
@@ -46,13 +46,13 @@ file for repeatability and to minimise mistakes when escaping regexes.
 
 ```bash
 cat > .env << EOF
-IMMITCH_API_KEY=abc123
-IMMITCH_ENDPOINT=https://immitch.app/api
-IMMITCH_MATCH=\.(JPG|RW2)$
-IMMITCH_PARENT=\.JPG$
+IMMICH_API_KEY=abc123
+IMMICH_ENDPOINT=https://IMMICH.app/api
+IMMICH_MATCH=\.(JPG|RW2)$
+IMMICH_PARENT=\.JPG$
 EOF
 
-./immitch-stacker
+./IMMICH-stacker
 ```
 
 ### Docker
@@ -62,13 +62,13 @@ repeatability and to minimise mistakes when escaping regexes.
 
 ```bash
 cat > .env << EOF
-IMMITCH_API_KEY=abc123
-IMMITCH_ENDPOINT=https://immitch.app/api
-IMMITCH_MATCH=\.(JPG|RW2)$
-IMMITCH_PARENT=\.JPG$
+IMMICH_API_KEY=abc123
+IMMICH_ENDPOINT=https://IMMICH.app/api
+IMMICH_MATCH=\.(JPG|RW2)$
+IMMICH_PARENT=\.JPG$
 EOF
 
-docker run -ti --rm --env-file=.env mattdavis90/immitch-stacker-latest
+docker run -ti --rm --env-file=.env mattdavis90/IMMICH-stacker-latest
 ```
 
 ### Using Swarm Cronjobs
@@ -94,8 +94,8 @@ services:
     environment:
       IMMICH_API_KEY: abc123
       IMMICH_ENDPOINT: "https://immich.com/api"
-      IMMITCH_MATCH: "\\.(JPG|RW2)$$"
-      IMMITCH_PARENT: "\\.JPG$$"
+      IMMICH_MATCH: "\\.(JPG|RW2)$$"
+      IMMICH_PARENT: "\\.JPG$$"
   swarm-cronjob:
     image: crazymax/swarm-cronjob
     deploy:
