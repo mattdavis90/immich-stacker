@@ -47,12 +47,12 @@ file for repeatability and to minimise mistakes when escaping regexes.
 ```bash
 cat > .env << EOF
 IMMICH_API_KEY=abc123
-IMMICH_ENDPOINT=https://IMMICH.app/api
+IMMICH_ENDPOINT=https://immich.app/api
 IMMICH_MATCH=\.(JPG|RW2)$
 IMMICH_PARENT=\.JPG$
 EOF
 
-./IMMICH-stacker
+./immich-stacker
 ```
 
 ### Docker
@@ -63,12 +63,12 @@ repeatability and to minimise mistakes when escaping regexes.
 ```bash
 cat > .env << EOF
 IMMICH_API_KEY=abc123
-IMMICH_ENDPOINT=https://IMMICH.app/api
+IMMICH_ENDPOINT=https://immich.app/api
 IMMICH_MATCH=\.(JPG|RW2)$
 IMMICH_PARENT=\.JPG$
 EOF
 
-docker run -ti --rm --env-file=.env mattdavis90/IMMICH-stacker-latest
+docker run -ti --rm --env-file=.env mattdavis90/immich-stacker-latest
 ```
 
 ### Using Swarm Cronjobs
