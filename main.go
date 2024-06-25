@@ -78,23 +78,34 @@ func main() {
 
 	log.Println("Requesting all assets")
 
-	t := true
-	resp, err := c.SearchMetadataWithResponse(ctx, client.MetadataSearchDto{WithStacked: &t})
-	if err != nil {
-		log.Fatal(err)
-	}
-	if resp.StatusCode() != http.StatusOK {
-		log.Fatalf("Expected HTTP 200 but received %d", resp.StatusCode())
-	}
-	if resp.JSON200 == nil {
-		log.Fatal("nil return")
-	}
+    assets := make([]client.AssetResponseDto, 0)
+    var page float32 = 1
 
-	log.Printf("Retrieved %d assets", len(resp.JSON200.Assets.Items))
+    for {
+        t := true
+        var s float32 = 1000
+        resp, err := c.SearchMetadataWithResponse(ctx, client.MetadataSearchDto{WithStacked: &t, Size: &s, Page: &page})
+        if err != nil {
+            log.Fatal(err)
+        }
+        if resp.StatusCode() != http.StatusOK {
+            log.Fatalf("Expected HTTP 200 but received %d", resp.StatusCode())
+        }
+        if resp.JSON200 == nil {
+            log.Fatal("nil return")
+        }
+        assets = append(assets, resp.JSON200.Assets.Items...)
+        if resp.JSON200.Assets.NextPage == nil {
+            break
+        }
+        page += 1
+    }
+
+	log.Printf("Retrieved %d assets", len(assets))
 
 	stacks := make(map[string]*Stack)
 
-	for _, a := range resp.JSON200.Assets.Items {
+	for _, a := range assets {
 		if a.StackCount != nil && *a.StackCount > 0 {
 			continue
 		}
