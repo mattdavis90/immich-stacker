@@ -32,6 +32,11 @@ IMMICH_MATCH=BURST[0-9]{3}(_COVER)?\.jpg$
 IMMICH_PARENT=_COVER\.jpg$
 ```
 
+## Versions
+
+* 1.0.0 - works up to Immich v1.106.0
+* 1.1.0 - works up to latest Immich
+
 ## Deployment
 
 Running the application is straightforward but it only runs once; there is no loop.

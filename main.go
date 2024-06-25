@@ -35,7 +35,7 @@ func getEnv(e string) string {
 	if ret == "" {
 		log.Fatalf("%s env is required", e)
 	}
-    return ret
+	return ret
 }
 
 func main() {
@@ -78,7 +78,8 @@ func main() {
 
 	log.Println("Requesting all assets")
 
-	resp, err := c.GetAllAssetsWithResponse(ctx, &client.GetAllAssetsParams{})
+	t := true
+	resp, err := c.SearchMetadataWithResponse(ctx, client.MetadataSearchDto{WithStacked: &t})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -89,11 +90,11 @@ func main() {
 		log.Fatal("nil return")
 	}
 
-	log.Printf("Retrieved %d assets", len(*resp.JSON200))
+	log.Printf("Retrieved %d assets", len(resp.JSON200.Assets.Items))
 
 	stacks := make(map[string]*Stack)
 
-	for _, a := range *resp.JSON200 {
+	for _, a := range resp.JSON200.Assets.Items {
 		if a.StackCount != nil && *a.StackCount > 0 {
 			continue
 		}
