@@ -35,7 +35,7 @@ IMMICH_PARENT=_COVER\.jpg$
 ## Versions
 
 * 1.0.0 - works up to Immich v1.106.0
-* 1.1.1 - works up to latest Immich
+* 1.1.1+ - works up to latest Immich
 
 ## Deployment
 
@@ -114,3 +114,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
 ```
+
+### Setting the Log Level
+
+There is an `IMMICH_LOG_LEVEL` environment variable that accepts a standard log level
+and will configure the output of the applciation. It defaults to `INFO`.
