@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/caarlos0/env/v11"
 	"github.com/deepmap/oapi-codegen/v2/pkg/securityprovider"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
@@ -32,6 +33,14 @@ type Stats struct {
 	Failed       int
 }
 
+type Config struct {
+	APIKey   string `env:"API_KEY"`
+	Endpoint string `env:"ENDPOINT"`
+	Match    string `env:"MATCH"`
+	Parent   string `env:"PARENT"`
+    LogLevel string `env:"LOG_LEVEL" envDefault:"INFO"`
+}
+
 func getEnv(e string) string {
 	ret := os.Getenv(e)
 	if ret == "" {
@@ -43,45 +52,42 @@ func getEnv(e string) string {
 func main() {
 	godotenv.Load()
 
-	api_key := getEnv("IMMICH_API_KEY")
-	endpoint := getEnv("IMMICH_ENDPOINT")
-	match := getEnv("IMMICH_MATCH")
-	parent := getEnv("IMMICH_PARENT")
-	log_level := os.Getenv("IMMICH_LOG_LEVEL")
-
-	if log_level == "" {
-		log_level = "INFO"
-	}
-
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-	level, err := zerolog.ParseLevel(log_level)
+
+	cfg := Config{}
+	opts := env.Options{RequiredIfNoDef: true, Prefix: "IMMICH_"}
+	if err := env.ParseWithOptions(&cfg, opts); err != nil {
+		log.Fatal().Err(err).Msg("Error loading config")
+	}
+
+	level, err := zerolog.ParseLevel(cfg.LogLevel)
 	if err != nil {
 		log.Fatal().Err(err).Msg("")
 	}
 	zerolog.SetGlobalLevel(level)
 
-	m, err := regexp.Compile(match)
+	m, err := regexp.Compile(cfg.Match)
 	if err != nil {
 		log.Fatal().Err(err).Msg("")
 	}
 
-	p, err := regexp.Compile(parent)
+	p, err := regexp.Compile(cfg.Parent)
 	if err != nil {
 		log.Fatal().Err(err).Msg("")
 	}
 
-	sp, err := securityprovider.NewSecurityProviderApiKey("header", "x-api-key", api_key)
+	sp, err := securityprovider.NewSecurityProviderApiKey("header", "x-api-key", cfg.APIKey)
 	if err != nil {
 		log.Fatal().Err(err).Msg("")
 	}
 
-	log.Info().Str("endpoint", endpoint).Msg("Connecting to Immich")
+	log.Info().Str("endpoint", cfg.Endpoint).Msg("Connecting to Immich")
 
 	hc := http.Client{}
 
 	c, err := client.NewClientWithResponses(
-		endpoint,
+		cfg.Endpoint,
 		client.WithHTTPClient(&hc),
 		client.WithRequestEditorFn(sp.Intercept),
 	)

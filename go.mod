@@ -3,6 +3,7 @@ module github.com/mattdavis90/immich-stacker
 go 1.21.4
 
 require (
+	github.com/caarlos0/env/v11 v11.1.0
 	github.com/deepmap/oapi-codegen/v2 v2.1.0
 	github.com/google/uuid v1.5.0
 	github.com/joho/godotenv v1.5.1
