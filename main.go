@@ -34,11 +34,12 @@ type Stats struct {
 }
 
 type Config struct {
-	APIKey   string `env:"API_KEY"`
-	Endpoint string `env:"ENDPOINT"`
-	Match    string `env:"MATCH"`
-	Parent   string `env:"PARENT"`
-    LogLevel string `env:"LOG_LEVEL" envDefault:"INFO"`
+	APIKey         string `env:"API_KEY"`
+	Endpoint       string `env:"ENDPOINT"`
+	Match          string `env:"MATCH"`
+	Parent         string `env:"PARENT"`
+	LogLevel       string `env:"LOG_LEVEL" envDefault:"INFO"`
+	CompareCreated bool   `env:"COMPARE_CREATED" envDefault:"false"`
 }
 
 func getEnv(e string) string {
@@ -133,6 +134,9 @@ func main() {
 			if m.Match([]byte(a.OriginalFileName)) {
 				id := openapi_types.UUID(uuid.MustParse(a.Id))
 				key := string(m.ReplaceAll([]byte(a.OriginalFileName), []byte("")))
+				if cfg.CompareCreated {
+					key += "_" + a.FileCreatedAt.Local().String()
+				}
 
 				s, ok := stacks[key]
 				if !ok {

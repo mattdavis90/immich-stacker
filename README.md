@@ -115,7 +115,12 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
 ```
 
-### Setting the Log Level
+### Additional Options
 
 There is an `IMMICH_LOG_LEVEL` environment variable that accepts a standard log level
 and will configure the output of the applciation. It defaults to `INFO`.
+
+The `IMMICH_COMPARE_CREATED` environment variable can be used to only match files with
+the same createdAt timestamp. This can be useful when your camera has reset numbering to
+0 and you can no longer rely on the filenames being unique. Thanks to @Pikachews for
+the suggestion.
