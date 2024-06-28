@@ -98,6 +98,19 @@ func main() {
 
 	ctx := context.Background()
 
+    resp, err := c.GetServerVersionWithResponse(ctx)
+    if err != nil {
+        log.Fatal().Err(err).Msg("")
+    }
+    if resp.StatusCode() != http.StatusOK {
+        log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+    }
+    if resp.JSON200 == nil {
+        log.Fatal().Msg("nil return")
+    }
+    v := resp.JSON200
+    log.Info().Int("major", v.Major).Int("minor", v.Minor).Int("patch", v.Patch).Msg("Server version")
+
 	log.Info().Msg("Requesting all assets")
 
 	total := 0
