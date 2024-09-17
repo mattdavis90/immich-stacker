@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"io"
 	"net/http"
 	"os"
 	"regexp"
@@ -39,6 +41,7 @@ type Config struct {
 	Match          string `env:"MATCH"`
 	Parent         string `env:"PARENT"`
 	LogLevel       string `env:"LOG_LEVEL" envDefault:"INFO"`
+	DebugHTTP      bool   `env:"DEBUG_HTTP" envDefault:"false"`
 	CompareCreated bool   `env:"COMPARE_CREATED" envDefault:"false"`
 }
 
@@ -48,6 +51,52 @@ func getEnv(e string) string {
 		log.Fatal().Str("Env", e).Msg("Missing envvar")
 	}
 	return ret
+}
+
+type HTTPLogger struct{}
+
+func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
+	reqBody := ""
+	respBody := ""
+
+	if req.Body != nil {
+		buf, e := io.ReadAll(req.Body)
+		if e != nil {
+			log.Fatal().Err(e).Msg("Failed to read HTTP request")
+		} else {
+			reqRdr := io.NopCloser(bytes.NewBuffer(buf))
+			req.Body = reqRdr
+			reqBody = string(buf)
+		}
+	}
+
+	resp, err := http.DefaultTransport.RoundTrip(req)
+	if err != nil {
+		return resp, err
+	}
+
+	if resp.Body != nil {
+		buf, e := io.ReadAll(resp.Body)
+		if e != nil {
+			log.Fatal().Err(e).Msg("Failed to read HTTP response")
+		} else {
+			respRdr := io.NopCloser(bytes.NewBuffer(buf))
+			resp.Body = respRdr
+			respBody = string(buf)
+		}
+	}
+
+	log.Debug().
+		Str("method", req.Method).
+		Str("path", req.URL.Path).
+		Any("req_hdr", req.Header).
+		Str("req_body", reqBody).
+		Any("resp_hdr", resp.Header).
+		Str("resp_body", respBody).
+		Int("status", resp.StatusCode).
+		Msg("Request")
+
+	return resp, err
 }
 
 func main() {
@@ -85,7 +134,13 @@ func main() {
 
 	log.Info().Str("endpoint", cfg.Endpoint).Msg("Connecting to Immich")
 
-	hc := http.Client{}
+	var hc http.Client
+	if cfg.DebugHTTP {
+		hl := HTTPLogger{}
+		hc = http.Client{Transport: hl}
+	} else {
+		hc = http.Client{}
+	}
 
 	c, err := client.NewClientWithResponses(
 		cfg.Endpoint,
@@ -98,7 +153,25 @@ func main() {
 
 	ctx := context.Background()
 
-    resp, err := c.GetServerVersionWithResponse(ctx)
+	verResp, err := c.GetServerVersionWithResponse(ctx)
+	if err != nil {
+		log.Fatal().Err(err).Msg("")
+	}
+	if verResp.StatusCode() != http.StatusOK {
+		log.Fatal().Int("status", verResp.StatusCode()).Msg("Expected HTTP 200")
+	}
+	if verResp.JSON200 == nil {
+		log.Fatal().Msg("nil return")
+	}
+	v := verResp.JSON200
+	log.Info().Int("major", v.Major).Int("minor", v.Minor).Int("patch", v.Patch).Msg("Server version")
+
+	log.Info().Msg("Requesting all time buckets")
+
+	total := 0
+	stacks := make(map[string]*Stack)
+    t := true
+    resp, err := c.GetTimeBucketsWithResponse(ctx, &client.GetTimeBucketsParams{Size: client.MONTH, WithStacked: &t})
     if err != nil {
         log.Fatal().Err(err).Msg("")
     }
@@ -108,39 +181,25 @@ func main() {
     if resp.JSON200 == nil {
         log.Fatal().Msg("nil return")
     }
-    v := resp.JSON200
-    log.Info().Int("major", v.Major).Int("minor", v.Minor).Int("patch", v.Patch).Msg("Server version")
+    for _, tb := range *resp.JSON200 {
+        log.Debug().Str("time_bucket", tb.TimeBucket).Int("count", tb.Count).Msg("Requesting time bucket")
 
-	log.Info().Msg("Requesting all assets")
+        resp, err := c.GetTimeBucketWithResponse(ctx, &client.GetTimeBucketParams{TimeBucket: tb.TimeBucket, Size: client.MONTH})
+        if err != nil {
+            log.Fatal().Err(err).Msg("")
+        }
+        if resp.StatusCode() != http.StatusOK {
+            log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+        }
+        if resp.JSON200 == nil {
+            log.Fatal().Msg("nil return")
+        }
 
-	total := 0
-	stacks := make(map[string]*Stack)
-	var page float32 = 1
+        total += len(*resp.JSON200)
 
-	for {
-		t := true
-		var s float32 = 1000
-
-		log.Debug().Float32("page", page).Float32("page_size", s).Msg("Requesting next page")
-		resp, err := c.SearchMetadataWithResponse(ctx, client.MetadataSearchDto{WithStacked: &t, Size: &s, Page: &page})
-		if err != nil {
-			log.Fatal().Err(err).Msg("")
-		}
-		if resp.StatusCode() != http.StatusOK {
-			log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
-		}
-		if resp.JSON200 == nil {
-			log.Fatal().Msg("nil return")
-		}
-
-		assets := resp.JSON200.Assets.Items
-		l := len(assets)
-
-		log.Debug().Float32("page", page).Int("count", l).Int("total", total).Msg("Retrieved page")
-
-		total += l
-		for _, a := range assets {
-			if a.StackCount != nil && *a.StackCount > 0 {
+        log.Debug().Str("time_bucket", tb.TimeBucket).Int("expected", tb.Count).Int("got", len(*resp.JSON200)).Msg("Retrieved time bucket")
+		for _, a := range *resp.JSON200 {
+			if a.Stack != nil && a.Stack.AssetCount > 0 {
 				continue
 			}
 
@@ -166,13 +225,7 @@ func main() {
 				}
 			}
 		}
-
-		if resp.JSON200.Assets.NextPage == nil {
-			break
-		}
-
-		page += 1
-	}
+    }
 
 	log.Info().Int("total", total).Int("matches", len(stacks)).Msg("Retrieved assets")
 
@@ -183,15 +236,31 @@ func main() {
 			stats.Stackable++
 
 			log.Debug().Str("filename", f).Msg("Stacking")
-			resp, err := c.UpdateAssetsWithResponse(ctx, client.AssetBulkUpdateDto{
-				Ids:           s.IDs,
-				StackParentId: s.Parent,
+
+			// Generate a slice of UUIDs with the parent first
+			assetIDs := []openapi_types.UUID{*s.Parent}
+			for _, a := range s.IDs {
+				found := false
+				for _, b := range assetIDs {
+					if a == b {
+						found = true
+						break
+					}
+				}
+
+				if !found {
+					assetIDs = append(assetIDs, a)
+				}
+			}
+
+			resp, err := c.CreateStackWithResponse(ctx, client.StackCreateDto{
+				AssetIds: assetIDs,
 			})
 			if err != nil {
 				log.Error().Err(err)
 				stats.Failed++
-			} else if resp.StatusCode() != http.StatusNoContent {
-				log.Error().Int("status", resp.StatusCode()).Msg("Expected HTTP 204")
+			} else if resp.StatusCode() != http.StatusCreated {
+				log.Error().Int("status", resp.StatusCode()).Msg("Expected HTTP 201")
 				stats.Failed++
 			} else {
 				log.Info().Str("filename", f).Msg("Created stack")

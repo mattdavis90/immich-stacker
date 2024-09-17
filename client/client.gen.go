@@ -24,12 +24,6 @@ const (
 	CookieScopes  = "cookie.Scopes"
 )
 
-// Defines values for ActivityResponseDtoType.
-const (
-	ActivityResponseDtoTypeComment ActivityResponseDtoType = "comment"
-	ActivityResponseDtoTypeLike    ActivityResponseDtoType = "like"
-)
-
 // Defines values for AlbumUserRole.
 const (
 	Editor AlbumUserRole = "editor"
@@ -172,14 +166,15 @@ const (
 	Light MapTheme = "light"
 )
 
-// Defines values for MemoryResponseDtoType.
-const (
-	MemoryResponseDtoTypeOnThisDay MemoryResponseDtoType = "on_this_day"
-)
-
 // Defines values for MemoryType.
 const (
-	MemoryTypeOnThisDay MemoryType = "on_this_day"
+	OnThisDay MemoryType = "on_this_day"
+)
+
+// Defines values for PartnerDirection.
+const (
+	SharedBy   PartnerDirection = "shared-by"
+	SharedWith PartnerDirection = "shared-with"
 )
 
 // Defines values for PathEntityType.
@@ -200,6 +195,88 @@ const (
 	PathTypeThumbnail    PathType = "thumbnail"
 )
 
+// Defines values for Permission.
+const (
+	PermissionActivityCreate       Permission = "activity.create"
+	PermissionActivityDelete       Permission = "activity.delete"
+	PermissionActivityRead         Permission = "activity.read"
+	PermissionActivityStatistics   Permission = "activity.statistics"
+	PermissionActivityUpdate       Permission = "activity.update"
+	PermissionAdminUserCreate      Permission = "admin.user.create"
+	PermissionAdminUserDelete      Permission = "admin.user.delete"
+	PermissionAdminUserRead        Permission = "admin.user.read"
+	PermissionAdminUserUpdate      Permission = "admin.user.update"
+	PermissionAlbumAddAsset        Permission = "album.addAsset"
+	PermissionAlbumCreate          Permission = "album.create"
+	PermissionAlbumDelete          Permission = "album.delete"
+	PermissionAlbumDownload        Permission = "album.download"
+	PermissionAlbumRead            Permission = "album.read"
+	PermissionAlbumRemoveAsset     Permission = "album.removeAsset"
+	PermissionAlbumShare           Permission = "album.share"
+	PermissionAlbumStatistics      Permission = "album.statistics"
+	PermissionAlbumUpdate          Permission = "album.update"
+	PermissionAll                  Permission = "all"
+	PermissionApiKeyCreate         Permission = "apiKey.create"
+	PermissionApiKeyDelete         Permission = "apiKey.delete"
+	PermissionApiKeyRead           Permission = "apiKey.read"
+	PermissionApiKeyUpdate         Permission = "apiKey.update"
+	PermissionArchiveRead          Permission = "archive.read"
+	PermissionAssetDelete          Permission = "asset.delete"
+	PermissionAssetDownload        Permission = "asset.download"
+	PermissionAssetRead            Permission = "asset.read"
+	PermissionAssetShare           Permission = "asset.share"
+	PermissionAssetUpdate          Permission = "asset.update"
+	PermissionAssetUpload          Permission = "asset.upload"
+	PermissionAssetView            Permission = "asset.view"
+	PermissionAuthDeviceDelete     Permission = "authDevice.delete"
+	PermissionFaceCreate           Permission = "face.create"
+	PermissionFaceDelete           Permission = "face.delete"
+	PermissionFaceRead             Permission = "face.read"
+	PermissionFaceUpdate           Permission = "face.update"
+	PermissionLibraryCreate        Permission = "library.create"
+	PermissionLibraryDelete        Permission = "library.delete"
+	PermissionLibraryRead          Permission = "library.read"
+	PermissionLibraryStatistics    Permission = "library.statistics"
+	PermissionLibraryUpdate        Permission = "library.update"
+	PermissionMemoryCreate         Permission = "memory.create"
+	PermissionMemoryDelete         Permission = "memory.delete"
+	PermissionMemoryRead           Permission = "memory.read"
+	PermissionMemoryUpdate         Permission = "memory.update"
+	PermissionPartnerCreate        Permission = "partner.create"
+	PermissionPartnerDelete        Permission = "partner.delete"
+	PermissionPartnerRead          Permission = "partner.read"
+	PermissionPartnerUpdate        Permission = "partner.update"
+	PermissionPersonCreate         Permission = "person.create"
+	PermissionPersonDelete         Permission = "person.delete"
+	PermissionPersonMerge          Permission = "person.merge"
+	PermissionPersonRead           Permission = "person.read"
+	PermissionPersonReassign       Permission = "person.reassign"
+	PermissionPersonStatistics     Permission = "person.statistics"
+	PermissionPersonUpdate         Permission = "person.update"
+	PermissionSessionDelete        Permission = "session.delete"
+	PermissionSessionRead          Permission = "session.read"
+	PermissionSessionUpdate        Permission = "session.update"
+	PermissionSharedLinkCreate     Permission = "sharedLink.create"
+	PermissionSharedLinkDelete     Permission = "sharedLink.delete"
+	PermissionSharedLinkRead       Permission = "sharedLink.read"
+	PermissionSharedLinkUpdate     Permission = "sharedLink.update"
+	PermissionStackCreate          Permission = "stack.create"
+	PermissionStackDelete          Permission = "stack.delete"
+	PermissionStackRead            Permission = "stack.read"
+	PermissionStackUpdate          Permission = "stack.update"
+	PermissionSystemConfigRead     Permission = "systemConfig.read"
+	PermissionSystemConfigUpdate   Permission = "systemConfig.update"
+	PermissionSystemMetadataRead   Permission = "systemMetadata.read"
+	PermissionSystemMetadataUpdate Permission = "systemMetadata.update"
+	PermissionTagAsset             Permission = "tag.asset"
+	PermissionTagCreate            Permission = "tag.create"
+	PermissionTagDelete            Permission = "tag.delete"
+	PermissionTagRead              Permission = "tag.read"
+	PermissionTagUpdate            Permission = "tag.update"
+	PermissionTimelineDownload     Permission = "timeline.download"
+	PermissionTimelineRead         Permission = "timeline.read"
+)
+
 // Defines values for ReactionLevel.
 const (
 	ReactionLevelAlbum ReactionLevel = "album"
@@ -208,8 +285,8 @@ const (
 
 // Defines values for ReactionType.
 const (
-	ReactionTypeComment ReactionType = "comment"
-	ReactionTypeLike    ReactionType = "like"
+	Comment ReactionType = "comment"
+	Like    ReactionType = "like"
 )
 
 // Defines values for SearchSuggestionType.
@@ -227,11 +304,10 @@ const (
 	SharedLinkTypeINDIVIDUAL SharedLinkType = "INDIVIDUAL"
 )
 
-// Defines values for TagTypeEnum.
+// Defines values for SourceType.
 const (
-	CUSTOM TagTypeEnum = "CUSTOM"
-	FACE   TagTypeEnum = "FACE"
-	OBJECT TagTypeEnum = "OBJECT"
+	Exif            SourceType = "exif"
+	MachineLearning SourceType = "machine-learning"
 )
 
 // Defines values for TimeBucketSize.
@@ -259,11 +335,11 @@ const (
 
 // Defines values for TranscodePolicy.
 const (
-	All      TranscodePolicy = "all"
-	Bitrate  TranscodePolicy = "bitrate"
-	Disabled TranscodePolicy = "disabled"
-	Optimal  TranscodePolicy = "optimal"
-	Required TranscodePolicy = "required"
+	TranscodePolicyAll      TranscodePolicy = "all"
+	TranscodePolicyBitrate  TranscodePolicy = "bitrate"
+	TranscodePolicyDisabled TranscodePolicy = "disabled"
+	TranscodePolicyOptimal  TranscodePolicy = "optimal"
+	TranscodePolicyRequired TranscodePolicy = "required"
 )
 
 // Defines values for UserAvatarColor.
@@ -295,15 +371,18 @@ const (
 	Vp9  VideoCodec = "vp9"
 )
 
-// Defines values for GetPartnersParamsDirection.
+// Defines values for VideoContainer.
 const (
-	SharedBy   GetPartnersParamsDirection = "shared-by"
-	SharedWith GetPartnersParamsDirection = "shared-with"
+	Mov  VideoContainer = "mov"
+	Mp4  VideoContainer = "mp4"
+	Ogg  VideoContainer = "ogg"
+	Webm VideoContainer = "webm"
 )
 
 // APIKeyCreateDto defines model for APIKeyCreateDto.
 type APIKeyCreateDto struct {
-	Name *string `json:"name,omitempty"`
+	Name        *string      `json:"name,omitempty"`
+	Permissions []Permission `json:"permissions"`
 }
 
 // APIKeyCreateResponseDto defines model for APIKeyCreateResponseDto.
@@ -314,10 +393,11 @@ type APIKeyCreateResponseDto struct {
 
 // APIKeyResponseDto defines model for APIKeyResponseDto.
 type APIKeyResponseDto struct {
-	CreatedAt time.Time `json:"createdAt"`
-	Id        string    `json:"id"`
-	Name      string    `json:"name"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	CreatedAt   time.Time    `json:"createdAt"`
+	Id          string       `json:"id"`
+	Name        string       `json:"name"`
+	Permissions []Permission `json:"permissions"`
+	UpdatedAt   time.Time    `json:"updatedAt"`
 }
 
 // APIKeyUpdateDto defines model for APIKeyUpdateDto.
@@ -335,16 +415,13 @@ type ActivityCreateDto struct {
 
 // ActivityResponseDto defines model for ActivityResponseDto.
 type ActivityResponseDto struct {
-	AssetId   *string                 `json:"assetId"`
-	Comment   *string                 `json:"comment"`
-	CreatedAt time.Time               `json:"createdAt"`
-	Id        string                  `json:"id"`
-	Type      ActivityResponseDtoType `json:"type"`
-	User      UserResponseDto         `json:"user"`
+	AssetId   *string         `json:"assetId"`
+	Comment   *string         `json:"comment"`
+	CreatedAt time.Time       `json:"createdAt"`
+	Id        string          `json:"id"`
+	Type      ReactionType    `json:"type"`
+	User      UserResponseDto `json:"user"`
 }
-
-// ActivityResponseDtoType defines model for ActivityResponseDto.Type.
-type ActivityResponseDtoType string
 
 // ActivityStatisticsResponseDto defines model for ActivityStatisticsResponseDto.
 type ActivityStatisticsResponseDto struct {
@@ -359,13 +436,6 @@ type AddUsersDto struct {
 // AdminOnboardingUpdateDto defines model for AdminOnboardingUpdateDto.
 type AdminOnboardingUpdateDto struct {
 	IsOnboarded bool `json:"isOnboarded"`
-}
-
-// AlbumCountResponseDto defines model for AlbumCountResponseDto.
-type AlbumCountResponseDto struct {
-	NotShared int `json:"notShared"`
-	Owned     int `json:"owned"`
-	Shared    int `json:"shared"`
 }
 
 // AlbumResponseDto defines model for AlbumResponseDto.
@@ -388,6 +458,13 @@ type AlbumResponseDto struct {
 	Shared                     bool                   `json:"shared"`
 	StartDate                  *time.Time             `json:"startDate,omitempty"`
 	UpdatedAt                  time.Time              `json:"updatedAt"`
+}
+
+// AlbumStatisticsResponseDto defines model for AlbumStatisticsResponseDto.
+type AlbumStatisticsResponseDto struct {
+	NotShared int `json:"notShared"`
+	Owned     int `json:"owned"`
+	Shared    int `json:"shared"`
 }
 
 // AlbumUserAddDto defines model for AlbumUserAddDto.
@@ -444,8 +521,7 @@ type AssetBulkUpdateDto struct {
 	IsFavorite       *bool                `json:"isFavorite,omitempty"`
 	Latitude         *float32             `json:"latitude,omitempty"`
 	Longitude        *float32             `json:"longitude,omitempty"`
-	RemoveParent     *bool                `json:"removeParent,omitempty"`
-	StackParentId    *openapi_types.UUID  `json:"stackParentId,omitempty"`
+	Rating           *float32             `json:"rating,omitempty"`
 }
 
 // AssetBulkUploadCheckDto defines model for AssetBulkUploadCheckDto.
@@ -467,10 +543,11 @@ type AssetBulkUploadCheckResponseDto struct {
 
 // AssetBulkUploadCheckResult defines model for AssetBulkUploadCheckResult.
 type AssetBulkUploadCheckResult struct {
-	Action  AssetBulkUploadCheckResultAction  `json:"action"`
-	AssetId *string                           `json:"assetId,omitempty"`
-	Id      string                            `json:"id"`
-	Reason  *AssetBulkUploadCheckResultReason `json:"reason,omitempty"`
+	Action    AssetBulkUploadCheckResultAction  `json:"action"`
+	AssetId   *string                           `json:"assetId,omitempty"`
+	Id        string                            `json:"id"`
+	IsTrashed *bool                             `json:"isTrashed,omitempty"`
+	Reason    *AssetBulkUploadCheckResultReason `json:"reason,omitempty"`
 }
 
 // AssetBulkUploadCheckResultAction defines model for AssetBulkUploadCheckResult.Action.
@@ -502,6 +579,7 @@ type AssetFaceResponseDto struct {
 	ImageHeight   int                `json:"imageHeight"`
 	ImageWidth    int                `json:"imageWidth"`
 	Person        *PersonResponseDto `json:"person"`
+	SourceType    *SourceType        `json:"sourceType,omitempty"`
 }
 
 // AssetFaceUpdateDto defines model for AssetFaceUpdateDto.
@@ -524,6 +602,7 @@ type AssetFaceWithoutPersonResponseDto struct {
 	Id            openapi_types.UUID `json:"id"`
 	ImageHeight   int                `json:"imageHeight"`
 	ImageWidth    int                `json:"imageWidth"`
+	SourceType    *SourceType        `json:"sourceType,omitempty"`
 }
 
 // AssetFullSyncDto defines model for AssetFullSyncDto.
@@ -619,25 +698,33 @@ type AssetResponseDto struct {
 
 	// LibraryId This property was deprecated in v1.106.0
 	// Deprecated:
-	LibraryId        *string                              `json:"libraryId"`
-	LivePhotoVideoId *string                              `json:"livePhotoVideoId"`
-	LocalDateTime    time.Time                            `json:"localDateTime"`
-	OriginalFileName string                               `json:"originalFileName"`
-	OriginalMimeType *string                              `json:"originalMimeType,omitempty"`
-	OriginalPath     string                               `json:"originalPath"`
-	Owner            *UserResponseDto                     `json:"owner,omitempty"`
-	OwnerId          string                               `json:"ownerId"`
-	People           *[]PersonWithFacesResponseDto        `json:"people,omitempty"`
-	Resized          bool                                 `json:"resized"`
-	SmartInfo        *SmartInfoResponseDto                `json:"smartInfo,omitempty"`
-	Stack            *[]AssetResponseDto                  `json:"stack,omitempty"`
-	StackCount       *int                                 `json:"stackCount"`
-	StackParentId    *string                              `json:"stackParentId"`
-	Tags             *[]TagResponseDto                    `json:"tags,omitempty"`
-	Thumbhash        *string                              `json:"thumbhash"`
-	Type             AssetTypeEnum                        `json:"type"`
-	UnassignedFaces  *[]AssetFaceWithoutPersonResponseDto `json:"unassignedFaces,omitempty"`
-	UpdatedAt        time.Time                            `json:"updatedAt"`
+	LibraryId        *string                       `json:"libraryId"`
+	LivePhotoVideoId *string                       `json:"livePhotoVideoId"`
+	LocalDateTime    time.Time                     `json:"localDateTime"`
+	OriginalFileName string                        `json:"originalFileName"`
+	OriginalMimeType *string                       `json:"originalMimeType,omitempty"`
+	OriginalPath     string                        `json:"originalPath"`
+	Owner            *UserResponseDto              `json:"owner,omitempty"`
+	OwnerId          string                        `json:"ownerId"`
+	People           *[]PersonWithFacesResponseDto `json:"people,omitempty"`
+
+	// Resized This property was deprecated in v1.113.0
+	// Deprecated:
+	Resized         *bool                                `json:"resized,omitempty"`
+	SmartInfo       *SmartInfoResponseDto                `json:"smartInfo,omitempty"`
+	Stack           *AssetStackResponseDto               `json:"stack"`
+	Tags            *[]TagResponseDto                    `json:"tags,omitempty"`
+	Thumbhash       *string                              `json:"thumbhash"`
+	Type            AssetTypeEnum                        `json:"type"`
+	UnassignedFaces *[]AssetFaceWithoutPersonResponseDto `json:"unassignedFaces,omitempty"`
+	UpdatedAt       time.Time                            `json:"updatedAt"`
+}
+
+// AssetStackResponseDto defines model for AssetStackResponseDto.
+type AssetStackResponseDto struct {
+	AssetCount     int    `json:"assetCount"`
+	Id             string `json:"id"`
+	PrimaryAssetId string `json:"primaryAssetId"`
 }
 
 // AssetStatsResponseDto defines model for AssetStatsResponseDto.
@@ -740,12 +827,6 @@ type CreateProfileImageResponseDto struct {
 	UserId           string `json:"userId"`
 }
 
-// CreateTagDto defines model for CreateTagDto.
-type CreateTagDto struct {
-	Name string      `json:"name"`
-	Type TagTypeEnum `json:"type"`
-}
-
 // DownloadArchiveInfo defines model for DownloadArchiveInfo.
 type DownloadArchiveInfo struct {
 	AssetIds []string `json:"assetIds"`
@@ -760,10 +841,22 @@ type DownloadInfoDto struct {
 	UserId      *openapi_types.UUID   `json:"userId,omitempty"`
 }
 
+// DownloadResponse defines model for DownloadResponse.
+type DownloadResponse struct {
+	ArchiveSize           int  `json:"archiveSize"`
+	IncludeEmbeddedVideos bool `json:"includeEmbeddedVideos"`
+}
+
 // DownloadResponseDto defines model for DownloadResponseDto.
 type DownloadResponseDto struct {
 	Archives  []DownloadArchiveInfo `json:"archives"`
 	TotalSize int                   `json:"totalSize"`
+}
+
+// DownloadUpdate defines model for DownloadUpdate.
+type DownloadUpdate struct {
+	ArchiveSize           *int  `json:"archiveSize,omitempty"`
+	IncludeEmbeddedVideos *bool `json:"includeEmbeddedVideos,omitempty"`
 }
 
 // DuplicateDetectionConfig defines model for DuplicateDetectionConfig.
@@ -816,6 +909,7 @@ type ExifResponseDto struct {
 	ModifyDate       *time.Time `json:"modifyDate"`
 	Orientation      *string    `json:"orientation"`
 	ProjectionType   *string    `json:"projectionType"`
+	Rating           *float32   `json:"rating"`
 	State            *string    `json:"state"`
 	TimeZone         *string    `json:"timeZone"`
 }
@@ -863,6 +957,18 @@ type FileReportItemDto struct {
 	EntityType PathEntityType     `json:"entityType"`
 	PathType   PathType           `json:"pathType"`
 	PathValue  string             `json:"pathValue"`
+}
+
+// FoldersResponse defines model for FoldersResponse.
+type FoldersResponse struct {
+	Enabled    bool `json:"enabled"`
+	SidebarWeb bool `json:"sidebarWeb"`
+}
+
+// FoldersUpdate defines model for FoldersUpdate.
+type FoldersUpdate struct {
+	Enabled    *bool `json:"enabled,omitempty"`
+	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
 }
 
 // ImageFormat defines model for ImageFormat.
@@ -922,6 +1028,19 @@ type LibraryStatsResponseDto struct {
 	Videos int   `json:"videos"`
 }
 
+// LicenseKeyDto defines model for LicenseKeyDto.
+type LicenseKeyDto struct {
+	ActivationKey string `json:"activationKey"`
+	LicenseKey    string `json:"licenseKey"`
+}
+
+// LicenseResponseDto defines model for LicenseResponseDto.
+type LicenseResponseDto struct {
+	ActivatedAt   time.Time `json:"activatedAt"`
+	ActivationKey string    `json:"activationKey"`
+	LicenseKey    string    `json:"licenseKey"`
+}
+
 // LogLevel defines model for LogLevel.
 type LogLevel string
 
@@ -958,8 +1077,25 @@ type MapMarkerResponseDto struct {
 	State   *string `json:"state"`
 }
 
+// MapReverseGeocodeResponseDto defines model for MapReverseGeocodeResponseDto.
+type MapReverseGeocodeResponseDto struct {
+	City    *string `json:"city"`
+	Country *string `json:"country"`
+	State   *string `json:"state"`
+}
+
 // MapTheme defines model for MapTheme.
 type MapTheme string
+
+// MemoriesResponse defines model for MemoriesResponse.
+type MemoriesResponse struct {
+	Enabled bool `json:"enabled"`
+}
+
+// MemoriesUpdate defines model for MemoriesUpdate.
+type MemoriesUpdate struct {
+	Enabled *bool `json:"enabled,omitempty"`
+}
 
 // MemoryCreateDto defines model for MemoryCreateDto.
 type MemoryCreateDto struct {
@@ -977,36 +1113,23 @@ type MemoryLaneResponseDto struct {
 	YearsAgo int                `json:"yearsAgo"`
 }
 
-// MemoryResponse defines model for MemoryResponse.
-type MemoryResponse struct {
-	Enabled bool `json:"enabled"`
-}
-
 // MemoryResponseDto defines model for MemoryResponseDto.
 type MemoryResponseDto struct {
-	Assets    []AssetResponseDto    `json:"assets"`
-	CreatedAt time.Time             `json:"createdAt"`
-	Data      OnThisDayDto          `json:"data"`
-	DeletedAt *time.Time            `json:"deletedAt,omitempty"`
-	Id        string                `json:"id"`
-	IsSaved   bool                  `json:"isSaved"`
-	MemoryAt  time.Time             `json:"memoryAt"`
-	OwnerId   string                `json:"ownerId"`
-	SeenAt    *time.Time            `json:"seenAt,omitempty"`
-	Type      MemoryResponseDtoType `json:"type"`
-	UpdatedAt time.Time             `json:"updatedAt"`
+	Assets    []AssetResponseDto `json:"assets"`
+	CreatedAt time.Time          `json:"createdAt"`
+	Data      OnThisDayDto       `json:"data"`
+	DeletedAt *time.Time         `json:"deletedAt,omitempty"`
+	Id        string             `json:"id"`
+	IsSaved   bool               `json:"isSaved"`
+	MemoryAt  time.Time          `json:"memoryAt"`
+	OwnerId   string             `json:"ownerId"`
+	SeenAt    *time.Time         `json:"seenAt,omitempty"`
+	Type      MemoryType         `json:"type"`
+	UpdatedAt time.Time          `json:"updatedAt"`
 }
-
-// MemoryResponseDtoType defines model for MemoryResponseDto.Type.
-type MemoryResponseDtoType string
 
 // MemoryType defines model for MemoryType.
 type MemoryType string
-
-// MemoryUpdate defines model for MemoryUpdate.
-type MemoryUpdate struct {
-	Enabled *bool `json:"enabled,omitempty"`
-}
 
 // MemoryUpdateDto defines model for MemoryUpdateDto.
 type MemoryUpdateDto struct {
@@ -1085,6 +1208,9 @@ type OnThisDayDto struct {
 	Year float32 `json:"year"`
 }
 
+// PartnerDirection defines model for PartnerDirection.
+type PartnerDirection string
+
 // PartnerResponseDto defines model for PartnerResponseDto.
 type PartnerResponseDto struct {
 	AvatarColor      UserAvatarColor `json:"avatarColor"`
@@ -1101,11 +1227,25 @@ type PathEntityType string
 // PathType defines model for PathType.
 type PathType string
 
+// PeopleResponse defines model for PeopleResponse.
+type PeopleResponse struct {
+	Enabled    bool `json:"enabled"`
+	SidebarWeb bool `json:"sidebarWeb"`
+}
+
 // PeopleResponseDto defines model for PeopleResponseDto.
 type PeopleResponseDto struct {
-	Hidden int                 `json:"hidden"`
-	People []PersonResponseDto `json:"people"`
-	Total  int                 `json:"total"`
+	// HasNextPage This property was added in v1.110.0
+	HasNextPage *bool               `json:"hasNextPage,omitempty"`
+	Hidden      int                 `json:"hidden"`
+	People      []PersonResponseDto `json:"people"`
+	Total       int                 `json:"total"`
+}
+
+// PeopleUpdate defines model for PeopleUpdate.
+type PeopleUpdate struct {
+	Enabled    *bool `json:"enabled,omitempty"`
+	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
 }
 
 // PeopleUpdateDto defines model for PeopleUpdateDto.
@@ -1132,6 +1272,9 @@ type PeopleUpdateItem struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// Permission defines model for Permission.
+type Permission string
+
 // PersonCreateDto defines model for PersonCreateDto.
 type PersonCreateDto struct {
 	// BirthDate Person date of birth.
@@ -1152,6 +1295,9 @@ type PersonResponseDto struct {
 	IsHidden      bool                `json:"isHidden"`
 	Name          string              `json:"name"`
 	ThumbnailPath string              `json:"thumbnailPath"`
+
+	// UpdatedAt This property was added in v1.107.0
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 }
 
 // PersonStatisticsResponseDto defines model for PersonStatisticsResponseDto.
@@ -1183,6 +1329,9 @@ type PersonWithFacesResponseDto struct {
 	IsHidden      bool                                `json:"isHidden"`
 	Name          string                              `json:"name"`
 	ThumbnailPath string                              `json:"thumbnailPath"`
+
+	// UpdatedAt This property was added in v1.107.0
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 }
 
 // PlacesResponseDto defines model for PlacesResponseDto.
@@ -1194,10 +1343,32 @@ type PlacesResponseDto struct {
 	Name       string  `json:"name"`
 }
 
+// PurchaseResponse defines model for PurchaseResponse.
+type PurchaseResponse struct {
+	HideBuyButtonUntil string `json:"hideBuyButtonUntil"`
+	ShowSupportBadge   bool   `json:"showSupportBadge"`
+}
+
+// PurchaseUpdate defines model for PurchaseUpdate.
+type PurchaseUpdate struct {
+	HideBuyButtonUntil *string `json:"hideBuyButtonUntil,omitempty"`
+	ShowSupportBadge   *bool   `json:"showSupportBadge,omitempty"`
+}
+
 // QueueStatusDto defines model for QueueStatusDto.
 type QueueStatusDto struct {
 	IsActive bool `json:"isActive"`
 	IsPaused bool `json:"isPaused"`
+}
+
+// RatingsResponse defines model for RatingsResponse.
+type RatingsResponse struct {
+	Enabled bool `json:"enabled"`
+}
+
+// RatingsUpdate defines model for RatingsUpdate.
+type RatingsUpdate struct {
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // ReactionLevel defines model for ReactionLevel.
@@ -1268,6 +1439,27 @@ type SearchResponseDto struct {
 // SearchSuggestionType defines model for SearchSuggestionType.
 type SearchSuggestionType string
 
+// ServerAboutResponseDto defines model for ServerAboutResponseDto.
+type ServerAboutResponseDto struct {
+	Build         *string `json:"build,omitempty"`
+	BuildImage    *string `json:"buildImage,omitempty"`
+	BuildImageUrl *string `json:"buildImageUrl,omitempty"`
+	BuildUrl      *string `json:"buildUrl,omitempty"`
+	Exiftool      *string `json:"exiftool,omitempty"`
+	Ffmpeg        *string `json:"ffmpeg,omitempty"`
+	Imagemagick   *string `json:"imagemagick,omitempty"`
+	Libvips       *string `json:"libvips,omitempty"`
+	Licensed      bool    `json:"licensed"`
+	Nodejs        *string `json:"nodejs,omitempty"`
+	Repository    *string `json:"repository,omitempty"`
+	RepositoryUrl *string `json:"repositoryUrl,omitempty"`
+	SourceCommit  *string `json:"sourceCommit,omitempty"`
+	SourceRef     *string `json:"sourceRef,omitempty"`
+	SourceUrl     *string `json:"sourceUrl,omitempty"`
+	Version       string  `json:"version"`
+	VersionUrl    string  `json:"versionUrl"`
+}
+
 // ServerConfigDto defines model for ServerConfigDto.
 type ServerConfigDto struct {
 	ExternalDomain   string `json:"externalDomain"`
@@ -1285,6 +1477,7 @@ type ServerFeaturesDto struct {
 	DuplicateDetection bool `json:"duplicateDetection"`
 	Email              bool `json:"email"`
 	FacialRecognition  bool `json:"facialRecognition"`
+	ImportFaces        bool `json:"importFaces"`
 	Map                bool `json:"map"`
 	Oauth              bool `json:"oauth"`
 	OauthAutoLaunch    bool `json:"oauthAutoLaunch"`
@@ -1413,8 +1606,8 @@ type SmartInfoResponseDto struct {
 
 // SmartSearchDto defines model for SmartSearchDto.
 type SmartSearchDto struct {
-	City          *string               `json:"city,omitempty"`
-	Country       *string               `json:"country,omitempty"`
+	City          *string               `json:"city"`
+	Country       *string               `json:"country"`
 	CreatedAfter  *time.Time            `json:"createdAfter,omitempty"`
 	CreatedBefore *time.Time            `json:"createdBefore,omitempty"`
 	DeviceId      *string               `json:"deviceId,omitempty"`
@@ -1425,15 +1618,15 @@ type SmartSearchDto struct {
 	IsNotInAlbum  *bool                 `json:"isNotInAlbum,omitempty"`
 	IsOffline     *bool                 `json:"isOffline,omitempty"`
 	IsVisible     *bool                 `json:"isVisible,omitempty"`
-	LensModel     *string               `json:"lensModel,omitempty"`
-	LibraryId     *openapi_types.UUID   `json:"libraryId,omitempty"`
+	LensModel     *string               `json:"lensModel"`
+	LibraryId     *openapi_types.UUID   `json:"libraryId"`
 	Make          *string               `json:"make,omitempty"`
-	Model         *string               `json:"model,omitempty"`
+	Model         *string               `json:"model"`
 	Page          *float32              `json:"page,omitempty"`
 	PersonIds     *[]openapi_types.UUID `json:"personIds,omitempty"`
 	Query         string                `json:"query"`
 	Size          *float32              `json:"size,omitempty"`
-	State         *string               `json:"state,omitempty"`
+	State         *string               `json:"state"`
 	TakenAfter    *time.Time            `json:"takenAfter,omitempty"`
 	TakenBefore   *time.Time            `json:"takenBefore,omitempty"`
 	TrashedAfter  *time.Time            `json:"trashedAfter,omitempty"`
@@ -1446,6 +1639,27 @@ type SmartSearchDto struct {
 	WithExif      *bool                 `json:"withExif,omitempty"`
 }
 
+// SourceType defines model for SourceType.
+type SourceType string
+
+// StackCreateDto defines model for StackCreateDto.
+type StackCreateDto struct {
+	// AssetIds first asset becomes the primary
+	AssetIds []openapi_types.UUID `json:"assetIds"`
+}
+
+// StackResponseDto defines model for StackResponseDto.
+type StackResponseDto struct {
+	Assets         []AssetResponseDto `json:"assets"`
+	Id             string             `json:"id"`
+	PrimaryAssetId string             `json:"primaryAssetId"`
+}
+
+// StackUpdateDto defines model for StackUpdateDto.
+type StackUpdateDto struct {
+	PrimaryAssetId *openapi_types.UUID `json:"primaryAssetId,omitempty"`
+}
+
 // SystemConfigDto defines model for SystemConfigDto.
 type SystemConfigDto struct {
 	Ffmpeg           SystemConfigFFmpegDto           `json:"ffmpeg"`
@@ -1455,6 +1669,7 @@ type SystemConfigDto struct {
 	Logging          SystemConfigLoggingDto          `json:"logging"`
 	MachineLearning  SystemConfigMachineLearningDto  `json:"machineLearning"`
 	Map              SystemConfigMapDto              `json:"map"`
+	Metadata         SystemConfigMetadataDto         `json:"metadata"`
 	NewVersionCheck  SystemConfigNewVersionCheckDto  `json:"newVersionCheck"`
 	Notifications    SystemConfigNotificationsDto    `json:"notifications"`
 	Oauth            SystemConfigOAuthDto            `json:"oauth"`
@@ -1472,6 +1687,7 @@ type SystemConfigFFmpegDto struct {
 	Accel               TranscodeHWAccel `json:"accel"`
 	AccelDecode         bool             `json:"accelDecode"`
 	AcceptedAudioCodecs []AudioCodec     `json:"acceptedAudioCodecs"`
+	AcceptedContainers  []VideoContainer `json:"acceptedContainers"`
 	AcceptedVideoCodecs []VideoCodec     `json:"acceptedVideoCodecs"`
 	Bframes             int              `json:"bframes"`
 	CqMode              CQMode           `json:"cqMode"`
@@ -1490,6 +1706,11 @@ type SystemConfigFFmpegDto struct {
 	Tonemap             ToneMapping      `json:"tonemap"`
 	Transcode           TranscodePolicy  `json:"transcode"`
 	TwoPass             bool             `json:"twoPass"`
+}
+
+// SystemConfigFacesDto defines model for SystemConfigFacesDto.
+type SystemConfigFacesDto struct {
+	Import bool `json:"import"`
 }
 
 // SystemConfigImageDto defines model for SystemConfigImageDto.
@@ -1557,6 +1778,11 @@ type SystemConfigMapDto struct {
 	LightStyle string `json:"lightStyle"`
 }
 
+// SystemConfigMetadataDto defines model for SystemConfigMetadataDto.
+type SystemConfigMetadataDto struct {
+	Faces SystemConfigFacesDto `json:"faces"`
+}
+
 // SystemConfigNewVersionCheckDto defines model for SystemConfigNewVersionCheckDto.
 type SystemConfigNewVersionCheckDto struct {
 	Enabled bool `json:"enabled"`
@@ -1569,20 +1795,21 @@ type SystemConfigNotificationsDto struct {
 
 // SystemConfigOAuthDto defines model for SystemConfigOAuthDto.
 type SystemConfigOAuthDto struct {
-	AutoLaunch            bool    `json:"autoLaunch"`
-	AutoRegister          bool    `json:"autoRegister"`
-	ButtonText            string  `json:"buttonText"`
-	ClientId              string  `json:"clientId"`
-	ClientSecret          string  `json:"clientSecret"`
-	DefaultStorageQuota   float32 `json:"defaultStorageQuota"`
-	Enabled               bool    `json:"enabled"`
-	IssuerUrl             string  `json:"issuerUrl"`
-	MobileOverrideEnabled bool    `json:"mobileOverrideEnabled"`
-	MobileRedirectUri     string  `json:"mobileRedirectUri"`
-	Scope                 string  `json:"scope"`
-	SigningAlgorithm      string  `json:"signingAlgorithm"`
-	StorageLabelClaim     string  `json:"storageLabelClaim"`
-	StorageQuotaClaim     string  `json:"storageQuotaClaim"`
+	AutoLaunch              bool    `json:"autoLaunch"`
+	AutoRegister            bool    `json:"autoRegister"`
+	ButtonText              string  `json:"buttonText"`
+	ClientId                string  `json:"clientId"`
+	ClientSecret            string  `json:"clientSecret"`
+	DefaultStorageQuota     float32 `json:"defaultStorageQuota"`
+	Enabled                 bool    `json:"enabled"`
+	IssuerUrl               string  `json:"issuerUrl"`
+	MobileOverrideEnabled   bool    `json:"mobileOverrideEnabled"`
+	MobileRedirectUri       string  `json:"mobileRedirectUri"`
+	ProfileSigningAlgorithm string  `json:"profileSigningAlgorithm"`
+	Scope                   string  `json:"scope"`
+	SigningAlgorithm        string  `json:"signingAlgorithm"`
+	StorageLabelClaim       string  `json:"storageLabelClaim"`
+	StorageQuotaClaim       string  `json:"storageQuotaClaim"`
 }
 
 // SystemConfigPasswordLoginDto defines model for SystemConfigPasswordLoginDto.
@@ -1653,16 +1880,56 @@ type SystemConfigUserDto struct {
 	DeleteDelay int `json:"deleteDelay"`
 }
 
-// TagResponseDto defines model for TagResponseDto.
-type TagResponseDto struct {
-	Id     string      `json:"id"`
-	Name   string      `json:"name"`
-	Type   TagTypeEnum `json:"type"`
-	UserId string      `json:"userId"`
+// TagBulkAssetsDto defines model for TagBulkAssetsDto.
+type TagBulkAssetsDto struct {
+	AssetIds []openapi_types.UUID `json:"assetIds"`
+	TagIds   []openapi_types.UUID `json:"tagIds"`
 }
 
-// TagTypeEnum defines model for TagTypeEnum.
-type TagTypeEnum string
+// TagBulkAssetsResponseDto defines model for TagBulkAssetsResponseDto.
+type TagBulkAssetsResponseDto struct {
+	Count int `json:"count"`
+}
+
+// TagCreateDto defines model for TagCreateDto.
+type TagCreateDto struct {
+	Color    *string             `json:"color,omitempty"`
+	Name     string              `json:"name"`
+	ParentId *openapi_types.UUID `json:"parentId"`
+}
+
+// TagResponseDto defines model for TagResponseDto.
+type TagResponseDto struct {
+	Color     *string   `json:"color,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	Id        string    `json:"id"`
+	Name      string    `json:"name"`
+	ParentId  *string   `json:"parentId,omitempty"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	Value     string    `json:"value"`
+}
+
+// TagUpdateDto defines model for TagUpdateDto.
+type TagUpdateDto struct {
+	Color *string `json:"color"`
+}
+
+// TagUpsertDto defines model for TagUpsertDto.
+type TagUpsertDto struct {
+	Tags []string `json:"tags"`
+}
+
+// TagsResponse defines model for TagsResponse.
+type TagsResponse struct {
+	Enabled    bool `json:"enabled"`
+	SidebarWeb bool `json:"sidebarWeb"`
+}
+
+// TagsUpdate defines model for TagsUpdate.
+type TagsUpdate struct {
+	Enabled    *bool `json:"enabled,omitempty"`
+	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
+}
 
 // TimeBucketResponseDto defines model for TimeBucketResponseDto.
 type TimeBucketResponseDto struct {
@@ -1698,12 +1965,14 @@ type UpdateAlbumUserDto struct {
 
 // UpdateAssetDto defines model for UpdateAssetDto.
 type UpdateAssetDto struct {
-	DateTimeOriginal *string  `json:"dateTimeOriginal,omitempty"`
-	Description      *string  `json:"description,omitempty"`
-	IsArchived       *bool    `json:"isArchived,omitempty"`
-	IsFavorite       *bool    `json:"isFavorite,omitempty"`
-	Latitude         *float32 `json:"latitude,omitempty"`
-	Longitude        *float32 `json:"longitude,omitempty"`
+	DateTimeOriginal *string             `json:"dateTimeOriginal,omitempty"`
+	Description      *string             `json:"description,omitempty"`
+	IsArchived       *bool               `json:"isArchived,omitempty"`
+	IsFavorite       *bool               `json:"isFavorite,omitempty"`
+	Latitude         *float32            `json:"latitude,omitempty"`
+	LivePhotoVideoId *openapi_types.UUID `json:"livePhotoVideoId"`
+	Longitude        *float32            `json:"longitude,omitempty"`
+	Rating           *float32            `json:"rating,omitempty"`
 }
 
 // UpdateLibraryDto defines model for UpdateLibraryDto.
@@ -1716,17 +1985,6 @@ type UpdateLibraryDto struct {
 // UpdatePartnerDto defines model for UpdatePartnerDto.
 type UpdatePartnerDto struct {
 	InTimeline bool `json:"inTimeline"`
-}
-
-// UpdateStackParentDto defines model for UpdateStackParentDto.
-type UpdateStackParentDto struct {
-	NewParentId openapi_types.UUID `json:"newParentId"`
-	OldParentId openapi_types.UUID `json:"oldParentId"`
-}
-
-// UpdateTagDto defines model for UpdateTagDto.
-type UpdateTagDto struct {
-	Name *string `json:"name,omitempty"`
 }
 
 // UsageByUserDto defines model for UsageByUserDto.
@@ -1763,6 +2021,7 @@ type UserAdminResponseDto struct {
 	Email                string          `json:"email"`
 	Id                   string          `json:"id"`
 	IsAdmin              bool            `json:"isAdmin"`
+	License              *UserLicense    `json:"license"`
 	Name                 string          `json:"name"`
 	OauthId              string          `json:"oauthId"`
 	ProfileImagePath     string          `json:"profileImagePath"`
@@ -1787,18 +2046,37 @@ type UserAdminUpdateDto struct {
 // UserAvatarColor defines model for UserAvatarColor.
 type UserAvatarColor string
 
+// UserLicense defines model for UserLicense.
+type UserLicense struct {
+	ActivatedAt   time.Time `json:"activatedAt"`
+	ActivationKey string    `json:"activationKey"`
+	LicenseKey    string    `json:"licenseKey"`
+}
+
 // UserPreferencesResponseDto defines model for UserPreferencesResponseDto.
 type UserPreferencesResponseDto struct {
 	Avatar             AvatarResponse             `json:"avatar"`
+	Download           DownloadResponse           `json:"download"`
 	EmailNotifications EmailNotificationsResponse `json:"emailNotifications"`
-	Memories           MemoryResponse             `json:"memories"`
+	Folders            FoldersResponse            `json:"folders"`
+	Memories           MemoriesResponse           `json:"memories"`
+	People             PeopleResponse             `json:"people"`
+	Purchase           PurchaseResponse           `json:"purchase"`
+	Ratings            RatingsResponse            `json:"ratings"`
+	Tags               TagsResponse               `json:"tags"`
 }
 
 // UserPreferencesUpdateDto defines model for UserPreferencesUpdateDto.
 type UserPreferencesUpdateDto struct {
 	Avatar             *AvatarUpdate             `json:"avatar,omitempty"`
+	Download           *DownloadUpdate           `json:"download,omitempty"`
 	EmailNotifications *EmailNotificationsUpdate `json:"emailNotifications,omitempty"`
-	Memories           *MemoryUpdate             `json:"memories,omitempty"`
+	Folders            *FoldersUpdate            `json:"folders,omitempty"`
+	Memories           *MemoriesUpdate           `json:"memories,omitempty"`
+	People             *PeopleUpdate             `json:"people,omitempty"`
+	Purchase           *PurchaseUpdate           `json:"purchase,omitempty"`
+	Ratings            *RatingsUpdate            `json:"ratings,omitempty"`
+	Tags               *TagsUpdate               `json:"tags,omitempty"`
 }
 
 // UserResponseDto defines model for UserResponseDto.
@@ -1845,6 +2123,9 @@ type ValidateLibraryResponseDto struct {
 
 // VideoCodec defines model for VideoCodec.
 type VideoCodec string
+
+// VideoContainer defines model for VideoContainer.
+type VideoContainer string
 
 // GetActivitiesParams defines parameters for GetActivities.
 type GetActivitiesParams struct {
@@ -1970,6 +2251,12 @@ type GetMapMarkersParams struct {
 	WithSharedAlbums  *bool      `form:"withSharedAlbums,omitempty" json:"withSharedAlbums,omitempty"`
 }
 
+// ReverseGeocodeParams defines parameters for ReverseGeocode.
+type ReverseGeocodeParams struct {
+	Lat float64 `form:"lat" json:"lat"`
+	Lon float64 `form:"lon" json:"lon"`
+}
+
 // GetMapStyleParams defines parameters for GetMapStyle.
 type GetMapStyleParams struct {
 	Key   *string  `form:"key,omitempty" json:"key,omitempty"`
@@ -1978,15 +2265,17 @@ type GetMapStyleParams struct {
 
 // GetPartnersParams defines parameters for GetPartners.
 type GetPartnersParams struct {
-	Direction GetPartnersParamsDirection `form:"direction" json:"direction"`
+	Direction PartnerDirection `form:"direction" json:"direction"`
 }
-
-// GetPartnersParamsDirection defines parameters for GetPartners.
-type GetPartnersParamsDirection string
 
 // GetAllPeopleParams defines parameters for GetAllPeople.
 type GetAllPeopleParams struct {
-	WithHidden *bool `form:"withHidden,omitempty" json:"withHidden,omitempty"`
+	// Page Page number for pagination
+	Page *float32 `form:"page,omitempty" json:"page,omitempty"`
+
+	// Size Number of items per page
+	Size       *float32 `form:"size,omitempty" json:"size,omitempty"`
+	WithHidden *bool    `form:"withHidden,omitempty" json:"withHidden,omitempty"`
 }
 
 // SearchPersonParams defines parameters for SearchPerson.
@@ -2002,11 +2291,14 @@ type SearchPlacesParams struct {
 
 // GetSearchSuggestionsParams defines parameters for GetSearchSuggestions.
 type GetSearchSuggestionsParams struct {
-	Country *string              `form:"country,omitempty" json:"country,omitempty"`
-	Make    *string              `form:"make,omitempty" json:"make,omitempty"`
-	Model   *string              `form:"model,omitempty" json:"model,omitempty"`
-	State   *string              `form:"state,omitempty" json:"state,omitempty"`
-	Type    SearchSuggestionType `form:"type" json:"type"`
+	Country *string `form:"country,omitempty" json:"country,omitempty"`
+
+	// IncludeNull This property was added in v111.0.0
+	IncludeNull *bool                `form:"includeNull,omitempty" json:"includeNull,omitempty"`
+	Make        *string              `form:"make,omitempty" json:"make,omitempty"`
+	Model       *string              `form:"model,omitempty" json:"model,omitempty"`
+	State       *string              `form:"state,omitempty" json:"state,omitempty"`
+	Type        SearchSuggestionType `form:"type" json:"type"`
 }
 
 // GetMySharedLinkParams defines parameters for GetMySharedLink.
@@ -2026,6 +2318,11 @@ type AddSharedLinkAssetsParams struct {
 	Key *string `form:"key,omitempty" json:"key,omitempty"`
 }
 
+// SearchStacksParams defines parameters for SearchStacks.
+type SearchStacksParams struct {
+	PrimaryAssetId *string `form:"primaryAssetId,omitempty" json:"primaryAssetId,omitempty"`
+}
+
 // GetTimeBucketParams defines parameters for GetTimeBucket.
 type GetTimeBucketParams struct {
 	AlbumId      *openapi_types.UUID `form:"albumId,omitempty" json:"albumId,omitempty"`
@@ -2036,6 +2333,7 @@ type GetTimeBucketParams struct {
 	Order        *AssetOrder         `form:"order,omitempty" json:"order,omitempty"`
 	PersonId     *openapi_types.UUID `form:"personId,omitempty" json:"personId,omitempty"`
 	Size         TimeBucketSize      `form:"size" json:"size"`
+	TagId        *openapi_types.UUID `form:"tagId,omitempty" json:"tagId,omitempty"`
 	TimeBucket   string              `form:"timeBucket" json:"timeBucket"`
 	UserId       *openapi_types.UUID `form:"userId,omitempty" json:"userId,omitempty"`
 	WithPartners *bool               `form:"withPartners,omitempty" json:"withPartners,omitempty"`
@@ -2052,9 +2350,15 @@ type GetTimeBucketsParams struct {
 	Order        *AssetOrder         `form:"order,omitempty" json:"order,omitempty"`
 	PersonId     *openapi_types.UUID `form:"personId,omitempty" json:"personId,omitempty"`
 	Size         TimeBucketSize      `form:"size" json:"size"`
+	TagId        *openapi_types.UUID `form:"tagId,omitempty" json:"tagId,omitempty"`
 	UserId       *openapi_types.UUID `form:"userId,omitempty" json:"userId,omitempty"`
 	WithPartners *bool               `form:"withPartners,omitempty" json:"withPartners,omitempty"`
 	WithStacked  *bool               `form:"withStacked,omitempty" json:"withStacked,omitempty"`
+}
+
+// GetAssetsByOriginalPathParams defines parameters for GetAssetsByOriginalPath.
+type GetAssetsByOriginalPathParams struct {
+	Path string `form:"path" json:"path"`
 }
 
 // CreateActivityJSONRequestBody defines body for CreateActivity for application/json ContentType.
@@ -2113,9 +2417,6 @@ type CheckExistingAssetsJSONRequestBody = CheckExistingAssetsDto
 
 // RunAssetJobsJSONRequestBody defines body for RunAssetJobs for application/json ContentType.
 type RunAssetJobsJSONRequestBody = AssetJobsDto
-
-// UpdateStackParentJSONRequestBody defines body for UpdateStackParent for application/json ContentType.
-type UpdateStackParentJSONRequestBody = UpdateStackParentDto
 
 // UpdateAssetJSONRequestBody defines body for UpdateAsset for application/json ContentType.
 type UpdateAssetJSONRequestBody = UpdateAssetDto
@@ -2210,6 +2511,9 @@ type SearchMetadataJSONRequestBody = MetadataSearchDto
 // SearchSmartJSONRequestBody defines body for SearchSmart for application/json ContentType.
 type SearchSmartJSONRequestBody = SmartSearchDto
 
+// SetServerLicenseJSONRequestBody defines body for SetServerLicense for application/json ContentType.
+type SetServerLicenseJSONRequestBody = LicenseKeyDto
+
 // CreateSharedLinkJSONRequestBody defines body for CreateSharedLink for application/json ContentType.
 type CreateSharedLinkJSONRequestBody = SharedLinkCreateDto
 
@@ -2221,6 +2525,15 @@ type RemoveSharedLinkAssetsJSONRequestBody = AssetIdsDto
 
 // AddSharedLinkAssetsJSONRequestBody defines body for AddSharedLinkAssets for application/json ContentType.
 type AddSharedLinkAssetsJSONRequestBody = AssetIdsDto
+
+// DeleteStacksJSONRequestBody defines body for DeleteStacks for application/json ContentType.
+type DeleteStacksJSONRequestBody = BulkIdsDto
+
+// CreateStackJSONRequestBody defines body for CreateStack for application/json ContentType.
+type CreateStackJSONRequestBody = StackCreateDto
+
+// UpdateStackJSONRequestBody defines body for UpdateStack for application/json ContentType.
+type UpdateStackJSONRequestBody = StackUpdateDto
 
 // GetDeltaSyncJSONRequestBody defines body for GetDeltaSync for application/json ContentType.
 type GetDeltaSyncJSONRequestBody = AssetDeltaSyncDto
@@ -2235,22 +2548,31 @@ type UpdateConfigJSONRequestBody = SystemConfigDto
 type UpdateAdminOnboardingJSONRequestBody = AdminOnboardingUpdateDto
 
 // CreateTagJSONRequestBody defines body for CreateTag for application/json ContentType.
-type CreateTagJSONRequestBody = CreateTagDto
+type CreateTagJSONRequestBody = TagCreateDto
+
+// UpsertTagsJSONRequestBody defines body for UpsertTags for application/json ContentType.
+type UpsertTagsJSONRequestBody = TagUpsertDto
+
+// BulkTagAssetsJSONRequestBody defines body for BulkTagAssets for application/json ContentType.
+type BulkTagAssetsJSONRequestBody = TagBulkAssetsDto
 
 // UpdateTagJSONRequestBody defines body for UpdateTag for application/json ContentType.
-type UpdateTagJSONRequestBody = UpdateTagDto
+type UpdateTagJSONRequestBody = TagUpdateDto
 
 // UntagAssetsJSONRequestBody defines body for UntagAssets for application/json ContentType.
-type UntagAssetsJSONRequestBody = AssetIdsDto
+type UntagAssetsJSONRequestBody = BulkIdsDto
 
 // TagAssetsJSONRequestBody defines body for TagAssets for application/json ContentType.
-type TagAssetsJSONRequestBody = AssetIdsDto
+type TagAssetsJSONRequestBody = BulkIdsDto
 
 // RestoreAssetsJSONRequestBody defines body for RestoreAssets for application/json ContentType.
 type RestoreAssetsJSONRequestBody = BulkIdsDto
 
 // UpdateMyUserJSONRequestBody defines body for UpdateMyUser for application/json ContentType.
 type UpdateMyUserJSONRequestBody = UserUpdateMeDto
+
+// SetUserLicenseJSONRequestBody defines body for SetUserLicense for application/json ContentType.
+type SetUserLicenseJSONRequestBody = LicenseKeyDto
 
 // UpdateMyPreferencesJSONRequestBody defines body for UpdateMyPreferences for application/json ContentType.
 type UpdateMyPreferencesJSONRequestBody = UserPreferencesUpdateDto
@@ -2385,8 +2707,8 @@ type ClientInterface interface {
 
 	CreateAlbum(ctx context.Context, body CreateAlbumJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetAlbumCount request
-	GetAlbumCount(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetAlbumStatistics request
+	GetAlbumStatistics(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteAlbum request
 	DeleteAlbum(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2477,11 +2799,6 @@ type ClientInterface interface {
 
 	// GetRandom request
 	GetRandom(ctx context.Context, params *GetRandomParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// UpdateStackParentWithBody request with any body
-	UpdateStackParentWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	UpdateStackParent(ctx context.Context, body UpdateStackParentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetAssetStatistics request
 	GetAssetStatistics(ctx context.Context, params *GetAssetStatisticsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2596,6 +2913,9 @@ type ClientInterface interface {
 
 	// GetMapMarkers request
 	GetMapMarkers(ctx context.Context, params *GetMapMarkersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ReverseGeocode request
+	ReverseGeocode(ctx context.Context, params *ReverseGeocodeParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetMapStyle request
 	GetMapStyle(ctx context.Context, params *GetMapStyleParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2747,11 +3067,25 @@ type ClientInterface interface {
 	// GetSearchSuggestions request
 	GetSearchSuggestions(ctx context.Context, params *GetSearchSuggestionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetAboutInfo request
+	GetAboutInfo(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetServerConfig request
 	GetServerConfig(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetServerFeatures request
 	GetServerFeatures(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteServerLicense request
+	DeleteServerLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetServerLicense request
+	GetServerLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetServerLicenseWithBody request with any body
+	SetServerLicenseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetServerLicense(ctx context.Context, body SetServerLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetSupportedMediaTypes request
 	GetSupportedMediaTypes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2812,6 +3146,30 @@ type ClientInterface interface {
 
 	AddSharedLinkAssets(ctx context.Context, id openapi_types.UUID, params *AddSharedLinkAssetsParams, body AddSharedLinkAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DeleteStacksWithBody request with any body
+	DeleteStacksWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DeleteStacks(ctx context.Context, body DeleteStacksJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SearchStacks request
+	SearchStacks(ctx context.Context, params *SearchStacksParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateStackWithBody request with any body
+	CreateStackWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateStack(ctx context.Context, body CreateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteStack request
+	DeleteStack(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetStack request
+	GetStack(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateStackWithBody request with any body
+	UpdateStackWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateStack(ctx context.Context, id openapi_types.UUID, body UpdateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetDeltaSyncWithBody request with any body
 	GetDeltaSyncWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2855,6 +3213,16 @@ type ClientInterface interface {
 
 	CreateTag(ctx context.Context, body CreateTagJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// UpsertTagsWithBody request with any body
+	UpsertTagsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpsertTags(ctx context.Context, body UpsertTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// BulkTagAssetsWithBody request with any body
+	BulkTagAssetsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	BulkTagAssets(ctx context.Context, body BulkTagAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// DeleteTag request
 	DeleteTag(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2870,9 +3238,6 @@ type ClientInterface interface {
 	UntagAssetsWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	UntagAssets(ctx context.Context, id openapi_types.UUID, body UntagAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetTagAssets request
-	GetTagAssets(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// TagAssetsWithBody request with any body
 	TagAssetsWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2907,6 +3272,17 @@ type ClientInterface interface {
 
 	UpdateMyUser(ctx context.Context, body UpdateMyUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DeleteUserLicense request
+	DeleteUserLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetUserLicense request
+	GetUserLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetUserLicenseWithBody request with any body
+	SetUserLicenseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetUserLicense(ctx context.Context, body SetUserLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetMyPreferences request
 	GetMyPreferences(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2926,6 +3302,12 @@ type ClientInterface interface {
 
 	// GetProfileImage request
 	GetProfileImage(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetAssetsByOriginalPath request
+	GetAssetsByOriginalPath(ctx context.Context, params *GetAssetsByOriginalPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetUniqueOriginalPaths request
+	GetUniqueOriginalPaths(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetActivities(ctx context.Context, params *GetActivitiesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -3168,8 +3550,8 @@ func (c *Client) CreateAlbum(ctx context.Context, body CreateAlbumJSONRequestBod
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetAlbumCount(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetAlbumCountRequest(c.Server)
+func (c *Client) GetAlbumStatistics(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAlbumStatisticsRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -3578,30 +3960,6 @@ func (c *Client) GetMemoryLane(ctx context.Context, params *GetMemoryLaneParams,
 
 func (c *Client) GetRandom(ctx context.Context, params *GetRandomParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetRandomRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) UpdateStackParentWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewUpdateStackParentRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) UpdateStackParent(ctx context.Context, body UpdateStackParentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewUpdateStackParentRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4106,6 +4464,18 @@ func (c *Client) Validate(ctx context.Context, id openapi_types.UUID, body Valid
 
 func (c *Client) GetMapMarkers(ctx context.Context, params *GetMapMarkersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetMapMarkersRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ReverseGeocode(ctx context.Context, params *ReverseGeocodeParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewReverseGeocodeRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -4788,6 +5158,18 @@ func (c *Client) GetSearchSuggestions(ctx context.Context, params *GetSearchSugg
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetAboutInfo(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAboutInfoRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetServerConfig(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetServerConfigRequest(c.Server)
 	if err != nil {
@@ -4802,6 +5184,54 @@ func (c *Client) GetServerConfig(ctx context.Context, reqEditors ...RequestEdito
 
 func (c *Client) GetServerFeatures(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetServerFeaturesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteServerLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteServerLicenseRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetServerLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetServerLicenseRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetServerLicenseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetServerLicenseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetServerLicense(ctx context.Context, body SetServerLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetServerLicenseRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5064,6 +5494,114 @@ func (c *Client) AddSharedLinkAssets(ctx context.Context, id openapi_types.UUID,
 	return c.Client.Do(req)
 }
 
+func (c *Client) DeleteStacksWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteStacksRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteStacks(ctx context.Context, body DeleteStacksJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteStacksRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SearchStacks(ctx context.Context, params *SearchStacksParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSearchStacksRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateStackWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateStackRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateStack(ctx context.Context, body CreateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateStackRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteStack(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteStackRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetStack(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetStackRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateStackWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateStackRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateStack(ctx context.Context, id openapi_types.UUID, body UpdateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateStackRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetDeltaSyncWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetDeltaSyncRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -5256,6 +5794,54 @@ func (c *Client) CreateTag(ctx context.Context, body CreateTagJSONRequestBody, r
 	return c.Client.Do(req)
 }
 
+func (c *Client) UpsertTagsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpsertTagsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpsertTags(ctx context.Context, body UpsertTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpsertTagsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) BulkTagAssetsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewBulkTagAssetsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) BulkTagAssets(ctx context.Context, body BulkTagAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewBulkTagAssetsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) DeleteTag(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDeleteTagRequest(c.Server, id)
 	if err != nil {
@@ -5318,18 +5904,6 @@ func (c *Client) UntagAssetsWithBody(ctx context.Context, id openapi_types.UUID,
 
 func (c *Client) UntagAssets(ctx context.Context, id openapi_types.UUID, body UntagAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUntagAssetsRequest(c.Server, id, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetTagAssets(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetTagAssetsRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -5484,6 +6058,54 @@ func (c *Client) UpdateMyUser(ctx context.Context, body UpdateMyUserJSONRequestB
 	return c.Client.Do(req)
 }
 
+func (c *Client) DeleteUserLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteUserLicenseRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetUserLicense(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetUserLicenseRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetUserLicenseWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetUserLicenseRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetUserLicense(ctx context.Context, body SetUserLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetUserLicenseRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetMyPreferences(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetMyPreferencesRequest(c.Server)
 	if err != nil {
@@ -5558,6 +6180,30 @@ func (c *Client) GetUser(ctx context.Context, id openapi_types.UUID, reqEditors 
 
 func (c *Client) GetProfileImage(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetProfileImageRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetAssetsByOriginalPath(ctx context.Context, params *GetAssetsByOriginalPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAssetsByOriginalPathRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetUniqueOriginalPaths(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetUniqueOriginalPathsRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -6249,8 +6895,8 @@ func NewCreateAlbumRequestWithBody(server string, contentType string, body io.Re
 	return req, nil
 }
 
-// NewGetAlbumCountRequest generates requests for GetAlbumCount
-func NewGetAlbumCountRequest(server string) (*http.Request, error) {
+// NewGetAlbumStatisticsRequest generates requests for GetAlbumStatistics
+func NewGetAlbumStatisticsRequest(server string) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -6258,7 +6904,7 @@ func NewGetAlbumCountRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/albums/count")
+	operationPath := fmt.Sprintf("/albums/statistics")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -7271,46 +7917,6 @@ func NewGetRandomRequest(server string, params *GetRandomParams) (*http.Request,
 	if err != nil {
 		return nil, err
 	}
-
-	return req, nil
-}
-
-// NewUpdateStackParentRequest calls the generic UpdateStackParent builder with application/json body
-func NewUpdateStackParentRequest(server string, body UpdateStackParentJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewUpdateStackParentRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewUpdateStackParentRequestWithBody generates requests for UpdateStackParent with any type of body
-func NewUpdateStackParentRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/assets/stack/parent")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -8778,6 +9384,63 @@ func NewGetMapMarkersRequest(server string, params *GetMapMarkersParams) (*http.
 	return req, nil
 }
 
+// NewReverseGeocodeRequest generates requests for ReverseGeocode
+func NewReverseGeocodeRequest(server string, params *ReverseGeocodeParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/map/reverse-geocode")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "lat", runtime.ParamLocationQuery, params.Lat); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "lon", runtime.ParamLocationQuery, params.Lon); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetMapStyleRequest generates requests for GetMapStyle
 func NewGetMapStyleRequest(server string, params *GetMapStyleParams) (*http.Request, error) {
 	var err error
@@ -9510,6 +10173,38 @@ func NewGetAllPeopleRequest(server string, params *GetAllPeopleParams) (*http.Re
 
 	if params != nil {
 		queryValues := queryURL.Query()
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Size != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "size", runtime.ParamLocationQuery, *params.Size); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
 
 		if params.WithHidden != nil {
 
@@ -10280,6 +10975,22 @@ func NewGetSearchSuggestionsRequest(server string, params *GetSearchSuggestionsP
 
 		}
 
+		if params.IncludeNull != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "includeNull", runtime.ParamLocationQuery, *params.IncludeNull); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
 		if params.Make != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "make", runtime.ParamLocationQuery, *params.Make); err != nil {
@@ -10351,6 +11062,33 @@ func NewGetSearchSuggestionsRequest(server string, params *GetSearchSuggestionsP
 	return req, nil
 }
 
+// NewGetAboutInfoRequest generates requests for GetAboutInfo
+func NewGetAboutInfoRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/server/about")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetServerConfigRequest generates requests for GetServerConfig
 func NewGetServerConfigRequest(server string) (*http.Request, error) {
 	var err error
@@ -10360,7 +11098,7 @@ func NewGetServerConfigRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/config")
+	operationPath := fmt.Sprintf("/server/config")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10387,7 +11125,7 @@ func NewGetServerFeaturesRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/features")
+	operationPath := fmt.Sprintf("/server/features")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10405,6 +11143,100 @@ func NewGetServerFeaturesRequest(server string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewDeleteServerLicenseRequest generates requests for DeleteServerLicense
+func NewDeleteServerLicenseRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/server/license")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetServerLicenseRequest generates requests for GetServerLicense
+func NewGetServerLicenseRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/server/license")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetServerLicenseRequest calls the generic SetServerLicense builder with application/json body
+func NewSetServerLicenseRequest(server string, body SetServerLicenseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetServerLicenseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSetServerLicenseRequestWithBody generates requests for SetServerLicense with any type of body
+func NewSetServerLicenseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/server/license")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetSupportedMediaTypesRequest generates requests for GetSupportedMediaTypes
 func NewGetSupportedMediaTypesRequest(server string) (*http.Request, error) {
 	var err error
@@ -10414,7 +11246,7 @@ func NewGetSupportedMediaTypesRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/media-types")
+	operationPath := fmt.Sprintf("/server/media-types")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10441,7 +11273,7 @@ func NewPingServerRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/ping")
+	operationPath := fmt.Sprintf("/server/ping")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10468,7 +11300,7 @@ func NewGetServerStatisticsRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/statistics")
+	operationPath := fmt.Sprintf("/server/statistics")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10495,7 +11327,7 @@ func NewGetStorageRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/storage")
+	operationPath := fmt.Sprintf("/server/storage")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10522,7 +11354,7 @@ func NewGetThemeRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/theme")
+	operationPath := fmt.Sprintf("/server/theme")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10549,7 +11381,7 @@ func NewGetServerVersionRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/server-info/version")
+	operationPath := fmt.Sprintf("/server/version")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -11056,6 +11888,250 @@ func NewAddSharedLinkAssetsRequestWithBody(server string, id openapi_types.UUID,
 	return req, nil
 }
 
+// NewDeleteStacksRequest calls the generic DeleteStacks builder with application/json body
+func NewDeleteStacksRequest(server string, body DeleteStacksJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteStacksRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewDeleteStacksRequestWithBody generates requests for DeleteStacks with any type of body
+func NewDeleteStacksRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stacks")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewSearchStacksRequest generates requests for SearchStacks
+func NewSearchStacksRequest(server string, params *SearchStacksParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stacks")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.PrimaryAssetId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "primaryAssetId", runtime.ParamLocationQuery, *params.PrimaryAssetId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateStackRequest calls the generic CreateStack builder with application/json body
+func NewCreateStackRequest(server string, body CreateStackJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateStackRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateStackRequestWithBody generates requests for CreateStack with any type of body
+func NewCreateStackRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stacks")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteStackRequest generates requests for DeleteStack
+func NewDeleteStackRequest(server string, id openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stacks/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetStackRequest generates requests for GetStack
+func NewGetStackRequest(server string, id openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stacks/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateStackRequest calls the generic UpdateStack builder with application/json body
+func NewUpdateStackRequest(server string, id openapi_types.UUID, body UpdateStackJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateStackRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewUpdateStackRequestWithBody generates requests for UpdateStack with any type of body
+func NewUpdateStackRequestWithBody(server string, id openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stacks/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetDeltaSyncRequest calls the generic GetDeltaSync builder with application/json body
 func NewGetDeltaSyncRequest(server string, body GetDeltaSyncJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -11418,6 +12494,86 @@ func NewCreateTagRequestWithBody(server string, contentType string, body io.Read
 	return req, nil
 }
 
+// NewUpsertTagsRequest calls the generic UpsertTags builder with application/json body
+func NewUpsertTagsRequest(server string, body UpsertTagsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpsertTagsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewUpsertTagsRequestWithBody generates requests for UpsertTags with any type of body
+func NewUpsertTagsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/tags")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewBulkTagAssetsRequest calls the generic BulkTagAssets builder with application/json body
+func NewBulkTagAssetsRequest(server string, body BulkTagAssetsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewBulkTagAssetsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewBulkTagAssetsRequestWithBody generates requests for BulkTagAssets with any type of body
+func NewBulkTagAssetsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/tags/assets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewDeleteTagRequest generates requests for DeleteTag
 func NewDeleteTagRequest(server string, id openapi_types.UUID) (*http.Request, error) {
 	var err error
@@ -11523,7 +12679,7 @@ func NewUpdateTagRequestWithBody(server string, id openapi_types.UUID, contentTy
 		return nil, err
 	}
 
-	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -11576,40 +12732,6 @@ func NewUntagAssetsRequestWithBody(server string, id openapi_types.UUID, content
 	}
 
 	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetTagAssetsRequest generates requests for GetTagAssets
-func NewGetTagAssetsRequest(server string, id openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/tags/%s/assets", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
 
 	return req, nil
 }
@@ -11805,6 +12927,22 @@ func NewGetTimeBucketRequest(server string, params *GetTimeBucketParams) (*http.
 					queryValues.Add(k, v2)
 				}
 			}
+		}
+
+		if params.TagId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "tagId", runtime.ParamLocationQuery, *params.TagId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
 		}
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "timeBucket", runtime.ParamLocationQuery, params.TimeBucket); err != nil {
@@ -12022,6 +13160,22 @@ func NewGetTimeBucketsRequest(server string, params *GetTimeBucketsParams) (*htt
 					queryValues.Add(k, v2)
 				}
 			}
+		}
+
+		if params.TagId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "tagId", runtime.ParamLocationQuery, *params.TagId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
 		}
 
 		if params.UserId != nil {
@@ -12271,6 +13425,100 @@ func NewUpdateMyUserRequestWithBody(server string, contentType string, body io.R
 	return req, nil
 }
 
+// NewDeleteUserLicenseRequest generates requests for DeleteUserLicense
+func NewDeleteUserLicenseRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/users/me/license")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetUserLicenseRequest generates requests for GetUserLicense
+func NewGetUserLicenseRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/users/me/license")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetUserLicenseRequest calls the generic SetUserLicense builder with application/json body
+func NewSetUserLicenseRequest(server string, body SetUserLicenseJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetUserLicenseRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSetUserLicenseRequestWithBody generates requests for SetUserLicense with any type of body
+func NewSetUserLicenseRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/users/me/license")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetMyPreferencesRequest generates requests for GetMyPreferences
 func NewGetMyPreferencesRequest(server string) (*http.Request, error) {
 	var err error
@@ -12462,6 +13710,78 @@ func NewGetProfileImageRequest(server string, id openapi_types.UUID) (*http.Requ
 	return req, nil
 }
 
+// NewGetAssetsByOriginalPathRequest generates requests for GetAssetsByOriginalPath
+func NewGetAssetsByOriginalPathRequest(server string, params *GetAssetsByOriginalPathParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/view/folder")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "path", runtime.ParamLocationQuery, params.Path); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetUniqueOriginalPathsRequest generates requests for GetUniqueOriginalPaths
+func NewGetUniqueOriginalPathsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/view/folder/unique-paths")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -12559,8 +13879,8 @@ type ClientWithResponsesInterface interface {
 
 	CreateAlbumWithResponse(ctx context.Context, body CreateAlbumJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateAlbumResponse, error)
 
-	// GetAlbumCountWithResponse request
-	GetAlbumCountWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAlbumCountResponse, error)
+	// GetAlbumStatisticsWithResponse request
+	GetAlbumStatisticsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAlbumStatisticsResponse, error)
 
 	// DeleteAlbumWithResponse request
 	DeleteAlbumWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteAlbumResponse, error)
@@ -12651,11 +13971,6 @@ type ClientWithResponsesInterface interface {
 
 	// GetRandomWithResponse request
 	GetRandomWithResponse(ctx context.Context, params *GetRandomParams, reqEditors ...RequestEditorFn) (*GetRandomResponse, error)
-
-	// UpdateStackParentWithBodyWithResponse request with any body
-	UpdateStackParentWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateStackParentResponse, error)
-
-	UpdateStackParentWithResponse(ctx context.Context, body UpdateStackParentJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateStackParentResponse, error)
 
 	// GetAssetStatisticsWithResponse request
 	GetAssetStatisticsWithResponse(ctx context.Context, params *GetAssetStatisticsParams, reqEditors ...RequestEditorFn) (*GetAssetStatisticsResponse, error)
@@ -12770,6 +14085,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetMapMarkersWithResponse request
 	GetMapMarkersWithResponse(ctx context.Context, params *GetMapMarkersParams, reqEditors ...RequestEditorFn) (*GetMapMarkersResponse, error)
+
+	// ReverseGeocodeWithResponse request
+	ReverseGeocodeWithResponse(ctx context.Context, params *ReverseGeocodeParams, reqEditors ...RequestEditorFn) (*ReverseGeocodeResponse, error)
 
 	// GetMapStyleWithResponse request
 	GetMapStyleWithResponse(ctx context.Context, params *GetMapStyleParams, reqEditors ...RequestEditorFn) (*GetMapStyleResponse, error)
@@ -12921,11 +14239,25 @@ type ClientWithResponsesInterface interface {
 	// GetSearchSuggestionsWithResponse request
 	GetSearchSuggestionsWithResponse(ctx context.Context, params *GetSearchSuggestionsParams, reqEditors ...RequestEditorFn) (*GetSearchSuggestionsResponse, error)
 
+	// GetAboutInfoWithResponse request
+	GetAboutInfoWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAboutInfoResponse, error)
+
 	// GetServerConfigWithResponse request
 	GetServerConfigWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetServerConfigResponse, error)
 
 	// GetServerFeaturesWithResponse request
 	GetServerFeaturesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetServerFeaturesResponse, error)
+
+	// DeleteServerLicenseWithResponse request
+	DeleteServerLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteServerLicenseResponse, error)
+
+	// GetServerLicenseWithResponse request
+	GetServerLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetServerLicenseResponse, error)
+
+	// SetServerLicenseWithBodyWithResponse request with any body
+	SetServerLicenseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetServerLicenseResponse, error)
+
+	SetServerLicenseWithResponse(ctx context.Context, body SetServerLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*SetServerLicenseResponse, error)
 
 	// GetSupportedMediaTypesWithResponse request
 	GetSupportedMediaTypesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetSupportedMediaTypesResponse, error)
@@ -12986,6 +14318,30 @@ type ClientWithResponsesInterface interface {
 
 	AddSharedLinkAssetsWithResponse(ctx context.Context, id openapi_types.UUID, params *AddSharedLinkAssetsParams, body AddSharedLinkAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*AddSharedLinkAssetsResponse, error)
 
+	// DeleteStacksWithBodyWithResponse request with any body
+	DeleteStacksWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteStacksResponse, error)
+
+	DeleteStacksWithResponse(ctx context.Context, body DeleteStacksJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteStacksResponse, error)
+
+	// SearchStacksWithResponse request
+	SearchStacksWithResponse(ctx context.Context, params *SearchStacksParams, reqEditors ...RequestEditorFn) (*SearchStacksResponse, error)
+
+	// CreateStackWithBodyWithResponse request with any body
+	CreateStackWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateStackResponse, error)
+
+	CreateStackWithResponse(ctx context.Context, body CreateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateStackResponse, error)
+
+	// DeleteStackWithResponse request
+	DeleteStackWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteStackResponse, error)
+
+	// GetStackWithResponse request
+	GetStackWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetStackResponse, error)
+
+	// UpdateStackWithBodyWithResponse request with any body
+	UpdateStackWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateStackResponse, error)
+
+	UpdateStackWithResponse(ctx context.Context, id openapi_types.UUID, body UpdateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateStackResponse, error)
+
 	// GetDeltaSyncWithBodyWithResponse request with any body
 	GetDeltaSyncWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetDeltaSyncResponse, error)
 
@@ -13029,6 +14385,16 @@ type ClientWithResponsesInterface interface {
 
 	CreateTagWithResponse(ctx context.Context, body CreateTagJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateTagResponse, error)
 
+	// UpsertTagsWithBodyWithResponse request with any body
+	UpsertTagsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpsertTagsResponse, error)
+
+	UpsertTagsWithResponse(ctx context.Context, body UpsertTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*UpsertTagsResponse, error)
+
+	// BulkTagAssetsWithBodyWithResponse request with any body
+	BulkTagAssetsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*BulkTagAssetsResponse, error)
+
+	BulkTagAssetsWithResponse(ctx context.Context, body BulkTagAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*BulkTagAssetsResponse, error)
+
 	// DeleteTagWithResponse request
 	DeleteTagWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteTagResponse, error)
 
@@ -13044,9 +14410,6 @@ type ClientWithResponsesInterface interface {
 	UntagAssetsWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UntagAssetsResponse, error)
 
 	UntagAssetsWithResponse(ctx context.Context, id openapi_types.UUID, body UntagAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*UntagAssetsResponse, error)
-
-	// GetTagAssetsWithResponse request
-	GetTagAssetsWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetTagAssetsResponse, error)
 
 	// TagAssetsWithBodyWithResponse request with any body
 	TagAssetsWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TagAssetsResponse, error)
@@ -13081,6 +14444,17 @@ type ClientWithResponsesInterface interface {
 
 	UpdateMyUserWithResponse(ctx context.Context, body UpdateMyUserJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateMyUserResponse, error)
 
+	// DeleteUserLicenseWithResponse request
+	DeleteUserLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteUserLicenseResponse, error)
+
+	// GetUserLicenseWithResponse request
+	GetUserLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetUserLicenseResponse, error)
+
+	// SetUserLicenseWithBodyWithResponse request with any body
+	SetUserLicenseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetUserLicenseResponse, error)
+
+	SetUserLicenseWithResponse(ctx context.Context, body SetUserLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*SetUserLicenseResponse, error)
+
 	// GetMyPreferencesWithResponse request
 	GetMyPreferencesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetMyPreferencesResponse, error)
 
@@ -13100,6 +14474,12 @@ type ClientWithResponsesInterface interface {
 
 	// GetProfileImageWithResponse request
 	GetProfileImageWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetProfileImageResponse, error)
+
+	// GetAssetsByOriginalPathWithResponse request
+	GetAssetsByOriginalPathWithResponse(ctx context.Context, params *GetAssetsByOriginalPathParams, reqEditors ...RequestEditorFn) (*GetAssetsByOriginalPathResponse, error)
+
+	// GetUniqueOriginalPathsWithResponse request
+	GetUniqueOriginalPathsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetUniqueOriginalPathsResponse, error)
 }
 
 type GetActivitiesResponse struct {
@@ -13409,14 +14789,14 @@ func (r CreateAlbumResponse) StatusCode() int {
 	return 0
 }
 
-type GetAlbumCountResponse struct {
+type GetAlbumStatisticsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *AlbumCountResponseDto
+	JSON200      *AlbumStatisticsResponseDto
 }
 
 // Status returns HTTPResponse.Status
-func (r GetAlbumCountResponse) Status() string {
+func (r GetAlbumStatisticsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -13424,7 +14804,7 @@ func (r GetAlbumCountResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetAlbumCountResponse) StatusCode() int {
+func (r GetAlbumStatisticsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -13902,27 +15282,6 @@ func (r GetRandomResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetRandomResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type UpdateStackParentResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r UpdateStackParentResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r UpdateStackParentResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -14582,6 +15941,28 @@ func (r GetMapMarkersResponse) StatusCode() int {
 	return 0
 }
 
+type ReverseGeocodeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]MapReverseGeocodeResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r ReverseGeocodeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ReverseGeocodeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetMapStyleResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -14868,7 +16249,7 @@ func (r RedirectOAuthToMobileResponse) StatusCode() int {
 type UnlinkOAuthAccountResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON201      *UserAdminResponseDto
+	JSON200      *UserAdminResponseDto
 }
 
 // Status returns HTTPResponse.Status
@@ -15412,6 +16793,28 @@ func (r GetSearchSuggestionsResponse) StatusCode() int {
 	return 0
 }
 
+type GetAboutInfoResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ServerAboutResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAboutInfoResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAboutInfoResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetServerConfigResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15450,6 +16853,71 @@ func (r GetServerFeaturesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetServerFeaturesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteServerLicenseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteServerLicenseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteServerLicenseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetServerLicenseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *LicenseResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r GetServerLicenseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetServerLicenseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetServerLicenseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *LicenseResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r SetServerLicenseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetServerLicenseResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -15827,6 +17295,136 @@ func (r AddSharedLinkAssetsResponse) StatusCode() int {
 	return 0
 }
 
+type DeleteStacksResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteStacksResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteStacksResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SearchStacksResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]StackResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r SearchStacksResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SearchStacksResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateStackResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *StackResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateStackResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateStackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteStackResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteStackResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteStackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetStackResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StackResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r GetStackResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetStackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateStackResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StackResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateStackResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateStackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetDeltaSyncResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -16068,6 +17666,50 @@ func (r CreateTagResponse) StatusCode() int {
 	return 0
 }
 
+type UpsertTagsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]TagResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r UpsertTagsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpsertTagsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type BulkTagAssetsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *TagBulkAssetsResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r BulkTagAssetsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r BulkTagAssetsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type DeleteTagResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -16136,7 +17778,7 @@ func (r UpdateTagResponse) StatusCode() int {
 type UntagAssetsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *[]AssetIdsResponseDto
+	JSON200      *[]BulkIdResponseDto
 }
 
 // Status returns HTTPResponse.Status
@@ -16155,32 +17797,10 @@ func (r UntagAssetsResponse) StatusCode() int {
 	return 0
 }
 
-type GetTagAssetsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]AssetResponseDto
-}
-
-// Status returns HTTPResponse.Status
-func (r GetTagAssetsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetTagAssetsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type TagAssetsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *[]AssetIdsResponseDto
+	JSON200      *[]BulkIdResponseDto
 }
 
 // Status returns HTTPResponse.Status
@@ -16372,6 +17992,71 @@ func (r UpdateMyUserResponse) StatusCode() int {
 	return 0
 }
 
+type DeleteUserLicenseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteUserLicenseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteUserLicenseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetUserLicenseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *LicenseResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r GetUserLicenseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetUserLicenseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetUserLicenseResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *LicenseResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r SetUserLicenseResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetUserLicenseResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetMyPreferencesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -16496,6 +18181,50 @@ func (r GetProfileImageResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetProfileImageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetAssetsByOriginalPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]AssetResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAssetsByOriginalPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAssetsByOriginalPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetUniqueOriginalPathsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]string
+}
+
+// Status returns HTTPResponse.Status
+func (r GetUniqueOriginalPathsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetUniqueOriginalPathsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -16676,13 +18405,13 @@ func (c *ClientWithResponses) CreateAlbumWithResponse(ctx context.Context, body 
 	return ParseCreateAlbumResponse(rsp)
 }
 
-// GetAlbumCountWithResponse request returning *GetAlbumCountResponse
-func (c *ClientWithResponses) GetAlbumCountWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAlbumCountResponse, error) {
-	rsp, err := c.GetAlbumCount(ctx, reqEditors...)
+// GetAlbumStatisticsWithResponse request returning *GetAlbumStatisticsResponse
+func (c *ClientWithResponses) GetAlbumStatisticsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAlbumStatisticsResponse, error) {
+	rsp, err := c.GetAlbumStatistics(ctx, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetAlbumCountResponse(rsp)
+	return ParseGetAlbumStatisticsResponse(rsp)
 }
 
 // DeleteAlbumWithResponse request returning *DeleteAlbumResponse
@@ -16977,23 +18706,6 @@ func (c *ClientWithResponses) GetRandomWithResponse(ctx context.Context, params 
 		return nil, err
 	}
 	return ParseGetRandomResponse(rsp)
-}
-
-// UpdateStackParentWithBodyWithResponse request with arbitrary body returning *UpdateStackParentResponse
-func (c *ClientWithResponses) UpdateStackParentWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateStackParentResponse, error) {
-	rsp, err := c.UpdateStackParentWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseUpdateStackParentResponse(rsp)
-}
-
-func (c *ClientWithResponses) UpdateStackParentWithResponse(ctx context.Context, body UpdateStackParentJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateStackParentResponse, error) {
-	rsp, err := c.UpdateStackParent(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseUpdateStackParentResponse(rsp)
 }
 
 // GetAssetStatisticsWithResponse request returning *GetAssetStatisticsResponse
@@ -17360,6 +19072,15 @@ func (c *ClientWithResponses) GetMapMarkersWithResponse(ctx context.Context, par
 		return nil, err
 	}
 	return ParseGetMapMarkersResponse(rsp)
+}
+
+// ReverseGeocodeWithResponse request returning *ReverseGeocodeResponse
+func (c *ClientWithResponses) ReverseGeocodeWithResponse(ctx context.Context, params *ReverseGeocodeParams, reqEditors ...RequestEditorFn) (*ReverseGeocodeResponse, error) {
+	rsp, err := c.ReverseGeocode(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseReverseGeocodeResponse(rsp)
 }
 
 // GetMapStyleWithResponse request returning *GetMapStyleResponse
@@ -17848,6 +19569,15 @@ func (c *ClientWithResponses) GetSearchSuggestionsWithResponse(ctx context.Conte
 	return ParseGetSearchSuggestionsResponse(rsp)
 }
 
+// GetAboutInfoWithResponse request returning *GetAboutInfoResponse
+func (c *ClientWithResponses) GetAboutInfoWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAboutInfoResponse, error) {
+	rsp, err := c.GetAboutInfo(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAboutInfoResponse(rsp)
+}
+
 // GetServerConfigWithResponse request returning *GetServerConfigResponse
 func (c *ClientWithResponses) GetServerConfigWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetServerConfigResponse, error) {
 	rsp, err := c.GetServerConfig(ctx, reqEditors...)
@@ -17864,6 +19594,41 @@ func (c *ClientWithResponses) GetServerFeaturesWithResponse(ctx context.Context,
 		return nil, err
 	}
 	return ParseGetServerFeaturesResponse(rsp)
+}
+
+// DeleteServerLicenseWithResponse request returning *DeleteServerLicenseResponse
+func (c *ClientWithResponses) DeleteServerLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteServerLicenseResponse, error) {
+	rsp, err := c.DeleteServerLicense(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteServerLicenseResponse(rsp)
+}
+
+// GetServerLicenseWithResponse request returning *GetServerLicenseResponse
+func (c *ClientWithResponses) GetServerLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetServerLicenseResponse, error) {
+	rsp, err := c.GetServerLicense(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetServerLicenseResponse(rsp)
+}
+
+// SetServerLicenseWithBodyWithResponse request with arbitrary body returning *SetServerLicenseResponse
+func (c *ClientWithResponses) SetServerLicenseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetServerLicenseResponse, error) {
+	rsp, err := c.SetServerLicenseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetServerLicenseResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetServerLicenseWithResponse(ctx context.Context, body SetServerLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*SetServerLicenseResponse, error) {
+	rsp, err := c.SetServerLicense(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetServerLicenseResponse(rsp)
 }
 
 // GetSupportedMediaTypesWithResponse request returning *GetSupportedMediaTypesResponse
@@ -18051,6 +19816,84 @@ func (c *ClientWithResponses) AddSharedLinkAssetsWithResponse(ctx context.Contex
 	return ParseAddSharedLinkAssetsResponse(rsp)
 }
 
+// DeleteStacksWithBodyWithResponse request with arbitrary body returning *DeleteStacksResponse
+func (c *ClientWithResponses) DeleteStacksWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteStacksResponse, error) {
+	rsp, err := c.DeleteStacksWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteStacksResponse(rsp)
+}
+
+func (c *ClientWithResponses) DeleteStacksWithResponse(ctx context.Context, body DeleteStacksJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteStacksResponse, error) {
+	rsp, err := c.DeleteStacks(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteStacksResponse(rsp)
+}
+
+// SearchStacksWithResponse request returning *SearchStacksResponse
+func (c *ClientWithResponses) SearchStacksWithResponse(ctx context.Context, params *SearchStacksParams, reqEditors ...RequestEditorFn) (*SearchStacksResponse, error) {
+	rsp, err := c.SearchStacks(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSearchStacksResponse(rsp)
+}
+
+// CreateStackWithBodyWithResponse request with arbitrary body returning *CreateStackResponse
+func (c *ClientWithResponses) CreateStackWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateStackResponse, error) {
+	rsp, err := c.CreateStackWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateStackResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateStackWithResponse(ctx context.Context, body CreateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateStackResponse, error) {
+	rsp, err := c.CreateStack(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateStackResponse(rsp)
+}
+
+// DeleteStackWithResponse request returning *DeleteStackResponse
+func (c *ClientWithResponses) DeleteStackWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteStackResponse, error) {
+	rsp, err := c.DeleteStack(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteStackResponse(rsp)
+}
+
+// GetStackWithResponse request returning *GetStackResponse
+func (c *ClientWithResponses) GetStackWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetStackResponse, error) {
+	rsp, err := c.GetStack(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetStackResponse(rsp)
+}
+
+// UpdateStackWithBodyWithResponse request with arbitrary body returning *UpdateStackResponse
+func (c *ClientWithResponses) UpdateStackWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateStackResponse, error) {
+	rsp, err := c.UpdateStackWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateStackResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateStackWithResponse(ctx context.Context, id openapi_types.UUID, body UpdateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateStackResponse, error) {
+	rsp, err := c.UpdateStack(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateStackResponse(rsp)
+}
+
 // GetDeltaSyncWithBodyWithResponse request with arbitrary body returning *GetDeltaSyncResponse
 func (c *ClientWithResponses) GetDeltaSyncWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetDeltaSyncResponse, error) {
 	rsp, err := c.GetDeltaSyncWithBody(ctx, contentType, body, reqEditors...)
@@ -18190,6 +20033,40 @@ func (c *ClientWithResponses) CreateTagWithResponse(ctx context.Context, body Cr
 	return ParseCreateTagResponse(rsp)
 }
 
+// UpsertTagsWithBodyWithResponse request with arbitrary body returning *UpsertTagsResponse
+func (c *ClientWithResponses) UpsertTagsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpsertTagsResponse, error) {
+	rsp, err := c.UpsertTagsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpsertTagsResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpsertTagsWithResponse(ctx context.Context, body UpsertTagsJSONRequestBody, reqEditors ...RequestEditorFn) (*UpsertTagsResponse, error) {
+	rsp, err := c.UpsertTags(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpsertTagsResponse(rsp)
+}
+
+// BulkTagAssetsWithBodyWithResponse request with arbitrary body returning *BulkTagAssetsResponse
+func (c *ClientWithResponses) BulkTagAssetsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*BulkTagAssetsResponse, error) {
+	rsp, err := c.BulkTagAssetsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseBulkTagAssetsResponse(rsp)
+}
+
+func (c *ClientWithResponses) BulkTagAssetsWithResponse(ctx context.Context, body BulkTagAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*BulkTagAssetsResponse, error) {
+	rsp, err := c.BulkTagAssets(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseBulkTagAssetsResponse(rsp)
+}
+
 // DeleteTagWithResponse request returning *DeleteTagResponse
 func (c *ClientWithResponses) DeleteTagWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteTagResponse, error) {
 	rsp, err := c.DeleteTag(ctx, id, reqEditors...)
@@ -18240,15 +20117,6 @@ func (c *ClientWithResponses) UntagAssetsWithResponse(ctx context.Context, id op
 		return nil, err
 	}
 	return ParseUntagAssetsResponse(rsp)
-}
-
-// GetTagAssetsWithResponse request returning *GetTagAssetsResponse
-func (c *ClientWithResponses) GetTagAssetsWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetTagAssetsResponse, error) {
-	rsp, err := c.GetTagAssets(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetTagAssetsResponse(rsp)
 }
 
 // TagAssetsWithBodyWithResponse request with arbitrary body returning *TagAssetsResponse
@@ -18356,6 +20224,41 @@ func (c *ClientWithResponses) UpdateMyUserWithResponse(ctx context.Context, body
 	return ParseUpdateMyUserResponse(rsp)
 }
 
+// DeleteUserLicenseWithResponse request returning *DeleteUserLicenseResponse
+func (c *ClientWithResponses) DeleteUserLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteUserLicenseResponse, error) {
+	rsp, err := c.DeleteUserLicense(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteUserLicenseResponse(rsp)
+}
+
+// GetUserLicenseWithResponse request returning *GetUserLicenseResponse
+func (c *ClientWithResponses) GetUserLicenseWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetUserLicenseResponse, error) {
+	rsp, err := c.GetUserLicense(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetUserLicenseResponse(rsp)
+}
+
+// SetUserLicenseWithBodyWithResponse request with arbitrary body returning *SetUserLicenseResponse
+func (c *ClientWithResponses) SetUserLicenseWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetUserLicenseResponse, error) {
+	rsp, err := c.SetUserLicenseWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetUserLicenseResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetUserLicenseWithResponse(ctx context.Context, body SetUserLicenseJSONRequestBody, reqEditors ...RequestEditorFn) (*SetUserLicenseResponse, error) {
+	rsp, err := c.SetUserLicense(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetUserLicenseResponse(rsp)
+}
+
 // GetMyPreferencesWithResponse request returning *GetMyPreferencesResponse
 func (c *ClientWithResponses) GetMyPreferencesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetMyPreferencesResponse, error) {
 	rsp, err := c.GetMyPreferences(ctx, reqEditors...)
@@ -18416,6 +20319,24 @@ func (c *ClientWithResponses) GetProfileImageWithResponse(ctx context.Context, i
 		return nil, err
 	}
 	return ParseGetProfileImageResponse(rsp)
+}
+
+// GetAssetsByOriginalPathWithResponse request returning *GetAssetsByOriginalPathResponse
+func (c *ClientWithResponses) GetAssetsByOriginalPathWithResponse(ctx context.Context, params *GetAssetsByOriginalPathParams, reqEditors ...RequestEditorFn) (*GetAssetsByOriginalPathResponse, error) {
+	rsp, err := c.GetAssetsByOriginalPath(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAssetsByOriginalPathResponse(rsp)
+}
+
+// GetUniqueOriginalPathsWithResponse request returning *GetUniqueOriginalPathsResponse
+func (c *ClientWithResponses) GetUniqueOriginalPathsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetUniqueOriginalPathsResponse, error) {
+	rsp, err := c.GetUniqueOriginalPaths(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetUniqueOriginalPathsResponse(rsp)
 }
 
 // ParseGetActivitiesResponse parses an HTTP response from a GetActivitiesWithResponse call
@@ -18772,22 +20693,22 @@ func ParseCreateAlbumResponse(rsp *http.Response) (*CreateAlbumResponse, error) 
 	return response, nil
 }
 
-// ParseGetAlbumCountResponse parses an HTTP response from a GetAlbumCountWithResponse call
-func ParseGetAlbumCountResponse(rsp *http.Response) (*GetAlbumCountResponse, error) {
+// ParseGetAlbumStatisticsResponse parses an HTTP response from a GetAlbumStatisticsWithResponse call
+func ParseGetAlbumStatisticsResponse(rsp *http.Response) (*GetAlbumStatisticsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetAlbumCountResponse{
+	response := &GetAlbumStatisticsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest AlbumCountResponseDto
+		var dest AlbumStatisticsResponseDto
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -19295,22 +21216,6 @@ func ParseGetRandomResponse(rsp *http.Response) (*GetRandomResponse, error) {
 		}
 		response.JSON200 = &dest
 
-	}
-
-	return response, nil
-}
-
-// ParseUpdateStackParentResponse parses an HTTP response from a UpdateStackParentWithResponse call
-func ParseUpdateStackParentResponse(rsp *http.Response) (*UpdateStackParentResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &UpdateStackParentResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
 	}
 
 	return response, nil
@@ -20026,6 +21931,32 @@ func ParseGetMapMarkersResponse(rsp *http.Response) (*GetMapMarkersResponse, err
 	return response, nil
 }
 
+// ParseReverseGeocodeResponse parses an HTTP response from a ReverseGeocodeWithResponse call
+func ParseReverseGeocodeResponse(rsp *http.Response) (*ReverseGeocodeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ReverseGeocodeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []MapReverseGeocodeResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetMapStyleResponse parses an HTTP response from a GetMapStyleWithResponse call
 func ParseGetMapStyleResponse(rsp *http.Response) (*GetMapStyleResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -20348,12 +22279,12 @@ func ParseUnlinkOAuthAccountResponse(rsp *http.Response) (*UnlinkOAuthAccountRes
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest UserAdminResponseDto
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON201 = &dest
+		response.JSON200 = &dest
 
 	}
 
@@ -20954,6 +22885,32 @@ func ParseGetSearchSuggestionsResponse(rsp *http.Response) (*GetSearchSuggestion
 	return response, nil
 }
 
+// ParseGetAboutInfoResponse parses an HTTP response from a GetAboutInfoWithResponse call
+func ParseGetAboutInfoResponse(rsp *http.Response) (*GetAboutInfoResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAboutInfoResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ServerAboutResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetServerConfigResponse parses an HTTP response from a GetServerConfigWithResponse call
 func ParseGetServerConfigResponse(rsp *http.Response) (*GetServerConfigResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -20996,6 +22953,74 @@ func ParseGetServerFeaturesResponse(rsp *http.Response) (*GetServerFeaturesRespo
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ServerFeaturesDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteServerLicenseResponse parses an HTTP response from a DeleteServerLicenseWithResponse call
+func ParseDeleteServerLicenseResponse(rsp *http.Response) (*DeleteServerLicenseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteServerLicenseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetServerLicenseResponse parses an HTTP response from a GetServerLicenseWithResponse call
+func ParseGetServerLicenseResponse(rsp *http.Response) (*GetServerLicenseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetServerLicenseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest LicenseResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetServerLicenseResponse parses an HTTP response from a SetServerLicenseWithResponse call
+func ParseSetServerLicenseResponse(rsp *http.Response) (*SetServerLicenseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetServerLicenseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest LicenseResponseDto
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -21418,6 +23443,142 @@ func ParseAddSharedLinkAssetsResponse(rsp *http.Response) (*AddSharedLinkAssetsR
 	return response, nil
 }
 
+// ParseDeleteStacksResponse parses an HTTP response from a DeleteStacksWithResponse call
+func ParseDeleteStacksResponse(rsp *http.Response) (*DeleteStacksResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteStacksResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseSearchStacksResponse parses an HTTP response from a SearchStacksWithResponse call
+func ParseSearchStacksResponse(rsp *http.Response) (*SearchStacksResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SearchStacksResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []StackResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateStackResponse parses an HTTP response from a CreateStackWithResponse call
+func ParseCreateStackResponse(rsp *http.Response) (*CreateStackResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateStackResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest StackResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteStackResponse parses an HTTP response from a DeleteStackWithResponse call
+func ParseDeleteStackResponse(rsp *http.Response) (*DeleteStackResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteStackResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetStackResponse parses an HTTP response from a GetStackWithResponse call
+func ParseGetStackResponse(rsp *http.Response) (*GetStackResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetStackResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StackResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateStackResponse parses an HTTP response from a UpdateStackWithResponse call
+func ParseUpdateStackResponse(rsp *http.Response) (*UpdateStackResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateStackResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StackResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetDeltaSyncResponse parses an HTTP response from a GetDeltaSyncWithResponse call
 func ParseGetDeltaSyncResponse(rsp *http.Response) (*GetDeltaSyncResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -21694,6 +23855,58 @@ func ParseCreateTagResponse(rsp *http.Response) (*CreateTagResponse, error) {
 	return response, nil
 }
 
+// ParseUpsertTagsResponse parses an HTTP response from a UpsertTagsWithResponse call
+func ParseUpsertTagsResponse(rsp *http.Response) (*UpsertTagsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpsertTagsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []TagResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseBulkTagAssetsResponse parses an HTTP response from a BulkTagAssetsWithResponse call
+func ParseBulkTagAssetsResponse(rsp *http.Response) (*BulkTagAssetsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &BulkTagAssetsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TagBulkAssetsResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseDeleteTagResponse parses an HTTP response from a DeleteTagWithResponse call
 func ParseDeleteTagResponse(rsp *http.Response) (*DeleteTagResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -21777,33 +23990,7 @@ func ParseUntagAssetsResponse(rsp *http.Response) (*UntagAssetsResponse, error) 
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []AssetIdsResponseDto
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetTagAssetsResponse parses an HTTP response from a GetTagAssetsWithResponse call
-func ParseGetTagAssetsResponse(rsp *http.Response) (*GetTagAssetsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetTagAssetsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []AssetResponseDto
+		var dest []BulkIdResponseDto
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -21829,7 +24016,7 @@ func ParseTagAssetsResponse(rsp *http.Response) (*TagAssetsResponse, error) {
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []AssetIdsResponseDto
+		var dest []BulkIdResponseDto
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -22018,6 +24205,74 @@ func ParseUpdateMyUserResponse(rsp *http.Response) (*UpdateMyUserResponse, error
 	return response, nil
 }
 
+// ParseDeleteUserLicenseResponse parses an HTTP response from a DeleteUserLicenseWithResponse call
+func ParseDeleteUserLicenseResponse(rsp *http.Response) (*DeleteUserLicenseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteUserLicenseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetUserLicenseResponse parses an HTTP response from a GetUserLicenseWithResponse call
+func ParseGetUserLicenseResponse(rsp *http.Response) (*GetUserLicenseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetUserLicenseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest LicenseResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetUserLicenseResponse parses an HTTP response from a SetUserLicenseWithResponse call
+func ParseSetUserLicenseResponse(rsp *http.Response) (*SetUserLicenseResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetUserLicenseResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest LicenseResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetMyPreferencesResponse parses an HTTP response from a GetMyPreferencesWithResponse call
 func ParseGetMyPreferencesResponse(rsp *http.Response) (*GetMyPreferencesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -22149,6 +24404,58 @@ func ParseGetProfileImageResponse(rsp *http.Response) (*GetProfileImageResponse,
 	response := &GetProfileImageResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetAssetsByOriginalPathResponse parses an HTTP response from a GetAssetsByOriginalPathWithResponse call
+func ParseGetAssetsByOriginalPathResponse(rsp *http.Response) (*GetAssetsByOriginalPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAssetsByOriginalPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []AssetResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetUniqueOriginalPathsResponse parses an HTTP response from a GetUniqueOriginalPathsWithResponse call
+func ParseGetUniqueOriginalPathsResponse(rsp *http.Response) (*GetUniqueOriginalPathsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetUniqueOriginalPathsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []string
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	}
 
 	return response, nil

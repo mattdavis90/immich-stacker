@@ -1,6 +1,8 @@
 #!/bin/bash
 
+VERSION=1.115.0
+
 pushd client
-wget https://raw.githubusercontent.com/immich-app/immich/main/open-api/immich-openapi-specs.json -O immich-openapi-specs.json
+wget https://raw.githubusercontent.com/immich-app/immich/v${VERSION}/open-api/immich-openapi-specs.json -O immich-openapi-specs.json
 popd
 go generate ./...
