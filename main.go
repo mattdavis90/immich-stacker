@@ -170,34 +170,34 @@ func main() {
 
 	total := 0
 	stacks := make(map[string]*Stack)
-    t := true
-    resp, err := c.GetTimeBucketsWithResponse(ctx, &client.GetTimeBucketsParams{Size: client.MONTH, WithStacked: &t})
-    if err != nil {
-        log.Fatal().Err(err).Msg("")
-    }
-    if resp.StatusCode() != http.StatusOK {
-        log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
-    }
-    if resp.JSON200 == nil {
-        log.Fatal().Msg("nil return")
-    }
-    for _, tb := range *resp.JSON200 {
-        log.Debug().Str("time_bucket", tb.TimeBucket).Int("count", tb.Count).Msg("Requesting time bucket")
+	t := true
+	resp, err := c.GetTimeBucketsWithResponse(ctx, &client.GetTimeBucketsParams{Size: client.MONTH, WithStacked: &t})
+	if err != nil {
+		log.Fatal().Err(err).Msg("")
+	}
+	if resp.StatusCode() != http.StatusOK {
+		log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+	}
+	if resp.JSON200 == nil {
+		log.Fatal().Msg("nil return")
+	}
+	for _, tb := range *resp.JSON200 {
+		log.Debug().Str("time_bucket", tb.TimeBucket).Int("count", tb.Count).Msg("Requesting time bucket")
 
-        resp, err := c.GetTimeBucketWithResponse(ctx, &client.GetTimeBucketParams{TimeBucket: tb.TimeBucket, Size: client.MONTH})
-        if err != nil {
-            log.Fatal().Err(err).Msg("")
-        }
-        if resp.StatusCode() != http.StatusOK {
-            log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
-        }
-        if resp.JSON200 == nil {
-            log.Fatal().Msg("nil return")
-        }
+		resp, err := c.GetTimeBucketWithResponse(ctx, &client.GetTimeBucketParams{TimeBucket: tb.TimeBucket, Size: client.MONTH})
+		if err != nil {
+			log.Fatal().Err(err).Msg("")
+		}
+		if resp.StatusCode() != http.StatusOK {
+			log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+		}
+		if resp.JSON200 == nil {
+			log.Fatal().Msg("nil return")
+		}
 
-        total += len(*resp.JSON200)
+		total += len(*resp.JSON200)
 
-        log.Debug().Str("time_bucket", tb.TimeBucket).Int("expected", tb.Count).Int("got", len(*resp.JSON200)).Msg("Retrieved time bucket")
+		log.Debug().Str("time_bucket", tb.TimeBucket).Int("expected", tb.Count).Int("got", len(*resp.JSON200)).Msg("Retrieved time bucket")
 		for _, a := range *resp.JSON200 {
 			if a.Stack != nil && a.Stack.AssetCount > 0 {
 				continue
@@ -225,7 +225,7 @@ func main() {
 				}
 			}
 		}
-    }
+	}
 
 	log.Info().Int("total", total).Int("matches", len(stacks)).Msg("Retrieved assets")
 
