@@ -51,6 +51,7 @@ const (
 
 // Defines values for AssetJobName.
 const (
+	RefreshFaces        AssetJobName = "refresh-faces"
 	RefreshMetadata     AssetJobName = "refresh-metadata"
 	RegenerateThumbnail AssetJobName = "regenerate-thumbnail"
 	TranscodeVideo      AssetJobName = "transcode-video"
@@ -160,10 +161,11 @@ const (
 	Warn    LogLevel = "warn"
 )
 
-// Defines values for MapTheme.
+// Defines values for ManualJobName.
 const (
-	Dark  MapTheme = "dark"
-	Light MapTheme = "light"
+	PersonCleanup ManualJobName = "person-cleanup"
+	TagCleanup    ManualJobName = "tag-cleanup"
+	UserCleanup   ManualJobName = "user-cleanup"
 )
 
 // Defines values for MemoryType.
@@ -647,7 +649,6 @@ type AssetMediaCreateDto struct {
 	FileModifiedAt   time.Time           `json:"fileModifiedAt"`
 	IsArchived       *bool               `json:"isArchived,omitempty"`
 	IsFavorite       *bool               `json:"isFavorite,omitempty"`
-	IsOffline        *bool               `json:"isOffline,omitempty"`
 	IsVisible        *bool               `json:"isVisible,omitempty"`
 	LivePhotoVideoId *openapi_types.UUID `json:"livePhotoVideoId,omitempty"`
 	SidecarData      *openapi_types.File `json:"sidecarData,omitempty"`
@@ -823,8 +824,9 @@ type CreateProfileImageDto struct {
 
 // CreateProfileImageResponseDto defines model for CreateProfileImageResponseDto.
 type CreateProfileImageResponseDto struct {
-	ProfileImagePath string `json:"profileImagePath"`
-	UserId           string `json:"userId"`
+	ProfileChangedAt time.Time `json:"profileChangedAt"`
+	ProfileImagePath string    `json:"profileImagePath"`
+	UserId           string    `json:"userId"`
 }
 
 // DownloadArchiveInfo defines model for DownloadArchiveInfo.
@@ -980,7 +982,7 @@ type JobCommand string
 // JobCommandDto defines model for JobCommandDto.
 type JobCommandDto struct {
 	Command JobCommand `json:"command"`
-	Force   bool       `json:"force"`
+	Force   *bool      `json:"force,omitempty"`
 }
 
 // JobCountsDto defines model for JobCountsDto.
@@ -991,6 +993,11 @@ type JobCountsDto struct {
 	Failed    int `json:"failed"`
 	Paused    int `json:"paused"`
 	Waiting   int `json:"waiting"`
+}
+
+// JobCreateDto defines model for JobCreateDto.
+type JobCreateDto struct {
+	Name ManualJobName `json:"name"`
 }
 
 // JobName defines model for JobName.
@@ -1067,6 +1074,9 @@ type LogoutResponseDto struct {
 	Successful  bool   `json:"successful"`
 }
 
+// ManualJobName defines model for ManualJobName.
+type ManualJobName string
+
 // MapMarkerResponseDto defines model for MapMarkerResponseDto.
 type MapMarkerResponseDto struct {
 	City    *string `json:"city"`
@@ -1083,9 +1093,6 @@ type MapReverseGeocodeResponseDto struct {
 	Country *string `json:"country"`
 	State   *string `json:"state"`
 }
-
-// MapTheme defines model for MapTheme.
-type MapTheme string
 
 // MemoriesResponse defines model for MemoriesResponse.
 type MemoriesResponse struct {
@@ -1146,8 +1153,8 @@ type MergePersonDto struct {
 // MetadataSearchDto defines model for MetadataSearchDto.
 type MetadataSearchDto struct {
 	Checksum         *string               `json:"checksum,omitempty"`
-	City             *string               `json:"city,omitempty"`
-	Country          *string               `json:"country,omitempty"`
+	City             *string               `json:"city"`
+	Country          *string               `json:"country"`
 	CreatedAfter     *time.Time            `json:"createdAfter,omitempty"`
 	CreatedBefore    *time.Time            `json:"createdBefore,omitempty"`
 	DeviceAssetId    *string               `json:"deviceAssetId,omitempty"`
@@ -1161,10 +1168,10 @@ type MetadataSearchDto struct {
 	IsNotInAlbum     *bool                 `json:"isNotInAlbum,omitempty"`
 	IsOffline        *bool                 `json:"isOffline,omitempty"`
 	IsVisible        *bool                 `json:"isVisible,omitempty"`
-	LensModel        *string               `json:"lensModel,omitempty"`
-	LibraryId        *openapi_types.UUID   `json:"libraryId,omitempty"`
+	LensModel        *string               `json:"lensModel"`
+	LibraryId        *openapi_types.UUID   `json:"libraryId"`
 	Make             *string               `json:"make,omitempty"`
-	Model            *string               `json:"model,omitempty"`
+	Model            *string               `json:"model"`
 	Order            *AssetOrder           `json:"order,omitempty"`
 	OriginalFileName *string               `json:"originalFileName,omitempty"`
 	OriginalPath     *string               `json:"originalPath,omitempty"`
@@ -1172,7 +1179,7 @@ type MetadataSearchDto struct {
 	PersonIds        *[]openapi_types.UUID `json:"personIds,omitempty"`
 	PreviewPath      *string               `json:"previewPath,omitempty"`
 	Size             *float32              `json:"size,omitempty"`
-	State            *string               `json:"state,omitempty"`
+	State            *string               `json:"state"`
 	TakenAfter       *time.Time            `json:"takenAfter,omitempty"`
 	TakenBefore      *time.Time            `json:"takenBefore,omitempty"`
 	ThumbnailPath    *string               `json:"thumbnailPath,omitempty"`
@@ -1218,6 +1225,7 @@ type PartnerResponseDto struct {
 	Id               string          `json:"id"`
 	InTimeline       *bool           `json:"inTimeline,omitempty"`
 	Name             string          `json:"name"`
+	ProfileChangedAt time.Time       `json:"profileChangedAt"`
 	ProfileImagePath string          `json:"profileImagePath"`
 }
 
@@ -1361,6 +1369,41 @@ type QueueStatusDto struct {
 	IsPaused bool `json:"isPaused"`
 }
 
+// RandomSearchDto defines model for RandomSearchDto.
+type RandomSearchDto struct {
+	City          *string               `json:"city"`
+	Country       *string               `json:"country"`
+	CreatedAfter  *time.Time            `json:"createdAfter,omitempty"`
+	CreatedBefore *time.Time            `json:"createdBefore,omitempty"`
+	DeviceId      *string               `json:"deviceId,omitempty"`
+	IsArchived    *bool                 `json:"isArchived,omitempty"`
+	IsEncoded     *bool                 `json:"isEncoded,omitempty"`
+	IsFavorite    *bool                 `json:"isFavorite,omitempty"`
+	IsMotion      *bool                 `json:"isMotion,omitempty"`
+	IsNotInAlbum  *bool                 `json:"isNotInAlbum,omitempty"`
+	IsOffline     *bool                 `json:"isOffline,omitempty"`
+	IsVisible     *bool                 `json:"isVisible,omitempty"`
+	LensModel     *string               `json:"lensModel"`
+	LibraryId     *openapi_types.UUID   `json:"libraryId"`
+	Make          *string               `json:"make,omitempty"`
+	Model         *string               `json:"model"`
+	PersonIds     *[]openapi_types.UUID `json:"personIds,omitempty"`
+	Size          *float32              `json:"size,omitempty"`
+	State         *string               `json:"state"`
+	TakenAfter    *time.Time            `json:"takenAfter,omitempty"`
+	TakenBefore   *time.Time            `json:"takenBefore,omitempty"`
+	TrashedAfter  *time.Time            `json:"trashedAfter,omitempty"`
+	TrashedBefore *time.Time            `json:"trashedBefore,omitempty"`
+	Type          *AssetTypeEnum        `json:"type,omitempty"`
+	UpdatedAfter  *time.Time            `json:"updatedAfter,omitempty"`
+	UpdatedBefore *time.Time            `json:"updatedBefore,omitempty"`
+	WithArchived  *bool                 `json:"withArchived,omitempty"`
+	WithDeleted   *bool                 `json:"withDeleted,omitempty"`
+	WithExif      *bool                 `json:"withExif,omitempty"`
+	WithPeople    *bool                 `json:"withPeople,omitempty"`
+	WithStacked   *bool                 `json:"withStacked,omitempty"`
+}
+
 // RatingsResponse defines model for RatingsResponse.
 type RatingsResponse struct {
 	Enabled bool `json:"enabled"`
@@ -1381,12 +1424,6 @@ type ReactionType string
 type ReverseGeocodingStateResponseDto struct {
 	LastImportFileName *string `json:"lastImportFileName"`
 	LastUpdate         *string `json:"lastUpdate"`
-}
-
-// ScanLibraryDto defines model for ScanLibraryDto.
-type ScanLibraryDto struct {
-	RefreshAllFiles      *bool `json:"refreshAllFiles,omitempty"`
-	RefreshModifiedFiles *bool `json:"refreshModifiedFiles,omitempty"`
 }
 
 // SearchAlbumResponseDto defines model for SearchAlbumResponseDto.
@@ -1441,23 +1478,27 @@ type SearchSuggestionType string
 
 // ServerAboutResponseDto defines model for ServerAboutResponseDto.
 type ServerAboutResponseDto struct {
-	Build         *string `json:"build,omitempty"`
-	BuildImage    *string `json:"buildImage,omitempty"`
-	BuildImageUrl *string `json:"buildImageUrl,omitempty"`
-	BuildUrl      *string `json:"buildUrl,omitempty"`
-	Exiftool      *string `json:"exiftool,omitempty"`
-	Ffmpeg        *string `json:"ffmpeg,omitempty"`
-	Imagemagick   *string `json:"imagemagick,omitempty"`
-	Libvips       *string `json:"libvips,omitempty"`
-	Licensed      bool    `json:"licensed"`
-	Nodejs        *string `json:"nodejs,omitempty"`
-	Repository    *string `json:"repository,omitempty"`
-	RepositoryUrl *string `json:"repositoryUrl,omitempty"`
-	SourceCommit  *string `json:"sourceCommit,omitempty"`
-	SourceRef     *string `json:"sourceRef,omitempty"`
-	SourceUrl     *string `json:"sourceUrl,omitempty"`
-	Version       string  `json:"version"`
-	VersionUrl    string  `json:"versionUrl"`
+	Build                      *string `json:"build,omitempty"`
+	BuildImage                 *string `json:"buildImage,omitempty"`
+	BuildImageUrl              *string `json:"buildImageUrl,omitempty"`
+	BuildUrl                   *string `json:"buildUrl,omitempty"`
+	Exiftool                   *string `json:"exiftool,omitempty"`
+	Ffmpeg                     *string `json:"ffmpeg,omitempty"`
+	Imagemagick                *string `json:"imagemagick,omitempty"`
+	Libvips                    *string `json:"libvips,omitempty"`
+	Licensed                   bool    `json:"licensed"`
+	Nodejs                     *string `json:"nodejs,omitempty"`
+	Repository                 *string `json:"repository,omitempty"`
+	RepositoryUrl              *string `json:"repositoryUrl,omitempty"`
+	SourceCommit               *string `json:"sourceCommit,omitempty"`
+	SourceRef                  *string `json:"sourceRef,omitempty"`
+	SourceUrl                  *string `json:"sourceUrl,omitempty"`
+	ThirdPartyBugFeatureUrl    *string `json:"thirdPartyBugFeatureUrl,omitempty"`
+	ThirdPartyDocumentationUrl *string `json:"thirdPartyDocumentationUrl,omitempty"`
+	ThirdPartySourceUrl        *string `json:"thirdPartySourceUrl,omitempty"`
+	ThirdPartySupportUrl       *string `json:"thirdPartySupportUrl,omitempty"`
+	Version                    string  `json:"version"`
+	VersionUrl                 string  `json:"versionUrl"`
 }
 
 // ServerConfigDto defines model for ServerConfigDto.
@@ -1466,6 +1507,8 @@ type ServerConfigDto struct {
 	IsInitialized    bool   `json:"isInitialized"`
 	IsOnboarded      bool   `json:"isOnboarded"`
 	LoginPageMessage string `json:"loginPageMessage"`
+	MapDarkStyleUrl  string `json:"mapDarkStyleUrl"`
+	MapLightStyleUrl string `json:"mapLightStyleUrl"`
 	OauthButtonText  string `json:"oauthButtonText"`
 	TrashDays        int    `json:"trashDays"`
 	UserDeleteDelay  int    `json:"userDeleteDelay"`
@@ -1523,6 +1566,13 @@ type ServerStorageResponseDto struct {
 // ServerThemeDto defines model for ServerThemeDto.
 type ServerThemeDto struct {
 	CustomCss string `json:"customCss"`
+}
+
+// ServerVersionHistoryResponseDto defines model for ServerVersionHistoryResponseDto.
+type ServerVersionHistoryResponseDto struct {
+	CreatedAt time.Time `json:"createdAt"`
+	Id        string    `json:"id"`
+	Version   string    `json:"version"`
 }
 
 // ServerVersionResponseDto defines model for ServerVersionResponseDto.
@@ -1713,15 +1763,19 @@ type SystemConfigFacesDto struct {
 	Import bool `json:"import"`
 }
 
+// SystemConfigGeneratedImageDto defines model for SystemConfigGeneratedImageDto.
+type SystemConfigGeneratedImageDto struct {
+	Format  ImageFormat `json:"format"`
+	Quality int         `json:"quality"`
+	Size    int         `json:"size"`
+}
+
 // SystemConfigImageDto defines model for SystemConfigImageDto.
 type SystemConfigImageDto struct {
-	Colorspace      Colorspace  `json:"colorspace"`
-	ExtractEmbedded bool        `json:"extractEmbedded"`
-	PreviewFormat   ImageFormat `json:"previewFormat"`
-	PreviewSize     int         `json:"previewSize"`
-	Quality         int         `json:"quality"`
-	ThumbnailFormat ImageFormat `json:"thumbnailFormat"`
-	ThumbnailSize   int         `json:"thumbnailSize"`
+	Colorspace      Colorspace                    `json:"colorspace"`
+	ExtractEmbedded bool                          `json:"extractEmbedded"`
+	Preview         SystemConfigGeneratedImageDto `json:"preview"`
+	Thumbnail       SystemConfigGeneratedImageDto `json:"thumbnail"`
 }
 
 // SystemConfigJobDto defines model for SystemConfigJobDto.
@@ -1931,6 +1985,11 @@ type TagsUpdate struct {
 	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
 }
 
+// TestEmailResponseDto defines model for TestEmailResponseDto.
+type TestEmailResponseDto struct {
+	MessageId string `json:"messageId"`
+}
+
 // TimeBucketResponseDto defines model for TimeBucketResponseDto.
 type TimeBucketResponseDto struct {
 	Count      int    `json:"count"`
@@ -1948,6 +2007,11 @@ type TranscodeHWAccel string
 
 // TranscodePolicy defines model for TranscodePolicy.
 type TranscodePolicy string
+
+// TrashResponseDto defines model for TrashResponseDto.
+type TrashResponseDto struct {
+	Count int `json:"count"`
+}
 
 // UpdateAlbumDto defines model for UpdateAlbumDto.
 type UpdateAlbumDto struct {
@@ -2024,6 +2088,7 @@ type UserAdminResponseDto struct {
 	License              *UserLicense    `json:"license"`
 	Name                 string          `json:"name"`
 	OauthId              string          `json:"oauthId"`
+	ProfileChangedAt     time.Time       `json:"profileChangedAt"`
 	ProfileImagePath     string          `json:"profileImagePath"`
 	QuotaSizeInBytes     *int64          `json:"quotaSizeInBytes"`
 	QuotaUsageInBytes    *int64          `json:"quotaUsageInBytes"`
@@ -2085,6 +2150,7 @@ type UserResponseDto struct {
 	Email            string          `json:"email"`
 	Id               string          `json:"id"`
 	Name             string          `json:"name"`
+	ProfileChangedAt time.Time       `json:"profileChangedAt"`
 	ProfileImagePath string          `json:"profileImagePath"`
 }
 
@@ -2255,12 +2321,6 @@ type GetMapMarkersParams struct {
 type ReverseGeocodeParams struct {
 	Lat float64 `form:"lat" json:"lat"`
 	Lon float64 `form:"lon" json:"lon"`
-}
-
-// GetMapStyleParams defines parameters for GetMapStyle.
-type GetMapStyleParams struct {
-	Key   *string  `form:"key,omitempty" json:"key,omitempty"`
-	Theme MapTheme `form:"theme" json:"theme"`
 }
 
 // GetPartnersParams defines parameters for GetPartners.
@@ -2442,6 +2502,9 @@ type GetDownloadInfoJSONRequestBody = DownloadInfoDto
 // ReassignFacesByIdJSONRequestBody defines body for ReassignFacesById for application/json ContentType.
 type ReassignFacesByIdJSONRequestBody = FaceDto
 
+// CreateJobJSONRequestBody defines body for CreateJob for application/json ContentType.
+type CreateJobJSONRequestBody = JobCreateDto
+
 // SendJobCommandJSONRequestBody defines body for SendJobCommand for application/json ContentType.
 type SendJobCommandJSONRequestBody = JobCommandDto
 
@@ -2450,9 +2513,6 @@ type CreateLibraryJSONRequestBody = CreateLibraryDto
 
 // UpdateLibraryJSONRequestBody defines body for UpdateLibrary for application/json ContentType.
 type UpdateLibraryJSONRequestBody = UpdateLibraryDto
-
-// ScanLibraryJSONRequestBody defines body for ScanLibrary for application/json ContentType.
-type ScanLibraryJSONRequestBody = ScanLibraryDto
 
 // ValidateJSONRequestBody defines body for Validate for application/json ContentType.
 type ValidateJSONRequestBody = ValidateLibraryDto
@@ -2507,6 +2567,9 @@ type FixAuditFilesJSONRequestBody = FileReportFixDto
 
 // SearchMetadataJSONRequestBody defines body for SearchMetadata for application/json ContentType.
 type SearchMetadataJSONRequestBody = MetadataSearchDto
+
+// SearchRandomJSONRequestBody defines body for SearchRandom for application/json ContentType.
+type SearchRandomJSONRequestBody = RandomSearchDto
 
 // SearchSmartJSONRequestBody defines body for SearchSmart for application/json ContentType.
 type SearchSmartJSONRequestBody = SmartSearchDto
@@ -2871,6 +2934,11 @@ type ClientInterface interface {
 	// GetAllJobsStatus request
 	GetAllJobsStatus(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// CreateJobWithBody request with any body
+	CreateJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateJob(ctx context.Context, body CreateJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SendJobCommandWithBody request with any body
 	SendJobCommandWithBody(ctx context.Context, id JobName, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2895,13 +2963,8 @@ type ClientInterface interface {
 
 	UpdateLibrary(ctx context.Context, id openapi_types.UUID, body UpdateLibraryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// RemoveOfflineFiles request
-	RemoveOfflineFiles(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// ScanLibraryWithBody request with any body
-	ScanLibraryWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	ScanLibrary(ctx context.Context, id openapi_types.UUID, body ScanLibraryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// ScanLibrary request
+	ScanLibrary(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetLibraryStatistics request
 	GetLibraryStatistics(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2916,9 +2979,6 @@ type ClientInterface interface {
 
 	// ReverseGeocode request
 	ReverseGeocode(ctx context.Context, params *ReverseGeocodeParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetMapStyle request
-	GetMapStyle(ctx context.Context, params *GetMapStyleParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SearchMemories request
 	SearchMemories(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3010,9 +3070,6 @@ type ClientInterface interface {
 
 	UpdatePerson(ctx context.Context, id openapi_types.UUID, body UpdatePersonJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetPersonAssets request
-	GetPersonAssets(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// MergePersonWithBody request with any body
 	MergePersonWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -3059,6 +3116,11 @@ type ClientInterface interface {
 	// SearchPlaces request
 	SearchPlaces(ctx context.Context, params *SearchPlacesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// SearchRandomWithBody request with any body
+	SearchRandomWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SearchRandom(ctx context.Context, body SearchRandomJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SearchSmartWithBody request with any body
 	SearchSmartWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -3104,6 +3166,9 @@ type ClientInterface interface {
 
 	// GetServerVersion request
 	GetServerVersion(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetVersionHistory request
+	GetVersionHistory(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteAllSessions request
 	DeleteAllSessions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -4282,6 +4347,30 @@ func (c *Client) GetAllJobsStatus(ctx context.Context, reqEditors ...RequestEdit
 	return c.Client.Do(req)
 }
 
+func (c *Client) CreateJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateJobRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateJob(ctx context.Context, body CreateJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateJobRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) SendJobCommandWithBody(ctx context.Context, id JobName, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSendJobCommandRequestWithBody(c.Server, id, contentType, body)
 	if err != nil {
@@ -4390,32 +4479,8 @@ func (c *Client) UpdateLibrary(ctx context.Context, id openapi_types.UUID, body 
 	return c.Client.Do(req)
 }
 
-func (c *Client) RemoveOfflineFiles(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewRemoveOfflineFilesRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) ScanLibraryWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewScanLibraryRequestWithBody(c.Server, id, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) ScanLibrary(ctx context.Context, id openapi_types.UUID, body ScanLibraryJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewScanLibraryRequest(c.Server, id, body)
+func (c *Client) ScanLibrary(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewScanLibraryRequest(c.Server, id)
 	if err != nil {
 		return nil, err
 	}
@@ -4476,18 +4541,6 @@ func (c *Client) GetMapMarkers(ctx context.Context, params *GetMapMarkersParams,
 
 func (c *Client) ReverseGeocode(ctx context.Context, params *ReverseGeocodeParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewReverseGeocodeRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetMapStyle(ctx context.Context, params *GetMapStyleParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetMapStyleRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -4906,18 +4959,6 @@ func (c *Client) UpdatePerson(ctx context.Context, id openapi_types.UUID, body U
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetPersonAssets(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetPersonAssetsRequest(c.Server, id)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
 func (c *Client) MergePersonWithBody(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewMergePersonRequestWithBody(c.Server, id, contentType, body)
 	if err != nil {
@@ -5122,6 +5163,30 @@ func (c *Client) SearchPlaces(ctx context.Context, params *SearchPlacesParams, r
 	return c.Client.Do(req)
 }
 
+func (c *Client) SearchRandomWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSearchRandomRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SearchRandom(ctx context.Context, body SearchRandomJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSearchRandomRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) SearchSmartWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSearchSmartRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -5304,6 +5369,18 @@ func (c *Client) GetTheme(ctx context.Context, reqEditors ...RequestEditorFn) (*
 
 func (c *Client) GetServerVersion(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetServerVersionRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetVersionHistory(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetVersionHistoryRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -8864,6 +8941,46 @@ func NewGetAllJobsStatusRequest(server string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewCreateJobRequest calls the generic CreateJob builder with application/json body
+func NewCreateJobRequest(server string, body CreateJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateJobRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateJobRequestWithBody generates requests for CreateJob with any type of body
+func NewCreateJobRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/jobs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewSendJobCommandRequest calls the generic SendJobCommand builder with application/json body
 func NewSendJobCommandRequest(server string, id JobName, body SendJobCommandJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -9093,53 +9210,8 @@ func NewUpdateLibraryRequestWithBody(server string, id openapi_types.UUID, conte
 	return req, nil
 }
 
-// NewRemoveOfflineFilesRequest generates requests for RemoveOfflineFiles
-func NewRemoveOfflineFilesRequest(server string, id openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/libraries/%s/removeOffline", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewScanLibraryRequest calls the generic ScanLibrary builder with application/json body
-func NewScanLibraryRequest(server string, id openapi_types.UUID, body ScanLibraryJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewScanLibraryRequestWithBody(server, id, "application/json", bodyReader)
-}
-
-// NewScanLibraryRequestWithBody generates requests for ScanLibrary with any type of body
-func NewScanLibraryRequestWithBody(server string, id openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+// NewScanLibraryRequest generates requests for ScanLibrary
+func NewScanLibraryRequest(server string, id openapi_types.UUID) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -9164,12 +9236,10 @@ func NewScanLibraryRequestWithBody(server string, id openapi_types.UUID, content
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", queryURL.String(), body)
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
-
-	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -9419,67 +9489,6 @@ func NewReverseGeocodeRequest(server string, params *ReverseGeocodeParams) (*htt
 		}
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "lon", runtime.ParamLocationQuery, params.Lon); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetMapStyleRequest generates requests for GetMapStyle
-func NewGetMapStyleRequest(server string, params *GetMapStyleParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/map/style.json")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Key != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "key", runtime.ParamLocationQuery, *params.Key); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "theme", runtime.ParamLocationQuery, params.Theme); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -10394,40 +10403,6 @@ func NewUpdatePersonRequestWithBody(server string, id openapi_types.UUID, conten
 	return req, nil
 }
 
-// NewGetPersonAssetsRequest generates requests for GetPersonAssets
-func NewGetPersonAssetsRequest(server string, id openapi_types.UUID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "id", runtime.ParamLocationPath, id)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/people/%s/assets", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
 // NewMergePersonRequest calls the generic MergePerson builder with application/json body
 func NewMergePersonRequest(server string, id openapi_types.UUID, body MergePersonJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -10893,6 +10868,46 @@ func NewSearchPlacesRequest(server string, params *SearchPlacesParams) (*http.Re
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewSearchRandomRequest calls the generic SearchRandom builder with application/json body
+func NewSearchRandomRequest(server string, body SearchRandomJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSearchRandomRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSearchRandomRequestWithBody generates requests for SearchRandom with any type of body
+func NewSearchRandomRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/search/random")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -11382,6 +11397,33 @@ func NewGetServerVersionRequest(server string) (*http.Request, error) {
 	}
 
 	operationPath := fmt.Sprintf("/server/version")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetVersionHistoryRequest generates requests for GetVersionHistory
+func NewGetVersionHistoryRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/server/version-history")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -14043,6 +14085,11 @@ type ClientWithResponsesInterface interface {
 	// GetAllJobsStatusWithResponse request
 	GetAllJobsStatusWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetAllJobsStatusResponse, error)
 
+	// CreateJobWithBodyWithResponse request with any body
+	CreateJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateJobResponse, error)
+
+	CreateJobWithResponse(ctx context.Context, body CreateJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateJobResponse, error)
+
 	// SendJobCommandWithBodyWithResponse request with any body
 	SendJobCommandWithBodyWithResponse(ctx context.Context, id JobName, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendJobCommandResponse, error)
 
@@ -14067,13 +14114,8 @@ type ClientWithResponsesInterface interface {
 
 	UpdateLibraryWithResponse(ctx context.Context, id openapi_types.UUID, body UpdateLibraryJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateLibraryResponse, error)
 
-	// RemoveOfflineFilesWithResponse request
-	RemoveOfflineFilesWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*RemoveOfflineFilesResponse, error)
-
-	// ScanLibraryWithBodyWithResponse request with any body
-	ScanLibraryWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ScanLibraryResponse, error)
-
-	ScanLibraryWithResponse(ctx context.Context, id openapi_types.UUID, body ScanLibraryJSONRequestBody, reqEditors ...RequestEditorFn) (*ScanLibraryResponse, error)
+	// ScanLibraryWithResponse request
+	ScanLibraryWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*ScanLibraryResponse, error)
 
 	// GetLibraryStatisticsWithResponse request
 	GetLibraryStatisticsWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetLibraryStatisticsResponse, error)
@@ -14088,9 +14130,6 @@ type ClientWithResponsesInterface interface {
 
 	// ReverseGeocodeWithResponse request
 	ReverseGeocodeWithResponse(ctx context.Context, params *ReverseGeocodeParams, reqEditors ...RequestEditorFn) (*ReverseGeocodeResponse, error)
-
-	// GetMapStyleWithResponse request
-	GetMapStyleWithResponse(ctx context.Context, params *GetMapStyleParams, reqEditors ...RequestEditorFn) (*GetMapStyleResponse, error)
 
 	// SearchMemoriesWithResponse request
 	SearchMemoriesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*SearchMemoriesResponse, error)
@@ -14182,9 +14221,6 @@ type ClientWithResponsesInterface interface {
 
 	UpdatePersonWithResponse(ctx context.Context, id openapi_types.UUID, body UpdatePersonJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdatePersonResponse, error)
 
-	// GetPersonAssetsWithResponse request
-	GetPersonAssetsWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetPersonAssetsResponse, error)
-
 	// MergePersonWithBodyWithResponse request with any body
 	MergePersonWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MergePersonResponse, error)
 
@@ -14231,6 +14267,11 @@ type ClientWithResponsesInterface interface {
 	// SearchPlacesWithResponse request
 	SearchPlacesWithResponse(ctx context.Context, params *SearchPlacesParams, reqEditors ...RequestEditorFn) (*SearchPlacesResponse, error)
 
+	// SearchRandomWithBodyWithResponse request with any body
+	SearchRandomWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchRandomResponse, error)
+
+	SearchRandomWithResponse(ctx context.Context, body SearchRandomJSONRequestBody, reqEditors ...RequestEditorFn) (*SearchRandomResponse, error)
+
 	// SearchSmartWithBodyWithResponse request with any body
 	SearchSmartWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchSmartResponse, error)
 
@@ -14276,6 +14317,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetServerVersionWithResponse request
 	GetServerVersionWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetServerVersionResponse, error)
+
+	// GetVersionHistoryWithResponse request
+	GetVersionHistoryWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetVersionHistoryResponse, error)
 
 	// DeleteAllSessionsWithResponse request
 	DeleteAllSessionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*DeleteAllSessionsResponse, error)
@@ -15702,6 +15746,27 @@ func (r GetAllJobsStatusResponse) StatusCode() int {
 	return 0
 }
 
+type CreateJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SendJobCommandResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15833,27 +15898,6 @@ func (r UpdateLibraryResponse) StatusCode() int {
 	return 0
 }
 
-type RemoveOfflineFilesResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r RemoveOfflineFilesResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r RemoveOfflineFilesResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type ScanLibraryResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15957,28 +16001,6 @@ func (r ReverseGeocodeResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ReverseGeocodeResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetMapStyleResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *map[string]interface{}
-}
-
-// Status returns HTTPResponse.Status
-func (r GetMapStyleResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetMapStyleResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -16141,6 +16163,7 @@ func (r AddMemoryAssetsResponse) StatusCode() int {
 type SendTestEmailResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
+	JSON200      *TestEmailResponseDto
 }
 
 // Status returns HTTPResponse.Status
@@ -16465,28 +16488,6 @@ func (r UpdatePersonResponse) StatusCode() int {
 	return 0
 }
 
-type GetPersonAssetsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]AssetResponseDto
-}
-
-// Status returns HTTPResponse.Status
-func (r GetPersonAssetsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetPersonAssetsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type MergePersonResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -16743,6 +16744,28 @@ func (r SearchPlacesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SearchPlacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SearchRandomResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]AssetResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r SearchRandomResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SearchRandomResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -17050,6 +17073,28 @@ func (r GetServerVersionResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetServerVersionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetVersionHistoryResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]ServerVersionHistoryResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r GetVersionHistoryResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetVersionHistoryResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -17866,6 +17911,7 @@ func (r GetTimeBucketsResponse) StatusCode() int {
 type EmptyTrashResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
+	JSON200      *TrashResponseDto
 }
 
 // Status returns HTTPResponse.Status
@@ -17887,6 +17933,7 @@ func (r EmptyTrashResponse) StatusCode() int {
 type RestoreTrashResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
+	JSON200      *TrashResponseDto
 }
 
 // Status returns HTTPResponse.Status
@@ -17908,6 +17955,7 @@ func (r RestoreTrashResponse) StatusCode() int {
 type RestoreAssetsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
+	JSON200      *TrashResponseDto
 }
 
 // Status returns HTTPResponse.Status
@@ -18935,6 +18983,23 @@ func (c *ClientWithResponses) GetAllJobsStatusWithResponse(ctx context.Context, 
 	return ParseGetAllJobsStatusResponse(rsp)
 }
 
+// CreateJobWithBodyWithResponse request with arbitrary body returning *CreateJobResponse
+func (c *ClientWithResponses) CreateJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateJobResponse, error) {
+	rsp, err := c.CreateJobWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateJobWithResponse(ctx context.Context, body CreateJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateJobResponse, error) {
+	rsp, err := c.CreateJob(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateJobResponse(rsp)
+}
+
 // SendJobCommandWithBodyWithResponse request with arbitrary body returning *SendJobCommandResponse
 func (c *ClientWithResponses) SendJobCommandWithBodyWithResponse(ctx context.Context, id JobName, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendJobCommandResponse, error) {
 	rsp, err := c.SendJobCommandWithBody(ctx, id, contentType, body, reqEditors...)
@@ -19013,26 +19078,9 @@ func (c *ClientWithResponses) UpdateLibraryWithResponse(ctx context.Context, id 
 	return ParseUpdateLibraryResponse(rsp)
 }
 
-// RemoveOfflineFilesWithResponse request returning *RemoveOfflineFilesResponse
-func (c *ClientWithResponses) RemoveOfflineFilesWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*RemoveOfflineFilesResponse, error) {
-	rsp, err := c.RemoveOfflineFiles(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseRemoveOfflineFilesResponse(rsp)
-}
-
-// ScanLibraryWithBodyWithResponse request with arbitrary body returning *ScanLibraryResponse
-func (c *ClientWithResponses) ScanLibraryWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ScanLibraryResponse, error) {
-	rsp, err := c.ScanLibraryWithBody(ctx, id, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseScanLibraryResponse(rsp)
-}
-
-func (c *ClientWithResponses) ScanLibraryWithResponse(ctx context.Context, id openapi_types.UUID, body ScanLibraryJSONRequestBody, reqEditors ...RequestEditorFn) (*ScanLibraryResponse, error) {
-	rsp, err := c.ScanLibrary(ctx, id, body, reqEditors...)
+// ScanLibraryWithResponse request returning *ScanLibraryResponse
+func (c *ClientWithResponses) ScanLibraryWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*ScanLibraryResponse, error) {
+	rsp, err := c.ScanLibrary(ctx, id, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -19081,15 +19129,6 @@ func (c *ClientWithResponses) ReverseGeocodeWithResponse(ctx context.Context, pa
 		return nil, err
 	}
 	return ParseReverseGeocodeResponse(rsp)
-}
-
-// GetMapStyleWithResponse request returning *GetMapStyleResponse
-func (c *ClientWithResponses) GetMapStyleWithResponse(ctx context.Context, params *GetMapStyleParams, reqEditors ...RequestEditorFn) (*GetMapStyleResponse, error) {
-	rsp, err := c.GetMapStyle(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetMapStyleResponse(rsp)
 }
 
 // SearchMemoriesWithResponse request returning *SearchMemoriesResponse
@@ -19386,15 +19425,6 @@ func (c *ClientWithResponses) UpdatePersonWithResponse(ctx context.Context, id o
 	return ParseUpdatePersonResponse(rsp)
 }
 
-// GetPersonAssetsWithResponse request returning *GetPersonAssetsResponse
-func (c *ClientWithResponses) GetPersonAssetsWithResponse(ctx context.Context, id openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetPersonAssetsResponse, error) {
-	rsp, err := c.GetPersonAssets(ctx, id, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetPersonAssetsResponse(rsp)
-}
-
 // MergePersonWithBodyWithResponse request with arbitrary body returning *MergePersonResponse
 func (c *ClientWithResponses) MergePersonWithBodyWithResponse(ctx context.Context, id openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*MergePersonResponse, error) {
 	rsp, err := c.MergePersonWithBody(ctx, id, contentType, body, reqEditors...)
@@ -19543,6 +19573,23 @@ func (c *ClientWithResponses) SearchPlacesWithResponse(ctx context.Context, para
 	return ParseSearchPlacesResponse(rsp)
 }
 
+// SearchRandomWithBodyWithResponse request with arbitrary body returning *SearchRandomResponse
+func (c *ClientWithResponses) SearchRandomWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchRandomResponse, error) {
+	rsp, err := c.SearchRandomWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSearchRandomResponse(rsp)
+}
+
+func (c *ClientWithResponses) SearchRandomWithResponse(ctx context.Context, body SearchRandomJSONRequestBody, reqEditors ...RequestEditorFn) (*SearchRandomResponse, error) {
+	rsp, err := c.SearchRandom(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSearchRandomResponse(rsp)
+}
+
 // SearchSmartWithBodyWithResponse request with arbitrary body returning *SearchSmartResponse
 func (c *ClientWithResponses) SearchSmartWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchSmartResponse, error) {
 	rsp, err := c.SearchSmartWithBody(ctx, contentType, body, reqEditors...)
@@ -19683,6 +19730,15 @@ func (c *ClientWithResponses) GetServerVersionWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseGetServerVersionResponse(rsp)
+}
+
+// GetVersionHistoryWithResponse request returning *GetVersionHistoryResponse
+func (c *ClientWithResponses) GetVersionHistoryWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetVersionHistoryResponse, error) {
+	rsp, err := c.GetVersionHistory(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetVersionHistoryResponse(rsp)
 }
 
 // DeleteAllSessionsWithResponse request returning *DeleteAllSessionsResponse
@@ -21675,6 +21731,22 @@ func ParseGetAllJobsStatusResponse(rsp *http.Response) (*GetAllJobsStatusRespons
 	return response, nil
 }
 
+// ParseCreateJobResponse parses an HTTP response from a CreateJobWithResponse call
+func ParseCreateJobResponse(rsp *http.Response) (*CreateJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
 // ParseSendJobCommandResponse parses an HTTP response from a SendJobCommandWithResponse call
 func ParseSendJobCommandResponse(rsp *http.Response) (*SendJobCommandResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -21821,22 +21893,6 @@ func ParseUpdateLibraryResponse(rsp *http.Response) (*UpdateLibraryResponse, err
 	return response, nil
 }
 
-// ParseRemoveOfflineFilesResponse parses an HTTP response from a RemoveOfflineFilesWithResponse call
-func ParseRemoveOfflineFilesResponse(rsp *http.Response) (*RemoveOfflineFilesResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &RemoveOfflineFilesResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
 // ParseScanLibraryResponse parses an HTTP response from a ScanLibraryWithResponse call
 func ParseScanLibraryResponse(rsp *http.Response) (*ScanLibraryResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -21947,32 +22003,6 @@ func ParseReverseGeocodeResponse(rsp *http.Response) (*ReverseGeocodeResponse, e
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []MapReverseGeocodeResponseDto
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetMapStyleResponse parses an HTTP response from a GetMapStyleWithResponse call
-func ParseGetMapStyleResponse(rsp *http.Response) (*GetMapStyleResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetMapStyleResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest map[string]interface{}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -22166,6 +22196,16 @@ func ParseSendTestEmailResponse(rsp *http.Response) (*SendTestEmailResponse, err
 	response := &SendTestEmailResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TestEmailResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	}
 
 	return response, nil
@@ -22515,32 +22555,6 @@ func ParseUpdatePersonResponse(rsp *http.Response) (*UpdatePersonResponse, error
 	return response, nil
 }
 
-// ParseGetPersonAssetsResponse parses an HTTP response from a GetPersonAssetsWithResponse call
-func ParseGetPersonAssetsResponse(rsp *http.Response) (*GetPersonAssetsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetPersonAssetsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []AssetResponseDto
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
 // ParseMergePersonResponse parses an HTTP response from a MergePersonWithResponse call
 func ParseMergePersonResponse(rsp *http.Response) (*MergePersonResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -22823,6 +22837,32 @@ func ParseSearchPlacesResponse(rsp *http.Response) (*SearchPlacesResponse, error
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []PlacesResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSearchRandomResponse parses an HTTP response from a SearchRandomWithResponse call
+func ParseSearchRandomResponse(rsp *http.Response) (*SearchRandomResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SearchRandomResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []AssetResponseDto
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -23177,6 +23217,32 @@ func ParseGetServerVersionResponse(rsp *http.Response) (*GetServerVersionRespons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ServerVersionResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetVersionHistoryResponse parses an HTTP response from a GetVersionHistoryWithResponse call
+func ParseGetVersionHistoryResponse(rsp *http.Response) (*GetVersionHistoryResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetVersionHistoryResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ServerVersionHistoryResponseDto
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -24092,6 +24158,16 @@ func ParseEmptyTrashResponse(rsp *http.Response) (*EmptyTrashResponse, error) {
 		HTTPResponse: rsp,
 	}
 
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TrashResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
 	return response, nil
 }
 
@@ -24108,6 +24184,16 @@ func ParseRestoreTrashResponse(rsp *http.Response) (*RestoreTrashResponse, error
 		HTTPResponse: rsp,
 	}
 
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TrashResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
 	return response, nil
 }
 
@@ -24122,6 +24208,16 @@ func ParseRestoreAssetsResponse(rsp *http.Response) (*RestoreAssetsResponse, err
 	response := &RestoreAssetsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TrashResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	}
 
 	return response, nil
