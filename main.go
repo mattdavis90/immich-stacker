@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"io"
 	"net/http"
 	"os"
@@ -43,6 +44,7 @@ type Config struct {
 	LogLevel       string `env:"LOG_LEVEL" envDefault:"INFO"`
 	DebugHTTP      bool   `env:"DEBUG_HTTP" envDefault:"false"`
 	CompareCreated bool   `env:"COMPARE_CREATED" envDefault:"false"`
+	InsecureTLS    bool   `env:"INSECURE_TLS" envDefault:"false"`
 }
 
 func getEnv(e string) string {
@@ -133,6 +135,11 @@ func main() {
 	}
 
 	log.Info().Str("endpoint", cfg.Endpoint).Msg("Connecting to Immich")
+
+	if cfg.InsecureTLS {
+        log.Warn().Msg("Insecure TLS connections enabled")
+		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	}
 
 	var hc http.Client
 	if cfg.DebugHTTP {

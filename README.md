@@ -126,3 +126,7 @@ The `IMMICH_COMPARE_CREATED` environment variable can be used to only match file
 the same createdAt timestamp. This can be useful when your camera has reset numbering to
 0 and you can no longer rely on the filenames being unique. Thanks to @Pikachews for
 the suggestion.
+
+The `IMMICH_INSECURE_TLS` environment variable can be used to disable the checking of
+TLS certificates. This option should be used with caution, for this reason it emit a
+warning log on startup.
