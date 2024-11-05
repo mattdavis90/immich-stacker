@@ -45,6 +45,7 @@ type Config struct {
 	DebugHTTP      bool   `env:"DEBUG_HTTP" envDefault:"false"`
 	CompareCreated bool   `env:"COMPARE_CREATED" envDefault:"false"`
 	InsecureTLS    bool   `env:"INSECURE_TLS" envDefault:"false"`
+	ReadOnly       bool   `env:"READ_ONLY" envDefault:"false"`
 }
 
 func getEnv(e string) string {
@@ -137,7 +138,7 @@ func main() {
 	log.Info().Str("endpoint", cfg.Endpoint).Msg("Connecting to Immich")
 
 	if cfg.InsecureTLS {
-        log.Warn().Msg("Insecure TLS connections enabled")
+		log.Warn().Msg("Insecure TLS connections enabled")
 		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	}
 
@@ -260,18 +261,20 @@ func main() {
 				}
 			}
 
-			resp, err := c.CreateStackWithResponse(ctx, client.StackCreateDto{
-				AssetIds: assetIDs,
-			})
-			if err != nil {
-				log.Error().Err(err)
-				stats.Failed++
-			} else if resp.StatusCode() != http.StatusCreated {
-				log.Error().Int("status", resp.StatusCode()).Msg("Expected HTTP 201")
-				stats.Failed++
-			} else {
-				log.Info().Str("filename", f).Msg("Created stack")
-				stats.Success++
+			if !cfg.ReadOnly {
+				resp, err := c.CreateStackWithResponse(ctx, client.StackCreateDto{
+					AssetIds: assetIDs,
+				})
+				if err != nil {
+					log.Error().Err(err)
+					stats.Failed++
+				} else if resp.StatusCode() != http.StatusCreated {
+					log.Error().Int("status", resp.StatusCode()).Msg("Expected HTTP 201")
+					stats.Failed++
+				} else {
+					log.Info().Str("filename", f).Msg("Created stack")
+					stats.Success++
+				}
 			}
 		} else {
 			log.Debug().Str("filename", f).Msg("Skipped")
