@@ -132,3 +132,6 @@ the suggestion.
 The `IMMICH_INSECURE_TLS` environment variable can be used to disable the checking of
 TLS certificates. This option should be used with caution, for this reason it emit a
 warning log on startup.
+
+The `IMMICH_READ_ONLY` environment variable can be used for testing. It will not make
+changes to your Immich installation.
