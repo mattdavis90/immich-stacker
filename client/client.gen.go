@@ -86,9 +86,10 @@ const (
 
 // Defines values for AudioCodec.
 const (
-	Aac     AudioCodec = "aac"
-	Libopus AudioCodec = "libopus"
-	Mp3     AudioCodec = "mp3"
+	Aac      AudioCodec = "aac"
+	Libopus  AudioCodec = "libopus"
+	Mp3      AudioCodec = "mp3"
+	PcmS16le AudioCodec = "pcm_s16le"
 )
 
 // Defines values for BulkIdResponseDtoError.
