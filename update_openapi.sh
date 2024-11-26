@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.119.1
+VERSION=1.121.0
 
 pushd client
 wget https://raw.githubusercontent.com/immich-app/immich/v${VERSION}/open-api/immich-openapi-specs.json -O immich-openapi-specs.json

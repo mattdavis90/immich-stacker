@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/caarlos0/env/v11"
-	"github.com/deepmap/oapi-codegen/v2/pkg/securityprovider"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"github.com/mattdavis90/immich-stacker/client"
+	"github.com/oapi-codegen/oapi-codegen/v2/pkg/securityprovider"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
