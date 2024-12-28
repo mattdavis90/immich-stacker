@@ -1519,6 +1519,7 @@ type ServerConfigDto struct {
 	MapDarkStyleUrl  string `json:"mapDarkStyleUrl"`
 	MapLightStyleUrl string `json:"mapLightStyleUrl"`
 	OauthButtonText  string `json:"oauthButtonText"`
+	PublicUsers      bool   `json:"publicUsers"`
 	TrashDays        int    `json:"trashDays"`
 	UserDeleteDelay  int    `json:"userDeleteDelay"`
 }
@@ -1738,6 +1739,7 @@ type SystemConfigDto struct {
 	ReverseGeocoding SystemConfigReverseGeocodingDto `json:"reverseGeocoding"`
 	Server           SystemConfigServerDto           `json:"server"`
 	StorageTemplate  SystemConfigStorageTemplateDto  `json:"storageTemplate"`
+	Templates        SystemConfigTemplatesDto        `json:"templates"`
 	Theme            SystemConfigThemeDto            `json:"theme"`
 	Trash            SystemConfigTrashDto            `json:"trash"`
 	User             SystemConfigUserDto             `json:"user"`
@@ -1832,7 +1834,11 @@ type SystemConfigMachineLearningDto struct {
 	DuplicateDetection DuplicateDetectionConfig `json:"duplicateDetection"`
 	Enabled            bool                     `json:"enabled"`
 	FacialRecognition  FacialRecognitionConfig  `json:"facialRecognition"`
-	Url                string                   `json:"url"`
+
+	// Url This property was deprecated in v1.122.0
+	// Deprecated:
+	Url  *string  `json:"url,omitempty"`
+	Urls []string `json:"urls"`
 }
 
 // SystemConfigMapDto defines model for SystemConfigMapDto.
@@ -1890,6 +1896,7 @@ type SystemConfigReverseGeocodingDto struct {
 type SystemConfigServerDto struct {
 	ExternalDomain   string `json:"externalDomain"`
 	LoginPageMessage string `json:"loginPageMessage"`
+	PublicUsers      bool   `json:"publicUsers"`
 }
 
 // SystemConfigSmtpDto defines model for SystemConfigSmtpDto.
@@ -1916,6 +1923,13 @@ type SystemConfigStorageTemplateDto struct {
 	Template                string `json:"template"`
 }
 
+// SystemConfigTemplateEmailsDto defines model for SystemConfigTemplateEmailsDto.
+type SystemConfigTemplateEmailsDto struct {
+	AlbumInviteTemplate string `json:"albumInviteTemplate"`
+	AlbumUpdateTemplate string `json:"albumUpdateTemplate"`
+	WelcomeTemplate     string `json:"welcomeTemplate"`
+}
+
 // SystemConfigTemplateStorageOptionDto defines model for SystemConfigTemplateStorageOptionDto.
 type SystemConfigTemplateStorageOptionDto struct {
 	DayOptions    []string `json:"dayOptions"`
@@ -1926,6 +1940,11 @@ type SystemConfigTemplateStorageOptionDto struct {
 	SecondOptions []string `json:"secondOptions"`
 	WeekOptions   []string `json:"weekOptions"`
 	YearOptions   []string `json:"yearOptions"`
+}
+
+// SystemConfigTemplatesDto defines model for SystemConfigTemplatesDto.
+type SystemConfigTemplatesDto struct {
+	Email SystemConfigTemplateEmailsDto `json:"email"`
 }
 
 // SystemConfigThemeDto defines model for SystemConfigThemeDto.
@@ -1993,6 +2012,17 @@ type TagsResponse struct {
 type TagsUpdate struct {
 	Enabled    *bool `json:"enabled,omitempty"`
 	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
+}
+
+// TemplateDto defines model for TemplateDto.
+type TemplateDto struct {
+	Template string `json:"template"`
+}
+
+// TemplateResponseDto defines model for TemplateResponseDto.
+type TemplateResponseDto struct {
+	Html string `json:"html"`
+	Name string `json:"name"`
 }
 
 // TestEmailResponseDto defines model for TestEmailResponseDto.
@@ -2342,6 +2372,9 @@ type GetPartnersParams struct {
 
 // GetAllPeopleParams defines parameters for GetAllPeople.
 type GetAllPeopleParams struct {
+	ClosestAssetId  *openapi_types.UUID `form:"closestAssetId,omitempty" json:"closestAssetId,omitempty"`
+	ClosestPersonId *openapi_types.UUID `form:"closestPersonId,omitempty" json:"closestPersonId,omitempty"`
+
 	// Page Page number for pagination
 	Page *float32 `form:"page,omitempty" json:"page,omitempty"`
 
@@ -2541,6 +2574,9 @@ type RemoveMemoryAssetsJSONRequestBody = BulkIdsDto
 // AddMemoryAssetsJSONRequestBody defines body for AddMemoryAssets for application/json ContentType.
 type AddMemoryAssetsJSONRequestBody = BulkIdsDto
 
+// GetNotificationTemplateJSONRequestBody defines body for GetNotificationTemplate for application/json ContentType.
+type GetNotificationTemplateJSONRequestBody = TemplateDto
+
 // SendTestEmailJSONRequestBody defines body for SendTestEmail for application/json ContentType.
 type SendTestEmailJSONRequestBody = SystemConfigSmtpDto
 
@@ -2577,8 +2613,8 @@ type GetFileChecksumsJSONRequestBody = FileChecksumDto
 // FixAuditFilesJSONRequestBody defines body for FixAuditFiles for application/json ContentType.
 type FixAuditFilesJSONRequestBody = FileReportFixDto
 
-// SearchMetadataJSONRequestBody defines body for SearchMetadata for application/json ContentType.
-type SearchMetadataJSONRequestBody = MetadataSearchDto
+// SearchAssetsJSONRequestBody defines body for SearchAssets for application/json ContentType.
+type SearchAssetsJSONRequestBody = MetadataSearchDto
 
 // SearchRandomJSONRequestBody defines body for SearchRandom for application/json ContentType.
 type SearchRandomJSONRequestBody = RandomSearchDto
@@ -3021,6 +3057,11 @@ type ClientInterface interface {
 
 	AddMemoryAssets(ctx context.Context, id openapi_types.UUID, body AddMemoryAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetNotificationTemplateWithBody request with any body
+	GetNotificationTemplateWithBody(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	GetNotificationTemplate(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// SendTestEmailWithBody request with any body
 	SendTestEmailWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -3117,10 +3158,10 @@ type ClientInterface interface {
 	// GetExploreData request
 	GetExploreData(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// SearchMetadataWithBody request with any body
-	SearchMetadataWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// SearchAssetsWithBody request with any body
+	SearchAssetsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	SearchMetadata(ctx context.Context, body SearchMetadataJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	SearchAssets(ctx context.Context, body SearchAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SearchPerson request
 	SearchPerson(ctx context.Context, params *SearchPersonParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -4695,6 +4736,30 @@ func (c *Client) AddMemoryAssets(ctx context.Context, id openapi_types.UUID, bod
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetNotificationTemplateWithBody(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNotificationTemplateRequestWithBody(c.Server, name, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetNotificationTemplate(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNotificationTemplateRequest(c.Server, name, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) SendTestEmailWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSendTestEmailRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -5127,8 +5192,8 @@ func (c *Client) GetExploreData(ctx context.Context, reqEditors ...RequestEditor
 	return c.Client.Do(req)
 }
 
-func (c *Client) SearchMetadataWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewSearchMetadataRequestWithBody(c.Server, contentType, body)
+func (c *Client) SearchAssetsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSearchAssetsRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5139,8 +5204,8 @@ func (c *Client) SearchMetadataWithBody(ctx context.Context, contentType string,
 	return c.Client.Do(req)
 }
 
-func (c *Client) SearchMetadata(ctx context.Context, body SearchMetadataJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewSearchMetadataRequest(c.Server, body)
+func (c *Client) SearchAssets(ctx context.Context, body SearchAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSearchAssetsRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -9799,6 +9864,53 @@ func NewAddMemoryAssetsRequestWithBody(server string, id openapi_types.UUID, con
 	return req, nil
 }
 
+// NewGetNotificationTemplateRequest calls the generic GetNotificationTemplate builder with application/json body
+func NewGetNotificationTemplateRequest(server string, name string, body GetNotificationTemplateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewGetNotificationTemplateRequestWithBody(server, name, "application/json", bodyReader)
+}
+
+// NewGetNotificationTemplateRequestWithBody generates requests for GetNotificationTemplate with any type of body
+func NewGetNotificationTemplateRequestWithBody(server string, name string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "name", runtime.ParamLocationPath, name)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/notifications/templates/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewSendTestEmailRequest calls the generic SendTestEmail builder with application/json body
 func NewSendTestEmailRequest(server string, body SendTestEmailJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -10194,6 +10306,38 @@ func NewGetAllPeopleRequest(server string, params *GetAllPeopleParams) (*http.Re
 
 	if params != nil {
 		queryValues := queryURL.Query()
+
+		if params.ClosestAssetId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "closestAssetId", runtime.ParamLocationQuery, *params.ClosestAssetId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.ClosestPersonId != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "closestPersonId", runtime.ParamLocationQuery, *params.ClosestPersonId); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
 
 		if params.Page != nil {
 
@@ -10738,19 +10882,19 @@ func NewGetExploreDataRequest(server string) (*http.Request, error) {
 	return req, nil
 }
 
-// NewSearchMetadataRequest calls the generic SearchMetadata builder with application/json body
-func NewSearchMetadataRequest(server string, body SearchMetadataJSONRequestBody) (*http.Request, error) {
+// NewSearchAssetsRequest calls the generic SearchAssets builder with application/json body
+func NewSearchAssetsRequest(server string, body SearchAssetsJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewSearchMetadataRequestWithBody(server, "application/json", bodyReader)
+	return NewSearchAssetsRequestWithBody(server, "application/json", bodyReader)
 }
 
-// NewSearchMetadataRequestWithBody generates requests for SearchMetadata with any type of body
-func NewSearchMetadataRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+// NewSearchAssetsRequestWithBody generates requests for SearchAssets with any type of body
+func NewSearchAssetsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -14172,6 +14316,11 @@ type ClientWithResponsesInterface interface {
 
 	AddMemoryAssetsWithResponse(ctx context.Context, id openapi_types.UUID, body AddMemoryAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*AddMemoryAssetsResponse, error)
 
+	// GetNotificationTemplateWithBodyWithResponse request with any body
+	GetNotificationTemplateWithBodyWithResponse(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error)
+
+	GetNotificationTemplateWithResponse(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error)
+
 	// SendTestEmailWithBodyWithResponse request with any body
 	SendTestEmailWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendTestEmailResponse, error)
 
@@ -14268,10 +14417,10 @@ type ClientWithResponsesInterface interface {
 	// GetExploreDataWithResponse request
 	GetExploreDataWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetExploreDataResponse, error)
 
-	// SearchMetadataWithBodyWithResponse request with any body
-	SearchMetadataWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchMetadataResponse, error)
+	// SearchAssetsWithBodyWithResponse request with any body
+	SearchAssetsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchAssetsResponse, error)
 
-	SearchMetadataWithResponse(ctx context.Context, body SearchMetadataJSONRequestBody, reqEditors ...RequestEditorFn) (*SearchMetadataResponse, error)
+	SearchAssetsWithResponse(ctx context.Context, body SearchAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*SearchAssetsResponse, error)
 
 	// SearchPersonWithResponse request
 	SearchPersonWithResponse(ctx context.Context, params *SearchPersonParams, reqEditors ...RequestEditorFn) (*SearchPersonResponse, error)
@@ -16172,6 +16321,28 @@ func (r AddMemoryAssetsResponse) StatusCode() int {
 	return 0
 }
 
+type GetNotificationTemplateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *TemplateResponseDto
+}
+
+// Status returns HTTPResponse.Status
+func (r GetNotificationTemplateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetNotificationTemplateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SendTestEmailResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -16696,14 +16867,14 @@ func (r GetExploreDataResponse) StatusCode() int {
 	return 0
 }
 
-type SearchMetadataResponse struct {
+type SearchAssetsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *SearchResponseDto
 }
 
 // Status returns HTTPResponse.Status
-func (r SearchMetadataResponse) Status() string {
+func (r SearchAssetsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -16711,7 +16882,7 @@ func (r SearchMetadataResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r SearchMetadataResponse) StatusCode() int {
+func (r SearchAssetsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -19238,6 +19409,23 @@ func (c *ClientWithResponses) AddMemoryAssetsWithResponse(ctx context.Context, i
 	return ParseAddMemoryAssetsResponse(rsp)
 }
 
+// GetNotificationTemplateWithBodyWithResponse request with arbitrary body returning *GetNotificationTemplateResponse
+func (c *ClientWithResponses) GetNotificationTemplateWithBodyWithResponse(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error) {
+	rsp, err := c.GetNotificationTemplateWithBody(ctx, name, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetNotificationTemplateResponse(rsp)
+}
+
+func (c *ClientWithResponses) GetNotificationTemplateWithResponse(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error) {
+	rsp, err := c.GetNotificationTemplate(ctx, name, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetNotificationTemplateResponse(rsp)
+}
+
 // SendTestEmailWithBodyWithResponse request with arbitrary body returning *SendTestEmailResponse
 func (c *ClientWithResponses) SendTestEmailWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendTestEmailResponse, error) {
 	rsp, err := c.SendTestEmailWithBody(ctx, contentType, body, reqEditors...)
@@ -19550,21 +19738,21 @@ func (c *ClientWithResponses) GetExploreDataWithResponse(ctx context.Context, re
 	return ParseGetExploreDataResponse(rsp)
 }
 
-// SearchMetadataWithBodyWithResponse request with arbitrary body returning *SearchMetadataResponse
-func (c *ClientWithResponses) SearchMetadataWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchMetadataResponse, error) {
-	rsp, err := c.SearchMetadataWithBody(ctx, contentType, body, reqEditors...)
+// SearchAssetsWithBodyWithResponse request with arbitrary body returning *SearchAssetsResponse
+func (c *ClientWithResponses) SearchAssetsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SearchAssetsResponse, error) {
+	rsp, err := c.SearchAssetsWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseSearchMetadataResponse(rsp)
+	return ParseSearchAssetsResponse(rsp)
 }
 
-func (c *ClientWithResponses) SearchMetadataWithResponse(ctx context.Context, body SearchMetadataJSONRequestBody, reqEditors ...RequestEditorFn) (*SearchMetadataResponse, error) {
-	rsp, err := c.SearchMetadata(ctx, body, reqEditors...)
+func (c *ClientWithResponses) SearchAssetsWithResponse(ctx context.Context, body SearchAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*SearchAssetsResponse, error) {
+	rsp, err := c.SearchAssets(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseSearchMetadataResponse(rsp)
+	return ParseSearchAssetsResponse(rsp)
 }
 
 // SearchPersonWithResponse request returning *SearchPersonResponse
@@ -22197,6 +22385,32 @@ func ParseAddMemoryAssetsResponse(rsp *http.Response) (*AddMemoryAssetsResponse,
 	return response, nil
 }
 
+// ParseGetNotificationTemplateResponse parses an HTTP response from a GetNotificationTemplateWithResponse call
+func ParseGetNotificationTemplateResponse(rsp *http.Response) (*GetNotificationTemplateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetNotificationTemplateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TemplateResponseDto
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseSendTestEmailResponse parses an HTTP response from a SendTestEmailWithResponse call
 func ParseSendTestEmailResponse(rsp *http.Response) (*SendTestEmailResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -22781,15 +22995,15 @@ func ParseGetExploreDataResponse(rsp *http.Response) (*GetExploreDataResponse, e
 	return response, nil
 }
 
-// ParseSearchMetadataResponse parses an HTTP response from a SearchMetadataWithResponse call
-func ParseSearchMetadataResponse(rsp *http.Response) (*SearchMetadataResponse, error) {
+// ParseSearchAssetsResponse parses an HTTP response from a SearchAssetsWithResponse call
+func ParseSearchAssetsResponse(rsp *http.Response) (*SearchAssetsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &SearchMetadataResponse{
+	response := &SearchAssetsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
