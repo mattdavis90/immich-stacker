@@ -539,7 +539,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "content": {
               "application/json": {
                 "schema": {
@@ -1460,6 +1460,7 @@
             "api_key": []
           }
         ],
+        "summary": "checkBulkUpload",
         "tags": [
           "Assets"
         ]
@@ -1505,6 +1506,7 @@
             "api_key": []
           }
         ],
+        "summary": "getAllUserAssetsByDeviceId",
         "tags": [
           "Assets"
         ]
@@ -1548,6 +1550,7 @@
             "api_key": []
           }
         ],
+        "summary": "checkExistingAssets",
         "tags": [
           "Assets"
         ]
@@ -1957,6 +1960,7 @@
             "api_key": []
           }
         ],
+        "summary": "replaceAsset",
         "tags": [
           "Assets"
         ],
@@ -2072,65 +2076,6 @@
         ],
         "tags": [
           "Assets"
-        ]
-      }
-    },
-    "/audit/deletes": {
-      "get": {
-        "operationId": "getAuditDeletes",
-        "parameters": [
-          {
-            "name": "after",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "format": "date-time",
-              "type": "string"
-            }
-          },
-          {
-            "name": "entityType",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/EntityType"
-            }
-          },
-          {
-            "name": "userId",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "format": "uuid",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuditDeletesResponseDto"
-                }
-              }
-            },
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "cookie": []
-          },
-          {
-            "api_key": []
-          }
-        ],
-        "tags": [
-          "Audit"
         ]
       }
     },
@@ -2483,9 +2428,85 @@
         "tags": [
           "Faces"
         ]
+      },
+      "post": {
+        "operationId": "createFace",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetFaceCreateDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Faces"
+        ]
       }
     },
     "/faces/{id}": {
+      "delete": {
+        "operationId": "deleteFace",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetFaceDeleteDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Faces"
+        ]
+      },
       "put": {
         "operationId": "reassignFacesById",
         "parameters": [
@@ -3125,7 +3146,41 @@
     "/memories": {
       "get": {
         "operationId": "searchMemories",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "for",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "name": "isSaved",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isTrashed",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/MemoryType"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5226,7 +5281,17 @@
     "/shared-links": {
       "get": {
         "operationId": "getAllSharedLinks",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "albumId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -5847,6 +5912,107 @@
         ]
       }
     },
+    "/sync/ack": {
+      "delete": {
+        "operationId": "deleteSyncAck",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncAckDeleteDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Sync"
+        ]
+      },
+      "get": {
+        "operationId": "getSyncAck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SyncAckDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Sync"
+        ]
+      },
+      "post": {
+        "operationId": "sendSyncAck",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncAckSetDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Sync"
+        ]
+      }
+    },
     "/sync/delta-sync": {
       "post": {
         "operationId": "getDeltaSync",
@@ -5915,6 +6081,41 @@
                 }
               }
             },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "Sync"
+        ]
+      }
+    },
+    "/sync/stream": {
+      "post": {
+        "operationId": "getSyncStream",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncStreamDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
             "description": ""
           }
         },
@@ -7454,7 +7655,7 @@
   "info": {
     "title": "Immich",
     "description": "Immich API",
-    "version": "1.123.0",
+    "version": "1.129.0",
     "contact": {}
   },
   "tags": [],
@@ -7492,6 +7693,7 @@
             "items": {
               "$ref": "#/components/schemas/Permission"
             },
+            "minItems": 1,
             "type": "array"
           }
         },
@@ -7572,7 +7774,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/ReactionType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReactionType"
+              }
+            ]
           }
         },
         "required": [
@@ -7599,7 +7805,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/ReactionType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReactionType"
+              }
+            ]
           },
           "user": {
             "$ref": "#/components/schemas/UserResponseDto"
@@ -7631,6 +7841,7 @@
             "items": {
               "$ref": "#/components/schemas/AlbumUserAddDto"
             },
+            "minItems": 1,
             "type": "array"
           }
         },
@@ -7699,7 +7910,11 @@
             "type": "string"
           },
           "order": {
-            "$ref": "#/components/schemas/AssetOrder"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetOrder"
+              }
+            ]
           },
           "owner": {
             "$ref": "#/components/schemas/UserResponseDto"
@@ -7759,7 +7974,12 @@
       "AlbumUserAddDto": {
         "properties": {
           "role": {
-            "$ref": "#/components/schemas/AlbumUserRole"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AlbumUserRole"
+              }
+            ],
+            "default": "editor"
           },
           "userId": {
             "format": "uuid",
@@ -7774,7 +7994,11 @@
       "AlbumUserCreateDto": {
         "properties": {
           "role": {
-            "$ref": "#/components/schemas/AlbumUserRole"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AlbumUserRole"
+              }
+            ]
           },
           "userId": {
             "format": "uuid",
@@ -7790,7 +8014,11 @@
       "AlbumUserResponseDto": {
         "properties": {
           "role": {
-            "$ref": "#/components/schemas/AlbumUserRole"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AlbumUserRole"
+              }
+            ]
           },
           "user": {
             "$ref": "#/components/schemas/UserResponseDto"
@@ -7924,7 +8152,7 @@
           },
           "rating": {
             "maximum": 5,
-            "minimum": 0,
+            "minimum": -1,
             "type": "number"
           }
         },
@@ -8054,6 +8282,58 @@
         ],
         "type": "object"
       },
+      "AssetFaceCreateDto": {
+        "properties": {
+          "assetId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "imageHeight": {
+            "type": "integer"
+          },
+          "imageWidth": {
+            "type": "integer"
+          },
+          "personId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "width": {
+            "type": "integer"
+          },
+          "x": {
+            "type": "integer"
+          },
+          "y": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "assetId",
+          "height",
+          "imageHeight",
+          "imageWidth",
+          "personId",
+          "width",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "AssetFaceDeleteDto": {
+        "properties": {
+          "force": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "force"
+        ],
+        "type": "object"
+      },
       "AssetFaceResponseDto": {
         "properties": {
           "boundingBoxX1": {
@@ -8087,7 +8367,11 @@
             "nullable": true
           },
           "sourceType": {
-            "$ref": "#/components/schemas/SourceType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceType"
+              }
+            ]
           }
         },
         "required": [
@@ -8158,7 +8442,11 @@
             "type": "integer"
           },
           "sourceType": {
-            "$ref": "#/components/schemas/SourceType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SourceType"
+              }
+            ]
           }
         },
         "required": [
@@ -8254,7 +8542,11 @@
             "type": "array"
           },
           "name": {
-            "$ref": "#/components/schemas/AssetJobName"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetJobName"
+              }
+            ]
           }
         },
         "required": [
@@ -8352,7 +8644,11 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/AssetMediaStatus"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetMediaStatus"
+              }
+            ]
           }
         },
         "required": [
@@ -8490,7 +8786,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/AssetTypeEnum"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetTypeEnum"
+              }
+            ]
           },
           "unassignedFaces": {
             "items": {
@@ -8582,28 +8882,14 @@
         ],
         "type": "string"
       },
-      "AuditDeletesResponseDto": {
-        "properties": {
-          "ids": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "needsFullSync": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "ids",
-          "needsFullSync"
-        ],
-        "type": "object"
-      },
       "AvatarResponse": {
         "properties": {
           "color": {
-            "$ref": "#/components/schemas/UserAvatarColor"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAvatarColor"
+              }
+            ]
           }
         },
         "required": [
@@ -8614,7 +8900,11 @@
       "AvatarUpdate": {
         "properties": {
           "color": {
-            "$ref": "#/components/schemas/UserAvatarColor"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAvatarColor"
+              }
+            ]
           }
         },
         "type": "object"
@@ -8705,6 +8995,7 @@
             "items": {
               "type": "string"
             },
+            "minItems": 1,
             "type": "array"
           },
           "deviceId": {
@@ -8771,13 +9062,17 @@
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
           },
           "importPaths": {
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
           },
           "name": {
             "type": "string"
@@ -9000,13 +9295,6 @@
           }
         },
         "type": "object"
-      },
-      "EntityType": {
-        "enum": [
-          "ASSET",
-          "ALBUM"
-        ],
-        "type": "string"
       },
       "ExifResponseDto": {
         "properties": {
@@ -9246,10 +9534,18 @@
             "type": "string"
           },
           "entityType": {
-            "$ref": "#/components/schemas/PathEntityType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PathEntityType"
+              }
+            ]
           },
           "pathType": {
-            "$ref": "#/components/schemas/PathType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PathType"
+              }
+            ]
           },
           "pathValue": {
             "type": "string"
@@ -9311,7 +9607,11 @@
       "JobCommandDto": {
         "properties": {
           "command": {
-            "$ref": "#/components/schemas/JobCommand"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/JobCommand"
+              }
+            ]
           },
           "force": {
             "type": "boolean"
@@ -9356,7 +9656,11 @@
       "JobCreateDto": {
         "properties": {
           "name": {
-            "$ref": "#/components/schemas/ManualJobName"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ManualJobName"
+              }
+            ]
           }
         },
         "required": [
@@ -9544,6 +9848,7 @@
         "properties": {
           "email": {
             "example": "testuser@email.com",
+            "format": "email",
             "type": "string"
           },
           "password": {
@@ -9611,7 +9916,9 @@
         "enum": [
           "person-cleanup",
           "tag-cleanup",
-          "user-cleanup"
+          "user-cleanup",
+          "memory-cleanup",
+          "memory-create"
         ],
         "type": "string"
       },
@@ -9717,7 +10024,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/MemoryType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MemoryType"
+              }
+            ]
           }
         },
         "required": [
@@ -9764,6 +10075,10 @@
             "format": "date-time",
             "type": "string"
           },
+          "hideAt": {
+            "format": "date-time",
+            "type": "string"
+          },
           "id": {
             "type": "string"
           },
@@ -9781,8 +10096,16 @@
             "format": "date-time",
             "type": "string"
           },
+          "showAt": {
+            "format": "date-time",
+            "type": "string"
+          },
           "type": {
-            "$ref": "#/components/schemas/MemoryType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MemoryType"
+              }
+            ]
           },
           "updatedAt": {
             "format": "date-time",
@@ -9860,6 +10183,9 @@
             "format": "date-time",
             "type": "string"
           },
+          "description": {
+            "type": "string"
+          },
           "deviceAssetId": {
             "type": "string"
           },
@@ -9911,7 +10237,12 @@
             "type": "string"
           },
           "order": {
-            "$ref": "#/components/schemas/AssetOrder"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetOrder"
+              }
+            ],
+            "default": "desc"
           },
           "originalFileName": {
             "type": "string"
@@ -9933,6 +10264,11 @@
           "previewPath": {
             "type": "string"
           },
+          "rating": {
+            "maximum": 5,
+            "minimum": -1,
+            "type": "number"
+          },
           "size": {
             "maximum": 1000,
             "minimum": 1,
@@ -9941,6 +10277,13 @@
           "state": {
             "nullable": true,
             "type": "string"
+          },
+          "tagIds": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": "array"
           },
           "takenAfter": {
             "format": "date-time",
@@ -9962,7 +10305,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/AssetTypeEnum"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetTypeEnum"
+              }
+            ]
           },
           "updatedAfter": {
             "format": "date-time",
@@ -10046,7 +10393,11 @@
       "PartnerResponseDto": {
         "properties": {
           "avatarColor": {
-            "$ref": "#/components/schemas/UserAvatarColor"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAvatarColor"
+              }
+            ]
           },
           "email": {
             "type": "string"
@@ -10174,6 +10525,10 @@
             "nullable": true,
             "type": "string"
           },
+          "color": {
+            "nullable": true,
+            "type": "string"
+          },
           "featureFaceAssetId": {
             "description": "Asset is used to get the feature face thumbnail.",
             "type": "string"
@@ -10181,6 +10536,9 @@
           "id": {
             "description": "Person id.",
             "type": "string"
+          },
+          "isFavorite": {
+            "type": "boolean"
           },
           "isHidden": {
             "description": "Person visibility",
@@ -10287,6 +10645,13 @@
             "nullable": true,
             "type": "string"
           },
+          "color": {
+            "nullable": true,
+            "type": "string"
+          },
+          "isFavorite": {
+            "type": "boolean"
+          },
           "isHidden": {
             "description": "Person visibility",
             "type": "boolean"
@@ -10305,8 +10670,16 @@
             "nullable": true,
             "type": "string"
           },
+          "color": {
+            "description": "This property was added in v1.126.0",
+            "type": "string"
+          },
           "id": {
             "type": "string"
+          },
+          "isFavorite": {
+            "description": "This property was added in v1.126.0",
+            "type": "boolean"
           },
           "isHidden": {
             "type": "boolean"
@@ -10351,9 +10724,16 @@
             "nullable": true,
             "type": "string"
           },
+          "color": {
+            "nullable": true,
+            "type": "string"
+          },
           "featureFaceAssetId": {
             "description": "Asset is used to get the feature face thumbnail.",
             "type": "string"
+          },
+          "isFavorite": {
+            "type": "boolean"
           },
           "isHidden": {
             "description": "Person visibility",
@@ -10373,6 +10753,10 @@
             "nullable": true,
             "type": "string"
           },
+          "color": {
+            "description": "This property was added in v1.126.0",
+            "type": "string"
+          },
           "faces": {
             "items": {
               "$ref": "#/components/schemas/AssetFaceWithoutPersonResponseDto"
@@ -10381,6 +10765,10 @@
           },
           "id": {
             "type": "string"
+          },
+          "isFavorite": {
+            "description": "This property was added in v1.126.0",
+            "type": "boolean"
           },
           "isHidden": {
             "type": "boolean"
@@ -10538,6 +10926,11 @@
             },
             "type": "array"
           },
+          "rating": {
+            "maximum": 5,
+            "minimum": -1,
+            "type": "number"
+          },
           "size": {
             "maximum": 1000,
             "minimum": 1,
@@ -10546,6 +10939,13 @@
           "state": {
             "nullable": true,
             "type": "string"
+          },
+          "tagIds": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": "array"
           },
           "takenAfter": {
             "format": "date-time",
@@ -10564,7 +10964,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/AssetTypeEnum"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetTypeEnum"
+              }
+            ]
           },
           "updatedAfter": {
             "format": "date-time",
@@ -11232,7 +11636,11 @@
             "type": "boolean"
           },
           "type": {
-            "$ref": "#/components/schemas/SharedLinkType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SharedLinkType"
+              }
+            ]
           }
         },
         "required": [
@@ -11317,7 +11725,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/SharedLinkType"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SharedLinkType"
+              }
+            ]
           },
           "userId": {
             "type": "string"
@@ -11346,10 +11758,39 @@
         ],
         "type": "string"
       },
+      "SharedLinksResponse": {
+        "properties": {
+          "enabled": {
+            "default": true,
+            "type": "boolean"
+          },
+          "sidebarWeb": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled",
+          "sidebarWeb"
+        ],
+        "type": "object"
+      },
+      "SharedLinksUpdate": {
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "sidebarWeb": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
       "SignUpDto": {
         "properties": {
           "email": {
             "example": "testuser@email.com",
+            "format": "email",
             "type": "string"
           },
           "name": {
@@ -11440,6 +11881,11 @@
           "query": {
             "type": "string"
           },
+          "rating": {
+            "maximum": 5,
+            "minimum": -1,
+            "type": "number"
+          },
           "size": {
             "maximum": 1000,
             "minimum": 1,
@@ -11448,6 +11894,13 @@
           "state": {
             "nullable": true,
             "type": "string"
+          },
+          "tagIds": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": "array"
           },
           "takenAfter": {
             "format": "date-time",
@@ -11466,7 +11919,11 @@
             "type": "string"
           },
           "type": {
-            "$ref": "#/components/schemas/AssetTypeEnum"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetTypeEnum"
+              }
+            ]
           },
           "updatedAfter": {
             "format": "date-time",
@@ -11495,7 +11952,8 @@
       "SourceType": {
         "enum": [
           "machine-learning",
-          "exif"
+          "exif",
+          "manual"
         ],
         "type": "string"
       },
@@ -11507,6 +11965,7 @@
               "format": "uuid",
               "type": "string"
             },
+            "minItems": 2,
             "type": "array"
           }
         },
@@ -11544,6 +12003,150 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "SyncAckDeleteDto": {
+        "properties": {
+          "types": {
+            "items": {
+              "$ref": "#/components/schemas/SyncEntityType"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "SyncAckDto": {
+        "properties": {
+          "ack": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SyncEntityType"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ack",
+          "type"
+        ],
+        "type": "object"
+      },
+      "SyncAckSetDto": {
+        "properties": {
+          "acks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "acks"
+        ],
+        "type": "object"
+      },
+      "SyncEntityType": {
+        "enum": [
+          "UserV1",
+          "UserDeleteV1",
+          "PartnerV1",
+          "PartnerDeleteV1"
+        ],
+        "type": "string"
+      },
+      "SyncPartnerDeleteV1": {
+        "properties": {
+          "sharedById": {
+            "type": "string"
+          },
+          "sharedWithId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sharedById",
+          "sharedWithId"
+        ],
+        "type": "object"
+      },
+      "SyncPartnerV1": {
+        "properties": {
+          "inTimeline": {
+            "type": "boolean"
+          },
+          "sharedById": {
+            "type": "string"
+          },
+          "sharedWithId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "inTimeline",
+          "sharedById",
+          "sharedWithId"
+        ],
+        "type": "object"
+      },
+      "SyncRequestType": {
+        "enum": [
+          "UsersV1",
+          "PartnersV1"
+        ],
+        "type": "string"
+      },
+      "SyncStreamDto": {
+        "properties": {
+          "types": {
+            "items": {
+              "$ref": "#/components/schemas/SyncRequestType"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "types"
+        ],
+        "type": "object"
+      },
+      "SyncUserDeleteV1": {
+        "properties": {
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId"
+        ],
+        "type": "object"
+      },
+      "SyncUserV1": {
+        "properties": {
+          "deletedAt": {
+            "format": "date-time",
+            "nullable": true,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deletedAt",
+          "email",
+          "id",
+          "name"
+        ],
         "type": "object"
       },
       "SystemConfigBackupsDto": {
@@ -11647,7 +12250,11 @@
       "SystemConfigFFmpegDto": {
         "properties": {
           "accel": {
-            "$ref": "#/components/schemas/TranscodeHWAccel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TranscodeHWAccel"
+              }
+            ]
           },
           "accelDecode": {
             "type": "boolean"
@@ -11676,7 +12283,11 @@
             "type": "integer"
           },
           "cqMode": {
-            "$ref": "#/components/schemas/CQMode"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CQMode"
+              }
+            ]
           },
           "crf": {
             "maximum": 51,
@@ -11702,13 +12313,21 @@
             "type": "integer"
           },
           "targetAudioCodec": {
-            "$ref": "#/components/schemas/AudioCodec"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AudioCodec"
+              }
+            ]
           },
           "targetResolution": {
             "type": "string"
           },
           "targetVideoCodec": {
-            "$ref": "#/components/schemas/VideoCodec"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoCodec"
+              }
+            ]
           },
           "temporalAQ": {
             "type": "boolean"
@@ -11718,10 +12337,18 @@
             "type": "integer"
           },
           "tonemap": {
-            "$ref": "#/components/schemas/ToneMapping"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ToneMapping"
+              }
+            ]
           },
           "transcode": {
-            "$ref": "#/components/schemas/TranscodePolicy"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TranscodePolicy"
+              }
+            ]
           },
           "twoPass": {
             "type": "boolean"
@@ -11766,7 +12393,11 @@
       "SystemConfigGeneratedImageDto": {
         "properties": {
           "format": {
-            "$ref": "#/components/schemas/ImageFormat"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ImageFormat"
+              }
+            ]
           },
           "quality": {
             "maximum": 100,
@@ -11788,7 +12419,11 @@
       "SystemConfigImageDto": {
         "properties": {
           "colorspace": {
-            "$ref": "#/components/schemas/Colorspace"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Colorspace"
+              }
+            ]
           },
           "extractEmbedded": {
             "type": "boolean"
@@ -11906,7 +12541,11 @@
             "type": "boolean"
           },
           "level": {
-            "$ref": "#/components/schemas/LogLevel"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LogLevel"
+              }
+            ]
           }
         },
         "required": [
@@ -11935,6 +12574,7 @@
             "type": "string"
           },
           "urls": {
+            "format": "uri",
             "items": {
               "format": "uri",
               "type": "string"
@@ -11955,12 +12595,14 @@
       "SystemConfigMapDto": {
         "properties": {
           "darkStyle": {
+            "format": "uri",
             "type": "string"
           },
           "enabled": {
             "type": "boolean"
           },
           "lightStyle": {
+            "format": "uri",
             "type": "string"
           }
         },
@@ -12035,6 +12677,7 @@
             "type": "boolean"
           },
           "mobileRedirectUri": {
+            "format": "uri",
             "type": "string"
           },
           "profileSigningAlgorithm": {
@@ -12097,6 +12740,7 @@
       "SystemConfigServerDto": {
         "properties": {
           "externalDomain": {
+            "format": "uri",
             "type": "string"
           },
           "loginPageMessage": {
@@ -12353,6 +12997,7 @@
       "TagCreateDto": {
         "properties": {
           "color": {
+            "pattern": "^#?([0-9A-F]{3}|[0-9A-F]{4}|[0-9A-F]{6}|[0-9A-F]{8})$",
             "type": "string"
           },
           "name": {
@@ -12570,7 +13215,11 @@
             "type": "boolean"
           },
           "order": {
-            "$ref": "#/components/schemas/AssetOrder"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetOrder"
+              }
+            ]
           }
         },
         "type": "object"
@@ -12578,7 +13227,11 @@
       "UpdateAlbumUserDto": {
         "properties": {
           "role": {
-            "$ref": "#/components/schemas/AlbumUserRole"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AlbumUserRole"
+              }
+            ]
           }
         },
         "required": [
@@ -12613,7 +13266,7 @@
           },
           "rating": {
             "maximum": 5,
-            "minimum": 0,
+            "minimum": -1,
             "type": "number"
           }
         },
@@ -12625,13 +13278,17 @@
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
           },
           "importPaths": {
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
           },
           "name": {
             "type": "string"
@@ -12697,6 +13354,7 @@
       "UserAdminCreateDto": {
         "properties": {
           "email": {
+            "format": "email",
             "type": "string"
           },
           "name": {
@@ -12740,7 +13398,11 @@
       "UserAdminResponseDto": {
         "properties": {
           "avatarColor": {
-            "$ref": "#/components/schemas/UserAvatarColor"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAvatarColor"
+              }
+            ]
           },
           "createdAt": {
             "format": "date-time",
@@ -12795,7 +13457,11 @@
             "type": "boolean"
           },
           "status": {
-            "$ref": "#/components/schemas/UserStatus"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserStatus"
+              }
+            ]
           },
           "storageLabel": {
             "nullable": true,
@@ -12830,6 +13496,7 @@
       "UserAdminUpdateDto": {
         "properties": {
           "email": {
+            "format": "email",
             "type": "string"
           },
           "name": {
@@ -12915,6 +13582,9 @@
           "ratings": {
             "$ref": "#/components/schemas/RatingsResponse"
           },
+          "sharedLinks": {
+            "$ref": "#/components/schemas/SharedLinksResponse"
+          },
           "tags": {
             "$ref": "#/components/schemas/TagsResponse"
           }
@@ -12928,6 +13598,7 @@
           "people",
           "purchase",
           "ratings",
+          "sharedLinks",
           "tags"
         ],
         "type": "object"
@@ -12958,6 +13629,9 @@
           "ratings": {
             "$ref": "#/components/schemas/RatingsUpdate"
           },
+          "sharedLinks": {
+            "$ref": "#/components/schemas/SharedLinksUpdate"
+          },
           "tags": {
             "$ref": "#/components/schemas/TagsUpdate"
           }
@@ -12967,7 +13641,11 @@
       "UserResponseDto": {
         "properties": {
           "avatarColor": {
-            "$ref": "#/components/schemas/UserAvatarColor"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAvatarColor"
+              }
+            ]
           },
           "email": {
             "type": "string"
@@ -13007,6 +13685,7 @@
       "UserUpdateMeDto": {
         "properties": {
           "email": {
+            "format": "email",
             "type": "string"
           },
           "name": {
@@ -13035,13 +13714,17 @@
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
           },
           "importPaths": {
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "maxItems": 128,
+            "type": "array",
+            "uniqueItems": true
           }
         },
         "type": "object"
