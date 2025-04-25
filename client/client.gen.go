@@ -59,6 +59,7 @@ const (
 
 // Defines values for AssetMediaSize.
 const (
+	AssetMediaSizeFullsize  AssetMediaSize = "fullsize"
 	AssetMediaSizePreview   AssetMediaSize = "preview"
 	AssetMediaSizeThumbnail AssetMediaSize = "thumbnail"
 )
@@ -130,21 +131,21 @@ const (
 
 // Defines values for JobName.
 const (
-	BackgroundTask           JobName = "backgroundTask"
-	BackupDatabase           JobName = "backupDatabase"
-	DuplicateDetection       JobName = "duplicateDetection"
-	FaceDetection            JobName = "faceDetection"
-	FacialRecognition        JobName = "facialRecognition"
-	Library                  JobName = "library"
-	MetadataExtraction       JobName = "metadataExtraction"
-	Migration                JobName = "migration"
-	Notifications            JobName = "notifications"
-	Search                   JobName = "search"
-	Sidecar                  JobName = "sidecar"
-	SmartSearch              JobName = "smartSearch"
-	StorageTemplateMigration JobName = "storageTemplateMigration"
-	ThumbnailGeneration      JobName = "thumbnailGeneration"
-	VideoConversion          JobName = "videoConversion"
+	JobNameBackgroundTask           JobName = "backgroundTask"
+	JobNameBackupDatabase           JobName = "backupDatabase"
+	JobNameDuplicateDetection       JobName = "duplicateDetection"
+	JobNameFaceDetection            JobName = "faceDetection"
+	JobNameFacialRecognition        JobName = "facialRecognition"
+	JobNameLibrary                  JobName = "library"
+	JobNameMetadataExtraction       JobName = "metadataExtraction"
+	JobNameMigration                JobName = "migration"
+	JobNameNotifications            JobName = "notifications"
+	JobNameSearch                   JobName = "search"
+	JobNameSidecar                  JobName = "sidecar"
+	JobNameSmartSearch              JobName = "smartSearch"
+	JobNameStorageTemplateMigration JobName = "storageTemplateMigration"
+	JobNameThumbnailGeneration      JobName = "thumbnailGeneration"
+	JobNameVideoConversion          JobName = "videoConversion"
 )
 
 // Defines values for LogLevel.
@@ -159,11 +160,12 @@ const (
 
 // Defines values for ManualJobName.
 const (
-	ManualJobNameMemoryCleanup ManualJobName = "memory-cleanup"
-	ManualJobNameMemoryCreate  ManualJobName = "memory-create"
-	ManualJobNamePersonCleanup ManualJobName = "person-cleanup"
-	ManualJobNameTagCleanup    ManualJobName = "tag-cleanup"
-	ManualJobNameUserCleanup   ManualJobName = "user-cleanup"
+	ManualJobNameBackupDatabase ManualJobName = "backup-database"
+	ManualJobNameMemoryCleanup  ManualJobName = "memory-cleanup"
+	ManualJobNameMemoryCreate   ManualJobName = "memory-create"
+	ManualJobNamePersonCleanup  ManualJobName = "person-cleanup"
+	ManualJobNameTagCleanup     ManualJobName = "tag-cleanup"
+	ManualJobNameUserCleanup    ManualJobName = "user-cleanup"
 )
 
 // Defines values for MemoryType.
@@ -188,6 +190,7 @@ const (
 const (
 	PathTypeEncodedVideo PathType = "encoded_video"
 	PathTypeFace         PathType = "face"
+	PathTypeFullsize     PathType = "fullsize"
 	PathTypeOriginal     PathType = "original"
 	PathTypePreview      PathType = "preview"
 	PathTypeProfile      PathType = "profile"
@@ -313,16 +316,26 @@ const (
 
 // Defines values for SyncEntityType.
 const (
-	PartnerDeleteV1 SyncEntityType = "PartnerDeleteV1"
-	PartnerV1       SyncEntityType = "PartnerV1"
-	UserDeleteV1    SyncEntityType = "UserDeleteV1"
-	UserV1          SyncEntityType = "UserV1"
+	AssetDeleteV1        SyncEntityType = "AssetDeleteV1"
+	AssetExifV1          SyncEntityType = "AssetExifV1"
+	AssetV1              SyncEntityType = "AssetV1"
+	PartnerAssetDeleteV1 SyncEntityType = "PartnerAssetDeleteV1"
+	PartnerAssetExifV1   SyncEntityType = "PartnerAssetExifV1"
+	PartnerAssetV1       SyncEntityType = "PartnerAssetV1"
+	PartnerDeleteV1      SyncEntityType = "PartnerDeleteV1"
+	PartnerV1            SyncEntityType = "PartnerV1"
+	UserDeleteV1         SyncEntityType = "UserDeleteV1"
+	UserV1               SyncEntityType = "UserV1"
 )
 
 // Defines values for SyncRequestType.
 const (
-	PartnersV1 SyncRequestType = "PartnersV1"
-	UsersV1    SyncRequestType = "UsersV1"
+	AssetExifsV1        SyncRequestType = "AssetExifsV1"
+	AssetsV1            SyncRequestType = "AssetsV1"
+	PartnerAssetExifsV1 SyncRequestType = "PartnerAssetExifsV1"
+	PartnerAssetsV1     SyncRequestType = "PartnerAssetsV1"
+	PartnersV1          SyncRequestType = "PartnersV1"
+	UsersV1             SyncRequestType = "UsersV1"
 )
 
 // Defines values for TimeBucketSize.
@@ -350,11 +363,11 @@ const (
 
 // Defines values for TranscodePolicy.
 const (
-	All      TranscodePolicy = "all"
-	Bitrate  TranscodePolicy = "bitrate"
-	Disabled TranscodePolicy = "disabled"
-	Optimal  TranscodePolicy = "optimal"
-	Required TranscodePolicy = "required"
+	TranscodePolicyAll      TranscodePolicy = "all"
+	TranscodePolicyBitrate  TranscodePolicy = "bitrate"
+	TranscodePolicyDisabled TranscodePolicy = "disabled"
+	TranscodePolicyOptimal  TranscodePolicy = "optimal"
+	TranscodePolicyRequired TranscodePolicy = "required"
 )
 
 // Defines values for UserAvatarColor.
@@ -1235,12 +1248,16 @@ type OAuthAuthorizeResponseDto struct {
 
 // OAuthCallbackDto defines model for OAuthCallbackDto.
 type OAuthCallbackDto struct {
-	Url string `json:"url"`
+	CodeVerifier *string `json:"codeVerifier,omitempty"`
+	State        *string `json:"state,omitempty"`
+	Url          string  `json:"url"`
 }
 
 // OAuthConfigDto defines model for OAuthConfigDto.
 type OAuthConfigDto struct {
-	RedirectUri string `json:"redirectUri"`
+	CodeChallenge *string `json:"codeChallenge,omitempty"`
+	RedirectUri   string  `json:"redirectUri"`
+	State         *string `json:"state,omitempty"`
 }
 
 // OnThisDayDto defines model for OnThisDayDto.
@@ -1730,6 +1747,7 @@ type SmartSearchDto struct {
 	IsNotInAlbum  *bool                 `json:"isNotInAlbum,omitempty"`
 	IsOffline     *bool                 `json:"isOffline,omitempty"`
 	IsVisible     *bool                 `json:"isVisible,omitempty"`
+	Language      *string               `json:"language,omitempty"`
 	LensModel     *string               `json:"lensModel"`
 	LibraryId     *openapi_types.UUID   `json:"libraryId"`
 	Make          *string               `json:"make,omitempty"`
@@ -1860,6 +1878,13 @@ type SystemConfigFacesDto struct {
 	Import bool `json:"import"`
 }
 
+// SystemConfigGeneratedFullsizeImageDto defines model for SystemConfigGeneratedFullsizeImageDto.
+type SystemConfigGeneratedFullsizeImageDto struct {
+	Enabled bool        `json:"enabled"`
+	Format  ImageFormat `json:"format"`
+	Quality int         `json:"quality"`
+}
+
 // SystemConfigGeneratedImageDto defines model for SystemConfigGeneratedImageDto.
 type SystemConfigGeneratedImageDto struct {
 	Format  ImageFormat `json:"format"`
@@ -1869,10 +1894,11 @@ type SystemConfigGeneratedImageDto struct {
 
 // SystemConfigImageDto defines model for SystemConfigImageDto.
 type SystemConfigImageDto struct {
-	Colorspace      Colorspace                    `json:"colorspace"`
-	ExtractEmbedded bool                          `json:"extractEmbedded"`
-	Preview         SystemConfigGeneratedImageDto `json:"preview"`
-	Thumbnail       SystemConfigGeneratedImageDto `json:"thumbnail"`
+	Colorspace      Colorspace                            `json:"colorspace"`
+	ExtractEmbedded bool                                  `json:"extractEmbedded"`
+	Fullsize        SystemConfigGeneratedFullsizeImageDto `json:"fullsize"`
+	Preview         SystemConfigGeneratedImageDto         `json:"preview"`
+	Thumbnail       SystemConfigGeneratedImageDto         `json:"thumbnail"`
 }
 
 // SystemConfigJobDto defines model for SystemConfigJobDto.
@@ -2518,7 +2544,7 @@ type AddSharedLinkAssetsParams struct {
 
 // SearchStacksParams defines parameters for SearchStacks.
 type SearchStacksParams struct {
-	PrimaryAssetId *string `form:"primaryAssetId,omitempty" json:"primaryAssetId,omitempty"`
+	PrimaryAssetId *openapi_types.UUID `form:"primaryAssetId,omitempty" json:"primaryAssetId,omitempty"`
 }
 
 // GetTimeBucketParams defines parameters for GetTimeBucket.
@@ -2673,11 +2699,11 @@ type RemoveMemoryAssetsJSONRequestBody = BulkIdsDto
 // AddMemoryAssetsJSONRequestBody defines body for AddMemoryAssets for application/json ContentType.
 type AddMemoryAssetsJSONRequestBody = BulkIdsDto
 
-// GetNotificationTemplateJSONRequestBody defines body for GetNotificationTemplate for application/json ContentType.
-type GetNotificationTemplateJSONRequestBody = TemplateDto
+// GetNotificationTemplateAdminJSONRequestBody defines body for GetNotificationTemplateAdmin for application/json ContentType.
+type GetNotificationTemplateAdminJSONRequestBody = TemplateDto
 
-// SendTestEmailJSONRequestBody defines body for SendTestEmail for application/json ContentType.
-type SendTestEmailJSONRequestBody = SystemConfigSmtpDto
+// SendTestEmailAdminJSONRequestBody defines body for SendTestEmailAdmin for application/json ContentType.
+type SendTestEmailAdminJSONRequestBody = SystemConfigSmtpDto
 
 // StartOAuthJSONRequestBody defines body for StartOAuth for application/json ContentType.
 type StartOAuthJSONRequestBody = OAuthConfigDto
@@ -3172,15 +3198,15 @@ type ClientInterface interface {
 
 	AddMemoryAssets(ctx context.Context, id openapi_types.UUID, body AddMemoryAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetNotificationTemplateWithBody request with any body
-	GetNotificationTemplateWithBody(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetNotificationTemplateAdminWithBody request with any body
+	GetNotificationTemplateAdminWithBody(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	GetNotificationTemplate(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetNotificationTemplateAdmin(ctx context.Context, name string, body GetNotificationTemplateAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// SendTestEmailWithBody request with any body
-	SendTestEmailWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// SendTestEmailAdminWithBody request with any body
+	SendTestEmailAdminWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	SendTestEmail(ctx context.Context, body SendTestEmailJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	SendTestEmailAdmin(ctx context.Context, body SendTestEmailAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// StartOAuthWithBody request with any body
 	StartOAuthWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -4905,8 +4931,8 @@ func (c *Client) AddMemoryAssets(ctx context.Context, id openapi_types.UUID, bod
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetNotificationTemplateWithBody(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetNotificationTemplateRequestWithBody(c.Server, name, contentType, body)
+func (c *Client) GetNotificationTemplateAdminWithBody(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNotificationTemplateAdminRequestWithBody(c.Server, name, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4917,8 +4943,8 @@ func (c *Client) GetNotificationTemplateWithBody(ctx context.Context, name strin
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetNotificationTemplate(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetNotificationTemplateRequest(c.Server, name, body)
+func (c *Client) GetNotificationTemplateAdmin(ctx context.Context, name string, body GetNotificationTemplateAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNotificationTemplateAdminRequest(c.Server, name, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4929,8 +4955,8 @@ func (c *Client) GetNotificationTemplate(ctx context.Context, name string, body 
 	return c.Client.Do(req)
 }
 
-func (c *Client) SendTestEmailWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewSendTestEmailRequestWithBody(c.Server, contentType, body)
+func (c *Client) SendTestEmailAdminWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSendTestEmailAdminRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4941,8 +4967,8 @@ func (c *Client) SendTestEmailWithBody(ctx context.Context, contentType string, 
 	return c.Client.Do(req)
 }
 
-func (c *Client) SendTestEmail(ctx context.Context, body SendTestEmailJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewSendTestEmailRequest(c.Server, body)
+func (c *Client) SendTestEmailAdmin(ctx context.Context, body SendTestEmailAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSendTestEmailAdminRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -10201,19 +10227,19 @@ func NewAddMemoryAssetsRequestWithBody(server string, id openapi_types.UUID, con
 	return req, nil
 }
 
-// NewGetNotificationTemplateRequest calls the generic GetNotificationTemplate builder with application/json body
-func NewGetNotificationTemplateRequest(server string, name string, body GetNotificationTemplateJSONRequestBody) (*http.Request, error) {
+// NewGetNotificationTemplateAdminRequest calls the generic GetNotificationTemplateAdmin builder with application/json body
+func NewGetNotificationTemplateAdminRequest(server string, name string, body GetNotificationTemplateAdminJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewGetNotificationTemplateRequestWithBody(server, name, "application/json", bodyReader)
+	return NewGetNotificationTemplateAdminRequestWithBody(server, name, "application/json", bodyReader)
 }
 
-// NewGetNotificationTemplateRequestWithBody generates requests for GetNotificationTemplate with any type of body
-func NewGetNotificationTemplateRequestWithBody(server string, name string, contentType string, body io.Reader) (*http.Request, error) {
+// NewGetNotificationTemplateAdminRequestWithBody generates requests for GetNotificationTemplateAdmin with any type of body
+func NewGetNotificationTemplateAdminRequestWithBody(server string, name string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -10228,7 +10254,7 @@ func NewGetNotificationTemplateRequestWithBody(server string, name string, conte
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/notifications/templates/%s", pathParam0)
+	operationPath := fmt.Sprintf("/notifications/admin/templates/%s", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10248,19 +10274,19 @@ func NewGetNotificationTemplateRequestWithBody(server string, name string, conte
 	return req, nil
 }
 
-// NewSendTestEmailRequest calls the generic SendTestEmail builder with application/json body
-func NewSendTestEmailRequest(server string, body SendTestEmailJSONRequestBody) (*http.Request, error) {
+// NewSendTestEmailAdminRequest calls the generic SendTestEmailAdmin builder with application/json body
+func NewSendTestEmailAdminRequest(server string, body SendTestEmailAdminJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewSendTestEmailRequestWithBody(server, "application/json", bodyReader)
+	return NewSendTestEmailAdminRequestWithBody(server, "application/json", bodyReader)
 }
 
-// NewSendTestEmailRequestWithBody generates requests for SendTestEmail with any type of body
-func NewSendTestEmailRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+// NewSendTestEmailAdminRequestWithBody generates requests for SendTestEmailAdmin with any type of body
+func NewSendTestEmailAdminRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -10268,7 +10294,7 @@ func NewSendTestEmailRequestWithBody(server string, contentType string, body io.
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/notifications/test-email")
+	operationPath := fmt.Sprintf("/notifications/admin/test-email")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -14829,15 +14855,15 @@ type ClientWithResponsesInterface interface {
 
 	AddMemoryAssetsWithResponse(ctx context.Context, id openapi_types.UUID, body AddMemoryAssetsJSONRequestBody, reqEditors ...RequestEditorFn) (*AddMemoryAssetsResponse, error)
 
-	// GetNotificationTemplateWithBodyWithResponse request with any body
-	GetNotificationTemplateWithBodyWithResponse(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error)
+	// GetNotificationTemplateAdminWithBodyWithResponse request with any body
+	GetNotificationTemplateAdminWithBodyWithResponse(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetNotificationTemplateAdminResponse, error)
 
-	GetNotificationTemplateWithResponse(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error)
+	GetNotificationTemplateAdminWithResponse(ctx context.Context, name string, body GetNotificationTemplateAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*GetNotificationTemplateAdminResponse, error)
 
-	// SendTestEmailWithBodyWithResponse request with any body
-	SendTestEmailWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendTestEmailResponse, error)
+	// SendTestEmailAdminWithBodyWithResponse request with any body
+	SendTestEmailAdminWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendTestEmailAdminResponse, error)
 
-	SendTestEmailWithResponse(ctx context.Context, body SendTestEmailJSONRequestBody, reqEditors ...RequestEditorFn) (*SendTestEmailResponse, error)
+	SendTestEmailAdminWithResponse(ctx context.Context, body SendTestEmailAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*SendTestEmailAdminResponse, error)
 
 	// StartOAuthWithBodyWithResponse request with any body
 	StartOAuthWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StartOAuthResponse, error)
@@ -16872,14 +16898,14 @@ func (r AddMemoryAssetsResponse) StatusCode() int {
 	return 0
 }
 
-type GetNotificationTemplateResponse struct {
+type GetNotificationTemplateAdminResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *TemplateResponseDto
 }
 
 // Status returns HTTPResponse.Status
-func (r GetNotificationTemplateResponse) Status() string {
+func (r GetNotificationTemplateAdminResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -16887,21 +16913,21 @@ func (r GetNotificationTemplateResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetNotificationTemplateResponse) StatusCode() int {
+func (r GetNotificationTemplateAdminResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type SendTestEmailResponse struct {
+type SendTestEmailAdminResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *TestEmailResponseDto
 }
 
 // Status returns HTTPResponse.Status
-func (r SendTestEmailResponse) Status() string {
+func (r SendTestEmailAdminResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -16909,7 +16935,7 @@ func (r SendTestEmailResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r SendTestEmailResponse) StatusCode() int {
+func (r SendTestEmailAdminResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -20070,38 +20096,38 @@ func (c *ClientWithResponses) AddMemoryAssetsWithResponse(ctx context.Context, i
 	return ParseAddMemoryAssetsResponse(rsp)
 }
 
-// GetNotificationTemplateWithBodyWithResponse request with arbitrary body returning *GetNotificationTemplateResponse
-func (c *ClientWithResponses) GetNotificationTemplateWithBodyWithResponse(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error) {
-	rsp, err := c.GetNotificationTemplateWithBody(ctx, name, contentType, body, reqEditors...)
+// GetNotificationTemplateAdminWithBodyWithResponse request with arbitrary body returning *GetNotificationTemplateAdminResponse
+func (c *ClientWithResponses) GetNotificationTemplateAdminWithBodyWithResponse(ctx context.Context, name string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetNotificationTemplateAdminResponse, error) {
+	rsp, err := c.GetNotificationTemplateAdminWithBody(ctx, name, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetNotificationTemplateResponse(rsp)
+	return ParseGetNotificationTemplateAdminResponse(rsp)
 }
 
-func (c *ClientWithResponses) GetNotificationTemplateWithResponse(ctx context.Context, name string, body GetNotificationTemplateJSONRequestBody, reqEditors ...RequestEditorFn) (*GetNotificationTemplateResponse, error) {
-	rsp, err := c.GetNotificationTemplate(ctx, name, body, reqEditors...)
+func (c *ClientWithResponses) GetNotificationTemplateAdminWithResponse(ctx context.Context, name string, body GetNotificationTemplateAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*GetNotificationTemplateAdminResponse, error) {
+	rsp, err := c.GetNotificationTemplateAdmin(ctx, name, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetNotificationTemplateResponse(rsp)
+	return ParseGetNotificationTemplateAdminResponse(rsp)
 }
 
-// SendTestEmailWithBodyWithResponse request with arbitrary body returning *SendTestEmailResponse
-func (c *ClientWithResponses) SendTestEmailWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendTestEmailResponse, error) {
-	rsp, err := c.SendTestEmailWithBody(ctx, contentType, body, reqEditors...)
+// SendTestEmailAdminWithBodyWithResponse request with arbitrary body returning *SendTestEmailAdminResponse
+func (c *ClientWithResponses) SendTestEmailAdminWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SendTestEmailAdminResponse, error) {
+	rsp, err := c.SendTestEmailAdminWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseSendTestEmailResponse(rsp)
+	return ParseSendTestEmailAdminResponse(rsp)
 }
 
-func (c *ClientWithResponses) SendTestEmailWithResponse(ctx context.Context, body SendTestEmailJSONRequestBody, reqEditors ...RequestEditorFn) (*SendTestEmailResponse, error) {
-	rsp, err := c.SendTestEmail(ctx, body, reqEditors...)
+func (c *ClientWithResponses) SendTestEmailAdminWithResponse(ctx context.Context, body SendTestEmailAdminJSONRequestBody, reqEditors ...RequestEditorFn) (*SendTestEmailAdminResponse, error) {
+	rsp, err := c.SendTestEmailAdmin(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseSendTestEmailResponse(rsp)
+	return ParseSendTestEmailAdminResponse(rsp)
 }
 
 // StartOAuthWithBodyWithResponse request with arbitrary body returning *StartOAuthResponse
@@ -23112,15 +23138,15 @@ func ParseAddMemoryAssetsResponse(rsp *http.Response) (*AddMemoryAssetsResponse,
 	return response, nil
 }
 
-// ParseGetNotificationTemplateResponse parses an HTTP response from a GetNotificationTemplateWithResponse call
-func ParseGetNotificationTemplateResponse(rsp *http.Response) (*GetNotificationTemplateResponse, error) {
+// ParseGetNotificationTemplateAdminResponse parses an HTTP response from a GetNotificationTemplateAdminWithResponse call
+func ParseGetNotificationTemplateAdminResponse(rsp *http.Response) (*GetNotificationTemplateAdminResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetNotificationTemplateResponse{
+	response := &GetNotificationTemplateAdminResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -23138,15 +23164,15 @@ func ParseGetNotificationTemplateResponse(rsp *http.Response) (*GetNotificationT
 	return response, nil
 }
 
-// ParseSendTestEmailResponse parses an HTTP response from a SendTestEmailWithResponse call
-func ParseSendTestEmailResponse(rsp *http.Response) (*SendTestEmailResponse, error) {
+// ParseSendTestEmailAdminResponse parses an HTTP response from a SendTestEmailAdminWithResponse call
+func ParseSendTestEmailAdminResponse(rsp *http.Response) (*SendTestEmailAdminResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &SendTestEmailResponse{
+	response := &SendTestEmailAdminResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
