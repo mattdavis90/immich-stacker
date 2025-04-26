@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"slices"
 	"time"
 
 	"github.com/caarlos0/env/v11"
@@ -48,15 +49,9 @@ type Config struct {
 	ReadOnly       bool   `env:"READ_ONLY" envDefault:"false"`
 }
 
-func getEnv(e string) string {
-	ret := os.Getenv(e)
-	if ret == "" {
-		log.Fatal().Str("Env", e).Msg("Missing envvar")
-	}
-	return ret
-}
-
 type HTTPLogger struct{}
+
+const VERSION = "v1.5.0"
 
 func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 	reqBody := ""
@@ -135,6 +130,7 @@ func main() {
 		log.Fatal().Err(err).Msg("")
 	}
 
+	log.Info().Str("version", VERSION).Msg("Starting immish-stacker")
 	log.Info().Str("endpoint", cfg.Endpoint).Msg("Connecting to Immich")
 
 	if cfg.InsecureTLS {
@@ -192,7 +188,7 @@ func main() {
 	for _, tb := range *resp.JSON200 {
 		log.Debug().Str("time_bucket", tb.TimeBucket).Int("count", tb.Count).Msg("Requesting time bucket")
 
-		resp, err := c.GetTimeBucketWithResponse(ctx, &client.GetTimeBucketParams{TimeBucket: tb.TimeBucket, Size: client.MONTH})
+		resp, err := c.GetTimeBucketWithResponse(ctx, &client.GetTimeBucketParams{TimeBucket: tb.TimeBucket, Size: client.MONTH, WithStacked: &t})
 		if err != nil {
 			log.Fatal().Err(err).Msg("")
 		}
@@ -248,15 +244,7 @@ func main() {
 			// Generate a slice of UUIDs with the parent first
 			assetIDs := []openapi_types.UUID{*s.Parent}
 			for _, a := range s.IDs {
-				found := false
-				for _, b := range assetIDs {
-					if a == b {
-						found = true
-						break
-					}
-				}
-
-				if !found {
+				if !slices.Contains(assetIDs, a) {
 					assetIDs = append(assetIDs, a)
 				}
 			}

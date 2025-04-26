@@ -40,6 +40,7 @@ IMMICH_PARENT=_COVER\.jpg$
 * 1.2.0 - works up to latest
 * 1.3.0 - works up to latest
 * 1.4.0 - works up to latest
+* 1.5.0 - works up to latest
 
 ## Deployment
 
