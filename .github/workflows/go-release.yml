@@ -8,6 +8,16 @@ name: Release
 jobs:
   release:
     runs-on: 'ubuntu-latest'
+    strategy:
+      matrix:
+        # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
+        goos: [linux, windows, darwin]
+        goarch: ["386", amd64, arm64]
+        exclude:
+          - goarch: "386"
+            goos: darwin
+          - goarch: arm64
+            goos: windows
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,9 +29,9 @@ jobs:
 
       - name: Build
         run: |
-          GO_ENABLE=0 go build -ldflags '-extldflags "-static"' -tags timetzdata
+          GO_ENABLE=0 GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -ldflags '-extldflags "-static"' -tags timetzdata -o immich-stacker-${{ matrix.goos }}-${{ matrix.goarch }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: immich-stacker
+          files: immich-stacker-${{ matrix.goos }}-${{ matrix.goarch }}
