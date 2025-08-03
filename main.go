@@ -131,7 +131,7 @@ func main() {
 		log.Fatal().Err(err).Msg("")
 	}
 
-	log.Info().Str("version", VERSION).Msg("Starting immish-stacker")
+	log.Info().Str("version", VERSION).Msg("Starting immich-stacker")
 	log.Info().Str("endpoint", cfg.Endpoint).Msg("Connecting to Immich")
 
 	if cfg.InsecureTLS {
