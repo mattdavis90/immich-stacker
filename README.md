@@ -79,7 +79,7 @@ IMMICH_MATCH=\.(JPG|RW2)$
 IMMICH_PARENT=\.JPG$
 EOF
 
-docker run -ti --rm --env-file=.env mattdavis90/immich-stacker-latest
+docker run -ti --rm --env-file=.env mattdavis90/immich-stacker
 ```
 
 ### Using Swarm Cronjobs
