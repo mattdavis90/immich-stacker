@@ -51,6 +51,10 @@ Configuration is taken from the environment or a `.env` file. Care should be tak
 when using special characters in an environment variable. `.env` files will handle
 escaping for you but a docker deployment needs care.
 
+You will need an API Key for your Immich installation. Since v1.351 it has been
+possible to apply fine grain security to this token. The following properties
+are required for immich-stacker to work; `asset.read` and `stack.*`
+
 ### Standalone
 
 Download the prebuilt binary from Github and run it. The example below uses a `.env`
