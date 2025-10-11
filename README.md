@@ -41,7 +41,8 @@ IMMICH_PARENT=_COVER\.jpg$
 * 1.3.0 - works up to Immich v1.132.0
 * 1.4.0 - works up to Immich v1.132.0
 * 1.5.0 - works up to Immich v1.132.0
-* 1.6.0 - works up to latest
+* 1.6.0 - works up to Immich v1.135.3
+* 1.7.0 - works up to latest
 
 ## Deployment
 

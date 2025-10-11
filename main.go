@@ -32,10 +32,11 @@ func (s Stack) Stackable() bool {
 }
 
 type Stats struct {
-	Stackable    int
-	NotStackable int
-	Success      int
-	Failed       int
+	Stackable      int
+	AlreadyStacked int
+	NotStackable   int
+	Success        int
+	Failed         int
 }
 
 type Config struct {
@@ -52,7 +53,7 @@ type Config struct {
 
 type HTTPLogger struct{}
 
-const VERSION = "v1.6.0"
+const VERSION = "v1.7.0"
 
 func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 	reqBody := ""
@@ -175,12 +176,11 @@ func main() {
 
 	total := 0
 	stacks := make(map[string]*Stack)
-	t := true
 	var one float32 = 1.0
 	next := &one
 
 	for next != nil {
-		resp, err := c.SearchAssetsWithResponse(ctx, client.MetadataSearchDto{WithStacked: &t, Page: next})
+		resp, err := c.SearchAssetsWithResponse(ctx, client.MetadataSearchDto{Page: next})
 		if err != nil {
 			log.Fatal().Err(err).Msg("")
 		}
@@ -191,14 +191,10 @@ func main() {
 			log.Fatal().Msg("nil return")
 		}
 
-		total += len(resp.JSON200.Albums.Items)
+		total += resp.JSON200.Assets.Count
 
-		log.Debug().Float32("page", *next).Int("expected", resp.JSON200.Assets.Count).Int("got", len(resp.JSON200.Assets.Items)).Msg("Retrieved time bucket")
+		log.Debug().Float32("page", *next).Int("expected", resp.JSON200.Assets.Count).Int("got", len(resp.JSON200.Assets.Items)).Msg("Retrieved page")
 		for _, a := range resp.JSON200.Assets.Items {
-			if a.Stack != nil && a.Stack.AssetCount > 0 {
-				continue
-			}
-
 			if m.Match([]byte(a.OriginalFileName)) {
 				id := openapi_types.UUID(uuid.MustParse(a.Id))
 				key := string(m.ReplaceAll([]byte(a.OriginalFileName), []byte("")))
@@ -242,6 +238,23 @@ func main() {
 		if s.Stackable() {
 			stats.Stackable++
 
+			log.Debug().Str("filename", f).Msg("Checking stacked")
+
+			resp, err := c.GetAssetInfoWithResponse(ctx, *s.Parent, &client.GetAssetInfoParams{});
+			if err != nil {
+				log.Fatal().Err(err).Msg("")
+			}
+			if resp.StatusCode() != http.StatusOK {
+				log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+			}
+			if resp.JSON200 == nil {
+				log.Fatal().Msg("nil return")
+			}
+			if resp.JSON200.Stack != nil && resp.JSON200.Stack.AssetCount > 0 {
+				stats.AlreadyStacked++;
+				continue;
+			}
+
 			log.Debug().Str("filename", f).Msg("Stacking")
 
 			// Generate a slice of UUIDs with the parent first
@@ -275,6 +288,7 @@ func main() {
 
 	log.Info().
 		Int("stackable", stats.Stackable).
+		Int("already_stacked", stats.AlreadyStacked).
 		Int("success", stats.Success).
 		Int("failed", stats.Failed).
 		Int("not_stackable", stats.NotStackable).
