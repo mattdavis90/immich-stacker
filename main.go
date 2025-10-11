@@ -40,20 +40,21 @@ type Stats struct {
 }
 
 type Config struct {
-	APIKey         string `env:"API_KEY"`
-	Endpoint       string `env:"ENDPOINT"`
-	Match          string `env:"MATCH"`
-	Parent         string `env:"PARENT"`
-	LogLevel       string `env:"LOG_LEVEL" envDefault:"INFO"`
-	DebugHTTP      bool   `env:"DEBUG_HTTP" envDefault:"false"`
-	CompareCreated bool   `env:"COMPARE_CREATED" envDefault:"false"`
-	InsecureTLS    bool   `env:"INSECURE_TLS" envDefault:"false"`
-	ReadOnly       bool   `env:"READ_ONLY" envDefault:"false"`
+	APIKey         string        `env:"API_KEY"`
+	Endpoint       string        `env:"ENDPOINT"`
+	Match          string        `env:"MATCH"`
+	Parent         string        `env:"PARENT"`
+	LogLevel       string        `env:"LOG_LEVEL" envDefault:"INFO"`
+	DebugHTTP      bool          `env:"DEBUG_HTTP" envDefault:"false"`
+	CompareCreated bool          `env:"COMPARE_CREATED" envDefault:"false"`
+	NewerThan      time.Duration `env:"NEWER_THAN" envDefault:"0h"`
+	InsecureTLS    bool          `env:"INSECURE_TLS" envDefault:"false"`
+	ReadOnly       bool          `env:"READ_ONLY" envDefault:"false"`
 }
 
 type HTTPLogger struct{}
 
-const VERSION = "v1.7.0"
+const VERSION = "v1.7.1"
 
 func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 	reqBody := ""
@@ -172,6 +173,12 @@ func main() {
 	v := verResp.JSON200
 	log.Info().Int("major", v.Major).Int("minor", v.Minor).Int("patch", v.Patch).Msg("Server version")
 
+	var timeTaken *time.Time = nil
+	if cfg.NewerThan.Seconds() != 0 {
+		tt := time.Now().Add(-1 * cfg.NewerThan)
+		timeTaken = &tt
+	}
+
 	log.Info().Msg("Requesting all assets")
 
 	total := 0
@@ -180,7 +187,7 @@ func main() {
 	next := &one
 
 	for next != nil {
-		resp, err := c.SearchAssetsWithResponse(ctx, client.MetadataSearchDto{Page: next})
+		resp, err := c.SearchAssetsWithResponse(ctx, client.MetadataSearchDto{TakenAfter: timeTaken, Page: next})
 		if err != nil {
 			log.Fatal().Err(err).Msg("")
 		}
@@ -240,7 +247,7 @@ func main() {
 
 			log.Debug().Str("filename", f).Msg("Checking stacked")
 
-			resp, err := c.GetAssetInfoWithResponse(ctx, *s.Parent, &client.GetAssetInfoParams{});
+			resp, err := c.GetAssetInfoWithResponse(ctx, *s.Parent, &client.GetAssetInfoParams{})
 			if err != nil {
 				log.Fatal().Err(err).Msg("")
 			}
@@ -251,8 +258,8 @@ func main() {
 				log.Fatal().Msg("nil return")
 			}
 			if resp.JSON200.Stack != nil && resp.JSON200.Stack.AssetCount > 0 {
-				stats.AlreadyStacked++;
-				continue;
+				stats.AlreadyStacked++
+				continue
 			}
 
 			log.Debug().Str("filename", f).Msg("Stacking")

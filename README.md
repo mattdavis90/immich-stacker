@@ -43,6 +43,7 @@ IMMICH_PARENT=_COVER\.jpg$
 * 1.5.0 - works up to Immich v1.132.0
 * 1.6.0 - works up to Immich v1.135.3
 * 1.7.0 - works up to latest
+* 1.7.! - works up to latest
 
 ## Deployment
 
@@ -142,3 +143,8 @@ warning log on startup.
 
 The `IMMICH_READ_ONLY` environment variable can be used for testing. It will not make
 changes to your Immich installation.
+
+The `IMMICH_NEWER_THAN` environment variable can be used to only target images
+newer than the given time duration. Due to a [limitation in GoLang's time
+duration paring](https://github.com/golang/go/issues/11473) only seconds,
+minutes, and hours can be used.
