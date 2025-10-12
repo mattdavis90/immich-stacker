@@ -54,7 +54,7 @@ type Config struct {
 
 type HTTPLogger struct{}
 
-const VERSION = "v1.7.1"
+const VERSION = "v1.7.2"
 
 func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 	reqBody := ""
@@ -239,6 +239,29 @@ func main() {
 
 	log.Info().Int("total", total).Int("matches", len(stacks)).Msg("Retrieved assets")
 
+	log.Info().Msg("Requesting all stacks")
+
+	currentStacks := make(map[string][]string)
+	resp, err := c.SearchStacksWithResponse(ctx, &client.SearchStacksParams{})
+	if err != nil {
+		log.Fatal().Err(err).Msg("")
+	}
+	if resp.StatusCode() != http.StatusOK {
+		log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+	}
+	if resp.JSON200 == nil {
+		log.Fatal().Msg("nil return")
+	}
+	for _, a := range *resp.JSON200 {
+		children := make([]string, len(a.Assets))
+		for n, c := range a.Assets {
+			children[n] = c.Id
+		}
+		currentStacks[a.PrimaryAssetId] = children
+	}
+
+	log.Info().Int("count", len(currentStacks)).Msg("Retrieved stacks")
+
 	stats := Stats{}
 
 	for f, s := range stacks {
@@ -247,19 +270,18 @@ func main() {
 
 			log.Debug().Str("filename", f).Msg("Checking stacked")
 
-			resp, err := c.GetAssetInfoWithResponse(ctx, *s.Parent, &client.GetAssetInfoParams{})
-			if err != nil {
-				log.Fatal().Err(err).Msg("")
-			}
-			if resp.StatusCode() != http.StatusOK {
-				log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
-			}
-			if resp.JSON200 == nil {
-				log.Fatal().Msg("nil return")
-			}
-			if resp.JSON200.Stack != nil && resp.JSON200.Stack.AssetCount > 0 {
-				stats.AlreadyStacked++
-				continue
+			if children, ok := currentStacks[s.Parent.String()]; ok {
+				alreadyStacked := true
+				for _, c := range s.IDs {
+					if !slices.Contains(children, c.String()) {
+						alreadyStacked = false
+						break
+					}
+				}
+				if alreadyStacked {
+					stats.AlreadyStacked++
+					continue
+				}
 			}
 
 			log.Debug().Str("filename", f).Msg("Stacking")
@@ -286,6 +308,16 @@ func main() {
 					log.Info().Str("filename", f).Msg("Created stack")
 					stats.Success++
 				}
+			} else {
+				children := make([]string, len(s.IDs))
+				for n, c := range s.IDs {
+					children[n] = c.String()
+				}
+				log.Info().
+					Str("filename", f).
+					Str("parent", s.Parent.String()).
+					Strs("children", children).
+					Msg("Would have stacked")
 			}
 		} else {
 			log.Debug().Str("filename", f).Msg("Skipped")
