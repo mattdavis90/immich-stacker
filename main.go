@@ -101,7 +101,7 @@ func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 }
 
 func main() {
-	godotenv.Load()
+	godotenv.Load() //nolint:errcheck
 
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
