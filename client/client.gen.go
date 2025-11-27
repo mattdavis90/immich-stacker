@@ -1447,8 +1447,8 @@ type MergePersonDto struct {
 type MetadataSearchDto struct {
 	AlbumIds         *[]openapi_types.UUID `json:"albumIds,omitempty"`
 	Checksum         *string               `json:"checksum,omitempty"`
-	City             *string               `json:"city"`
-	Country          *string               `json:"country"`
+	City             *string               `json:"city,omitempty"`
+	Country          *string               `json:"country,omitempty"`
 	CreatedAfter     *time.Time            `json:"createdAfter,omitempty"`
 	CreatedBefore    *time.Time            `json:"createdBefore,omitempty"`
 	Description      *string               `json:"description,omitempty"`
@@ -1461,10 +1461,10 @@ type MetadataSearchDto struct {
 	IsMotion         *bool                 `json:"isMotion,omitempty"`
 	IsNotInAlbum     *bool                 `json:"isNotInAlbum,omitempty"`
 	IsOffline        *bool                 `json:"isOffline,omitempty"`
-	LensModel        *string               `json:"lensModel"`
-	LibraryId        *openapi_types.UUID   `json:"libraryId"`
+	LensModel        *string               `json:"lensModel,omitempty"`
+	LibraryId        *openapi_types.UUID   `json:"libraryId,omitempty"`
 	Make             *string               `json:"make,omitempty"`
-	Model            *string               `json:"model"`
+	Model            *string               `json:"model,omitempty"`
 	Ocr              *string               `json:"ocr,omitempty"`
 	Order            *AssetOrder           `json:"order,omitempty"`
 	OriginalFileName *string               `json:"originalFileName,omitempty"`
@@ -1474,8 +1474,8 @@ type MetadataSearchDto struct {
 	PreviewPath      *string               `json:"previewPath,omitempty"`
 	Rating           *float32              `json:"rating,omitempty"`
 	Size             *float32              `json:"size,omitempty"`
-	State            *string               `json:"state"`
-	TagIds           *[]openapi_types.UUID `json:"tagIds"`
+	State            *string               `json:"state,omitempty"`
+	TagIds           *[]openapi_types.UUID `json:"tagIds,omitempty"`
 	TakenAfter       *time.Time            `json:"takenAfter,omitempty"`
 	TakenBefore      *time.Time            `json:"takenBefore,omitempty"`
 	ThumbnailPath    *string               `json:"thumbnailPath,omitempty"`
