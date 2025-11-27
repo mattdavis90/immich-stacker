@@ -114,23 +114,23 @@ func main() {
 
 	level, err := zerolog.ParseLevel(cfg.LogLevel)
 	if err != nil {
-		log.Fatal().Err(err).Msg("")
+		log.Fatal().Err(err).Msg("Invalid log level")
 	}
 	zerolog.SetGlobalLevel(level)
 
 	m, err := regexp.Compile(cfg.Match)
 	if err != nil {
-		log.Fatal().Err(err).Msg("")
+		log.Fatal().Err(err).Msg("Invalid match regex")
 	}
 
 	p, err := regexp.Compile(cfg.Parent)
 	if err != nil {
-		log.Fatal().Err(err).Msg("")
+		log.Fatal().Err(err).Msg("Invalid parent regex")
 	}
 
 	sp, err := securityprovider.NewSecurityProviderApiKey("header", "x-api-key", cfg.APIKey)
 	if err != nil {
-		log.Fatal().Err(err).Msg("")
+		log.Fatal().Err(err).Msg("Failed to create API key provider")
 	}
 
 	log.Info().Str("version", VERSION).Msg("Starting immich-stacker")
@@ -155,20 +155,20 @@ func main() {
 		client.WithRequestEditorFn(sp.Intercept),
 	)
 	if err != nil {
-		log.Fatal().Err(err).Msg("")
+		log.Fatal().Err(err).Msg("Failed to create Immich client")
 	}
 
 	ctx := context.Background()
 
 	verResp, err := c.GetServerVersionWithResponse(ctx)
 	if err != nil {
-		log.Fatal().Err(err).Msg("")
+		log.Fatal().Err(err).Msg("Failed to get server version")
 	}
 	if verResp.StatusCode() != http.StatusOK {
-		log.Fatal().Int("status", verResp.StatusCode()).Msg("Expected HTTP 200")
+		log.Fatal().Int("status", verResp.StatusCode()).Msg("Failed to get server version: expected HTTP 200")
 	}
 	if verResp.JSON200 == nil {
-		log.Fatal().Msg("nil return")
+		log.Fatal().Msg("Server version response is nil")
 	}
 	v := verResp.JSON200
 	log.Info().Int("major", v.Major).Int("minor", v.Minor).Int("patch", v.Patch).Msg("Server version")
@@ -189,13 +189,13 @@ func main() {
 	for next != nil {
 		resp, err := c.SearchAssetsWithResponse(ctx, client.MetadataSearchDto{TakenAfter: timeTaken, Page: next})
 		if err != nil {
-			log.Fatal().Err(err).Msg("")
+			log.Fatal().Err(err).Msg("Failed to search assets")
 		}
 		if resp.StatusCode() != http.StatusOK {
-			log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+			log.Fatal().Int("status", resp.StatusCode()).Msg("Failed to search assets: expected HTTP 200")
 		}
 		if resp.JSON200 == nil {
-			log.Fatal().Msg("nil return")
+			log.Fatal().Msg("Search assets response is nil")
 		}
 
 		total += resp.JSON200.Assets.Count
@@ -228,7 +228,7 @@ func main() {
 		if resp.JSON200.Assets.NextPage != nil {
 			a, err := strconv.ParseFloat(*resp.JSON200.Assets.NextPage, 32)
 			if err != nil {
-				log.Fatal().Err(err).Msg("")
+				log.Fatal().Err(err).Msg("Failed to parse next page")
 			}
 			b := float32(a)
 			next = &b
@@ -249,13 +249,13 @@ func main() {
 
 			resp, err := c.GetAssetInfoWithResponse(ctx, *s.Parent, &client.GetAssetInfoParams{})
 			if err != nil {
-				log.Fatal().Err(err).Msg("")
+				log.Fatal().Err(err).Msg("Failed to get asset info")
 			}
 			if resp.StatusCode() != http.StatusOK {
-				log.Fatal().Int("status", resp.StatusCode()).Msg("Expected HTTP 200")
+				log.Fatal().Int("status", resp.StatusCode()).Msg("Failed to get asset info: expected HTTP 200")
 			}
 			if resp.JSON200 == nil {
-				log.Fatal().Msg("nil return")
+				log.Fatal().Msg("Asset info response is nil")
 			}
 			if resp.JSON200.Stack != nil && resp.JSON200.Stack.AssetCount > 0 {
 				stats.AlreadyStacked++
@@ -277,10 +277,10 @@ func main() {
 					AssetIds: assetIDs,
 				})
 				if err != nil {
-					log.Error().Err(err)
+					log.Error().Err(err).Msg("Failed to create stack")
 					stats.Failed++
 				} else if resp.StatusCode() != http.StatusCreated {
-					log.Error().Int("status", resp.StatusCode()).Msg("Expected HTTP 201")
+					log.Error().Int("status", resp.StatusCode()).Msg("Failed to create stack: expected HTTP 201")
 					stats.Failed++
 				} else {
 					log.Info().Str("filename", f).Msg("Created stack")
