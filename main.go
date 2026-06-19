@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"slices"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/caarlos0/env/v11"
@@ -42,8 +43,6 @@ type Stats struct {
 type Config struct {
 	APIKey         string        `env:"API_KEY"`
 	Endpoint       string        `env:"ENDPOINT"`
-	Match          string        `env:"MATCH"`
-	Parent         string        `env:"PARENT"`
 	LogLevel       string        `env:"LOG_LEVEL" envDefault:"INFO"`
 	DebugHTTP      bool          `env:"DEBUG_HTTP" envDefault:"false"`
 	CompareCreated bool          `env:"COMPARE_CREATED" envDefault:"false"`
@@ -106,6 +105,49 @@ func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 
+	matches := make(map[string]string)
+	parents := make(map[string]string)
+	e := os.Environ()
+	for _, kv := range e {
+		if strings.HasPrefix(kv, "IMMICH_MATCH") {
+			if k, v, found := strings.Cut(kv, "="); found {
+				re := regexp.MustCompile("IMMICH_MATCH(.*)")
+				mk := re.FindStringSubmatch(k)
+				matches[mk[1]] = v
+			}
+		}
+		if strings.HasPrefix(kv, "IMMICH_PARENT") {
+			if k, v, found := strings.Cut(kv, "="); found {
+				re := regexp.MustCompile("IMMICH_PARENT(.*)")
+				mk := re.FindStringSubmatch(k)
+				parents[mk[1]] = v
+			}
+		}
+	}
+
+	runs := make(map[*regexp.Regexp]*regexp.Regexp)
+	for k, mv := range matches {
+		if pv, ok := parents[k]; ok {
+			m, err := regexp.Compile(mv)
+			if err != nil {
+				log.Fatal().Str("suffix", k).Err(err).Msg("Invalid match regex")
+			}
+
+			p, err := regexp.Compile(pv)
+			if err != nil {
+				log.Fatal().Str("suffix", k).Err(err).Msg("Invalid parent regex")
+			}
+			runs[m] = p
+		} else {
+			log.Error().Str("suffix", k).Msg("Missing IMMICH_PARENT for IMMICH_MATCH")
+		}
+	}
+	for k := range parents {
+		if _, ok := matches[k]; !ok {
+			log.Error().Str("suffix", k).Msg("Missing IMMICH_MATCH for IMMICH_PARENT")
+		}
+	}
+
 	cfg := Config{}
 	opts := env.Options{RequiredIfNoDef: true, Prefix: "IMMICH_"}
 	if err := env.ParseWithOptions(&cfg, opts); err != nil {
@@ -117,16 +159,6 @@ func main() {
 		log.Fatal().Err(err).Msg("Invalid log level")
 	}
 	zerolog.SetGlobalLevel(level)
-
-	m, err := regexp.Compile(cfg.Match)
-	if err != nil {
-		log.Fatal().Err(err).Msg("Invalid match regex")
-	}
-
-	p, err := regexp.Compile(cfg.Parent)
-	if err != nil {
-		log.Fatal().Err(err).Msg("Invalid parent regex")
-	}
 
 	sp, err := securityprovider.NewSecurityProviderApiKey("header", "x-api-key", cfg.APIKey)
 	if err != nil {
@@ -202,25 +234,27 @@ func main() {
 
 		log.Debug().Float32("page", *next).Int("expected", resp.JSON200.Assets.Count).Int("got", len(resp.JSON200.Assets.Items)).Msg("Retrieved page")
 		for _, a := range resp.JSON200.Assets.Items {
-			if m.Match([]byte(a.OriginalFileName)) {
-				id := openapi_types.UUID(uuid.MustParse(a.Id))
-				key := string(m.ReplaceAll([]byte(a.OriginalFileName), []byte("")))
-				if cfg.CompareCreated {
-					key += "_" + a.FileCreatedAt.Local().String()
-				}
-
-				s, ok := stacks[key]
-				if !ok {
-					s = &Stack{
-						IDs: make([]uuid.UUID, 0),
+			for m, p := range runs {
+				if m.Match([]byte(a.OriginalFileName)) {
+					id := openapi_types.UUID(uuid.MustParse(a.Id))
+					key := string(m.ReplaceAll([]byte(a.OriginalFileName), []byte("")))
+					if cfg.CompareCreated {
+						key += "_" + a.FileCreatedAt.Local().String()
 					}
-					stacks[key] = s
-				}
 
-				if p.Match([]byte(a.OriginalFileName)) {
-					s.Parent = &id
-				} else {
-					s.IDs = append(s.IDs, id)
+					s, ok := stacks[key]
+					if !ok {
+						s = &Stack{
+							IDs: make([]uuid.UUID, 0),
+						}
+						stacks[key] = s
+					}
+
+					if p.Match([]byte(a.OriginalFileName)) {
+						s.Parent = &id
+					} else {
+						s.IDs = append(s.IDs, id)
+					}
 				}
 			}
 		}
