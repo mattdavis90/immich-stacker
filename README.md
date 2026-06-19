@@ -32,6 +32,43 @@ IMMICH_MATCH=BURST[0-9]{3}(_COVER)?\.jpg$
 IMMICH_PARENT=_COVER\.jpg$
 ```
 
+## Multiple Match support - **New in v1.8.0**
+
+From v1.8.0 Immich Stacker supports multiple match patterns.
+
+The implementation is backward compatible. The code will search your environment variables for variables starting `IMMICH_MATCH` and `IMMICH_PARENT`. Each instance is paired together based on a common suffix. Any missing pairs are logged and ignored. See the examples below.
+
+These two code blocks are functionally equivalant
+
+```bash
+IMMICH_MATCH_1=\.(JPG|RW2)$
+IMMICH_PARENT_1=\.JPG$
+IMMICH_MATCH_2=BURST[0-9]{3}(_COVER)?\.jpg$
+IMMICH_PARENT_2=_COVER\.jpg$
+```
+
+```bash
+IMMICH_MATCH_Raw=\.(JPG|RW2)$
+IMMICH_PARENT_Raw=\.JPG$
+IMMICH_MATCH_Burst=BURST[0-9]{3}(_COVER)?\.jpg$
+IMMICH_PARENT_Burst=_COVER\.jpg$
+```
+
+The following will log two errors because the pairing of variables will fail
+
+
+```bash
+IMMICH_MATCH_1=\.(JPG|RW2)$
+IMMICH_PARENT_1=\.JPG$
+IMMICH_MATCH_2=BURST[0-9]{3}(_COVER)?\.jpg$
+IMMICH_PARENT_3=_COVER\.jpg$
+```
+
+```bash
+2026-06-19T09:01:20+01:00 ERR Missing IMMICH_PARENT for IMMICH_MATCH suffix=_1
+2026-06-19T09:01:20+01:00 ERR Missing IMMICH_MATCH for IMMICH_PARENT suffix=_2
+```
+
 ## Versions
 
 * 1.0.0 - works up to Immich v1.106.0
@@ -44,6 +81,7 @@ IMMICH_PARENT=_COVER\.jpg$
 * 1.6.0 - works up to Immich v1.135.3
 * 1.7.0 - works up to latest
 * 1.7.1 - works up to latest
+* 1.8.0 - works up to latest
 
 ## Deployment
 

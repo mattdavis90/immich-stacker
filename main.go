@@ -53,7 +53,7 @@ type Config struct {
 
 type HTTPLogger struct{}
 
-const VERSION = "v1.7.1"
+const VERSION = "v1.8.0"
 
 func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 	reqBody := ""
