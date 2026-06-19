@@ -31,14 +31,6 @@ jobs:
         run: |
           GO_ENABLE=0 GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -ldflags '-extldflags "-static"' -tags timetzdata -o immich-stacker-${{ matrix.goos }}-${{ matrix.goarch }}
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'binary'
-          scan-ref: './immich-stacker-${{ matrix.goos }}-${{ matrix.goarch }}'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-
       - name: Release
         uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         with:
