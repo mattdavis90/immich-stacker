@@ -215,7 +215,7 @@ func main() {
 
 	total := 0
 	stacks := make(map[string]*Stack)
-	var one float32 = 1.0
+	one := 1
 	next := &one
 
 	for next != nil {
@@ -232,11 +232,11 @@ func main() {
 
 		total += resp.JSON200.Assets.Count
 
-		log.Debug().Float32("page", *next).Int("expected", resp.JSON200.Assets.Count).Int("got", len(resp.JSON200.Assets.Items)).Msg("Retrieved page")
+		log.Debug().Int("page", *next).Int("expected", resp.JSON200.Assets.Count).Int("got", len(resp.JSON200.Assets.Items)).Msg("Retrieved page")
 		for _, a := range resp.JSON200.Assets.Items {
 			for m, p := range runs {
 				if m.Match([]byte(a.OriginalFileName)) {
-					id := openapi_types.UUID(uuid.MustParse(a.Id))
+					id := a.Id
 					key := string(m.ReplaceAll([]byte(a.OriginalFileName), []byte("")))
 					if cfg.CompareCreated {
 						key += "_" + a.FileCreatedAt.Local().String()
@@ -260,12 +260,11 @@ func main() {
 		}
 
 		if resp.JSON200.Assets.NextPage != nil {
-			a, err := strconv.ParseFloat(*resp.JSON200.Assets.NextPage, 32)
+			a, err := strconv.Atoi(*resp.JSON200.Assets.NextPage)
 			if err != nil {
 				log.Fatal().Err(err).Msg("Failed to parse next page")
 			}
-			b := float32(a)
-			next = &b
+			next = &a
 		} else {
 			next = nil
 		}
