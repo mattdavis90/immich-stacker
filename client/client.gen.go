@@ -4582,6 +4582,18 @@ type ReactionLevel string
 // ReactionType Reaction type
 type ReactionType string
 
+// RecentlyAddedResponse defines model for RecentlyAddedResponse.
+type RecentlyAddedResponse struct {
+	// SidebarWeb Whether the recently added page appears in the web sidebar
+	SidebarWeb bool `json:"sidebarWeb"`
+}
+
+// RecentlyAddedUpdate defines model for RecentlyAddedUpdate.
+type RecentlyAddedUpdate struct {
+	// SidebarWeb Whether the recently added page appears in the web sidebar
+	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
+}
+
 // ReleaseChannel Release channel
 type ReleaseChannel string
 
@@ -6354,6 +6366,7 @@ type UserPreferencesResponseDto struct {
 	People             PeopleResponse             `json:"people"`
 	Purchase           PurchaseResponse           `json:"purchase"`
 	Ratings            RatingsResponse            `json:"ratings"`
+	RecentlyAdded      RecentlyAddedResponse      `json:"recentlyAdded"`
 	SharedLinks        SharedLinksResponse        `json:"sharedLinks"`
 	Tags               TagsResponse               `json:"tags"`
 }
@@ -6371,6 +6384,7 @@ type UserPreferencesUpdateDto struct {
 	People             *PeopleUpdate             `json:"people,omitempty"`
 	Purchase           *PurchaseUpdate           `json:"purchase,omitempty"`
 	Ratings            *RatingsUpdate            `json:"ratings,omitempty"`
+	RecentlyAdded      *RecentlyAddedUpdate      `json:"recentlyAdded,omitempty"`
 	SharedLinks        *SharedLinksUpdate        `json:"sharedLinks,omitempty"`
 	Tags               *TagsUpdate               `json:"tags,omitempty"`
 }
