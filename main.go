@@ -53,7 +53,7 @@ type Config struct {
 
 type HTTPLogger struct{}
 
-const VERSION = "v1.9.0"
+const VERSION = "v1.10.0"
 
 func (hl HTTPLogger) RoundTrip(req *http.Request) (*http.Response, error) {
 	reqBody := ""
@@ -219,7 +219,7 @@ func main() {
 	next := &one
 
 	for next != nil {
-		resp, err := c.SearchAssetsWithResponse(ctx, client.MetadataSearchDto{TakenAfter: timeTaken, Page: next})
+		resp, err := c.SearchAssetsWithResponse(ctx, nil, client.MetadataSearchDto{TakenAfter: timeTaken, Page: next})
 		if err != nil {
 			log.Fatal().Err(err).Msg("Failed to search assets")
 		}
@@ -313,7 +313,7 @@ func main() {
 					log.Error().Err(err).Msg("Failed to create stack")
 					stats.Failed++
 				} else if resp.StatusCode() != http.StatusCreated {
-					log.Error().Int("status", resp.StatusCode()).Msg("Failed to create stack: expected HTTP 201")
+					log.Error().Str("filename", f).Int("status", resp.StatusCode()).Msg("Failed to create stack: expected HTTP 201")
 					stats.Failed++
 				} else {
 					log.Info().Str("filename", f).Msg("Created stack")
